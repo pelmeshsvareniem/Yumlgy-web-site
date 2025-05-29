@@ -1,50 +1,169 @@
-function validateForm() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    const confirmPassword = document.getElementById('confirmPassword').value;
-
-    const emailError = document.getElementById('emailError');
-    const passwordError = document.getElementById('passwordError');
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
     const finalResult = document.getElementById('finalResult');
 
-    const confirmError = document.getElementById('confirmError');
+    // --- Login Form Submission ---
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent default form submission
 
-    emailError.textContent = '';
-    passwordError.textContent = '';
-    finalResult.textContent = '';
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
 
-    confirmError.textContent = '';
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
 
-    let valid = true;
+            const emailError = document.getElementById('emailError');
+            const passwordError = document.getElementById('passwordError');
 
-    if (!email.includes('@gmail.com')) {
-        emailError.textContent = 'Email must contain @gmail.com';
-        valid = false;
-      }
-    
-      const lengthOK = password.length >= 8;
-      const hasUpper = /[A-Z]/.test(password);
-      const hasDigit = /\d/.test(password);
+            // Clear previous errors
+            emailError.textContent = '';
+            passwordError.textContent = '';
+            finalResult.textContent = ''; // Clear final result message
 
-      if (!lengthOK || !hasUpper || !hasDigit) {
-        passwordError.textContent = 'The password must be at least 8 characters long and contain at least one capital Latin letter and one number.';
-        valid = false;
-      }
+            let isValid = true;
 
-      if (valid) {
-        finalResult.textContent = 'All right!';
-        finalResult.className = 'Success';
-        setTimeout(() => {
-            window.location.href = 'index.html'; 
-          }, 1000);
-      } else {
-        finalResult.textContent = '';
-        finalResult.className = '';
-      }
+            if (!email) {
+                emailError.textContent = 'Email is required.';
+                isValid = false;
+            } else if (!/\S+@\S+\.\S+/.test(email)) {
+                emailError.textContent = 'Invalid email format.';
+                isValid = false;
+            }
+
+            if (!password) {
+                passwordError.textContent = 'Password is required.';
+                isValid = false;
+            }
+
+            if (isValid) {
+                try {
+                    const response = await fetch('http://localhost:3000/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email, password })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        finalResult.style.color = 'green';
+                        finalResult.textContent = data.message;
+                        // Redirect or perform other actions after successful login
+                        setTimeout(() => {
+                            window.location.href = '../index.html'; // Redirect to home page
+                        }, 1500);
+                    } else {
+                        finalResult.style.color = 'red';
+                        finalResult.textContent = data.message || 'Login failed. Please try again.';
+                    }
+                } catch (error) {
+                    console.error('Error during login fetch:', error);
+                    finalResult.style.color = 'red';
+                    finalResult.textContent = 'Network error. Please try again later.';
+                }
+            }
+        });
     }
 
-    if (password !== confirmPassword) {
-        confirmError.textContent = 'Not the same password.';
-        valid = false;
-      }
+    // --- Register Form Submission ---
+    if (registerForm) {
+        registerForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword'); // Corrected ID
+
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+            const confirmPassword = confirmPasswordInput.value.trim();
+
+            const nameError = document.getElementById('nameError');
+            const emailError = document.getElementById('emailError');
+            const passwordError = document.getElementById('passwordError');
+            const confirmError = document.getElementById('confirmError');
+            
+            // Clear previous errors
+            nameError.textContent = '';
+            emailError.textContent = '';
+            passwordError.textContent = '';
+            confirmError.textContent = '';
+            finalResult.textContent = ''; // Clear final result message
+
+
+            let isValid = true;
+
+            if (!name) {
+                nameError.textContent = 'Name is required.';
+                isValid = false;
+            }
+
+            if (!email) {
+                emailError.textContent = 'Email is required.';
+                isValid = false;
+            } else if (!/\S+@\S+\.\S+/.test(email)) {
+                emailError.textContent = 'Invalid email format.';
+                isValid = false;
+            }
+
+            if (!password) {
+                passwordError.textContent = 'Password is required.';
+                isValid = false;
+            } else if (password.length < 6) {
+                passwordError.textContent = 'Password must be at least 6 characters.';
+                isValid = false;
+            }
+
+            if (!confirmPassword) {
+                confirmError.textContent = 'Confirm password is required.';
+                isValid = false;
+            } else if (password !== confirmPassword) {
+                confirmError.textContent = 'Passwords do not match.';
+                isValid = false;
+            }
+
+            if (isValid) {
+                try {
+                    const response = await fetch('http://localhost:3000/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ name, email, password })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        finalResult.style.color = 'green';
+                        finalResult.textContent = data.message;
+                        // Optionally redirect to login page after successful registration
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 2000);
+                    } else {
+                        finalResult.style.color = 'red';
+                        finalResult.textContent = data.message || 'Registration failed. Please try again.';
+                    }
+                } catch (error) {
+                    console.error('Error during registration fetch:', error);
+                    finalResult.style.color = 'red';
+                    finalResult.textContent = 'Network error. Please try again later.';
+                }
+            }
+        });
+    }
+});
+
+// For dark mode button if it's in js.js, make sure it's not conflicting
+// Example from your index.html:
+function myFunction() {
+    var element = document.body;
+    element.classList.toggle("dark-mode");
+}

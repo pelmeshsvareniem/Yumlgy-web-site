@@ -1,0 +1,27 @@
+{
+  "name": "yumolgy-web-site",
+  "version": "1.0.0",
+  "description": "A web page about cooking recipes.\r [https://pelmeshsvareniem.github.io/Yumlogy/](https://pelmeshsvareniem.github.io/Yumolgy-web-site/)\r https://www.figma.com/design/cZ1jMgKALixMERGhb2jT9E/Untitled?node-id=5-81&m=dev&t=50wslrMhlrG35VUK-1\r https://www.figma.com/design/cZ1jMgKALixMERGhb2jT9E/Untitled?node-id=5-146&m=dev&t=50wslrMhlrG35VUK-1\r https://www.figma.com/design/cZ1jMgKALixMERGhb2jT9E/Untitled?node-id=5-313&m=dev&t=50wslrMhlrG35VUK-1\r https://www.figma.com/design/cZ1jMgKALixMERGhb2jT9E/Untitled?node-id=5-372&m=dev&t=50wslrMhlrG35VUK-1\r https://www.figma.com/design/cZ1jMgKALixMERGhb2jT9E/Untitled?node-id=5-500&m=dev&t=50wslrMhlrG35VUK-1",
+  "main": "js.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pelmeshsvareniem/Yumolgy-web-site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pelmeshsvareniem/Yumolgy-web-site/issues"
+  },
+  "homepage": "https://github.com/pelmeshsvareniem/Yumolgy-web-site#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1"
+  }
+}
