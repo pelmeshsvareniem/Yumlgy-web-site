@@ -1,0 +1,345 @@
+@import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Judson:ital,wght@0,400;0,700;1,400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+  .dark-mode {
+    background-color: #641B2E;
+    color: #FBDB93;
+
+    nav a {
+      background-color: #8A2D3B;
+      color: #FBDB93;
+      box-shadow: 2px 2px 4px rgba(254, 254, 254, 0.1);;
+      transition: background-color 0.2s;
+    }
+  
+    nav a:hover {
+      background-color: #f9f9f9;
+    }
+
+    .dropdown-button {
+      background-color: #8A2D3B;
+      color: #FBDB93;
+    }
+  
+    .dropdown-button:hover {
+      background-color: #641B2E;
+    }
+  
+    .dropdown-menu {
+      background-color: #641B2E;
+      border: 1px solid #8A2D3B;
+      box-shadow: 0 4px 8px rgba(250, 250, 250, 0.181);
+    }
+  
+    .dropdown-container:hover .dropdown-menu {
+      box-shadow: 0 4px 8px rgba(250, 248, 248, 0.1);
+    }
+  
+    .dropdown-menu a {
+      color: #FBDB93;
+    }
+  
+    .dropdown-menu a:hover {
+      background-color: #641B2E;
+    }
+
+    footer {
+      background: linear-gradient(to top, #BE5B50 20%, #BE5B50 60%);
+    }
+    
+    .footer-links {
+      color: #FBDB93;
+    }
+    
+    .footer-links a {
+      color: #FBDB93;
+    }
+    
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+  }
+
+body {
+    margin: 0;
+    max-width: 100vw;
+    overflow-x: hidden;
+    background-color: #fde6c4; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    font-family: "judson";
+    padding: 20px;
+  }
+
+  #themeToggle {
+    float: right;
+    margin: 20px;
+    background-color: #BE5B50;
+    color: #FFF7D1;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  #themeToggle:hover {
+    background-color: #BE5B50;
+  }
+  
+  .logo-image {
+    max-width: 450px;
+    height: auto;
+    margin: 100px auto 40px auto;
+    display: block;
+  }
+  
+
+  nav {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  nav a {
+    background-color: #FFECC8;
+    padding: 10px 18px;
+    font-weight: bold;
+    color: #BE5B50;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    background-color: #f9f9f9;
+  }
+
+  nav button span {
+    font-size: 12px;
+  }
+  footer {
+    width: 100%;
+    margin-top: auto;
+    background: linear-gradient(to top, #FFD09B 20%, #FFD09B 60%);
+    padding: 500px 20px 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .footer-links {
+    display: flex;
+    gap: 20px;
+    font-weight: bold;
+    color: #631c34;
+    font-size: 14px;
+  }
+  
+  .footer-links a {
+    text-decoration: none;
+    color: #631c34;
+  }
+  
+  .footer-links a:hover {
+    text-decoration: underline;
+  }
+
+  .dropdown-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-button {
+    background-color: #FFECC8;
+    padding: 10px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #BE5B50;
+    font-weight: bold;
+  }
+
+
+
+  .dropdown-button:hover {
+    background-color: #f9f9f9;
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 110%;
+    background-color: #FFECC8;
+    border: 1px solid #4e1d29;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 10px 0;
+    min-width: 140px;
+    z-index: 100;
+  }
+
+  .dropdown-container:hover .dropdown-menu {
+    display: block;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  .dropdown-menu a {
+    display: block;
+    padding: 8px 16px;
+    color: #BE5B50;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .dropdown-menu a:hover {
+    background-color: #f9f9f9;
+  }
+
+
+  .about-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+    padding: 60px;
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+    position: relative;
+    background: linear-gradient(to bottom, #f9f9f9 80%, rgba(249, 249, 249, 0));
+  }
+
+  .about-text {
+    max-width: 500px;
+    color: #4d1d28;
+  }
+
+  .about-text h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #4d1d28;
+    font-family: 'Georgia', serif;
+  }
+
+  .about-text p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .about-image img {
+    max-width: 450px;
+    max-height: auto;
+    border-radius: 12px;
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.15);
+    align-content: center;
+  }
+
+  .top-recipes {
+    background-color: #fdeacb;
+    text-align: center;
+    width: 63%;
+    align-items: center;
+    border-radius: 20px;
+  }
+  
+  .top-recipes h2 {
+    font-family: 'Georgia', serif;
+    font-size: 40px;
+    color: #6b1f2d;
+    margin-bottom: 40px;
+    margin-top: 10px;
+  }
+  
+  .recipe-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+
+  }
+  
+  .recipe-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+  }
+  
+  .recipe-item img {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 9px #6b1f2d;
+    margin-bottom: 10px;
+    margin-right: 50px;
+
+  }
+  
+  .recipe-item p {
+    font-size: 16px;
+    color: #6b1f2d;
+    font-weight: bold;
+  }
+  
+
+  .authors-section { 
+    padding: 40px;
+    text-align: center;
+    width: 100%;
+    max-width: 100%; 
+}
+
+.section-title {
+    font-family: 'Georgia', serif; 
+    font-size: 2.8em;
+    color: #8B0000;
+    margin-bottom: 60px;
+    font-style: italic; 
+}
+
+.author-cards-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 40px; 
+}
+
+.author-card {
+    background-color: #FFF7D1; 
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    text-align: left;
+    width: 100%;
+    max-width: 800px; 
+    box-sizing: border-box;
+    justify-content: space-between;
+    margin-right: 30%;
+}
+
+.author-card.middle-card {
+    align-self: flex-end;
+    margin-right: 5%;
+}
+
+.author-name {
+    font-family: 'Georgia', serif;
+    font-size: 1.8em;
+    color: #8B0000;
+    margin-bottom: 10px;
+}
+
+.author-description {
+    font-family: sans-serif;
+    font-size: 1.1em;
+    color: #555;
+    line-height: 1.5;
+}
