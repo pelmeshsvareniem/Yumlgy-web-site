@@ -23,30 +23,36 @@ img {
 }
 
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 50px;
-    background: #fff;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  nav a {
-    margin-left: 20px;
-    text-decoration: none;
-    color: #000;
-  }
-  
-  .profile-btn {
-    background: #eafaff;
-    padding: 6px 12px;
-    border-radius: 6px;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 24px;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+nav ul li a {
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
+}
+.btn-profile {
+  background-color: #d4f1f9;
+  padding: 8px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #000;
+  font-weight: 500;
+}
   
   .container {
     max-width: 1200px;

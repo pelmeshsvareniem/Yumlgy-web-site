@@ -1,6 +1,5 @@
 const dropdown = document.getElementById('dropdown');
 const menu = document.getElementById('dropdownMenu');
-
 let hideTimeout;
 
 dropdown.addEventListener('mouseenter', () => {
@@ -13,9 +12,3 @@ dropdown.addEventListener('mouseleave', () => {
     menu.classList.remove('show');
   }, 2000); 
 });
-
-
-function myFunction() {
-  var element = document.body;
-  element.classList.toggle("dark-mode");
-}

@@ -2,121 +2,89 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Yumlogy</title>
-  <link rel="stylesheet" href="css/style for index.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yumlogy - Home</title>
+  <link rel="stylesheet" href="css/style for index.css">
   <script src="script/js for index.js"></script>
-  <button onclick="myFunction()">Go to dark mode</button>
+  <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+  <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
 </head>
 <body>
-  <a href="index.html"><img src="Image/logo.png" class="logo-image" /></a>
+  <header>
+    <div class="logo">Yumlogy</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="recipes.html">Recipes</a></li>
+        <li><a href="upload.html">Upload</a></li>
+        <li><a href="#">About us</a></li>
+      </ul>
+    </nav>
+    <a class="btn-profile" href="login-password/login.html">My profile</a>
+  </header>
 
-  <nav>
-    <div class="dropdown-container">
-      <a href="recipes.html" class="dropdown-button">All recipes</a>
-      <div class="dropdown-menu"> 
-        <a href="breakfasts.html">Breakfasts</a>
-        <a href="lunch.html">Lunch</a>
-        <a href="dinner.html">Dinner</a>
-        <a href="diet.html">Diet</a>
-        <a href="kids.html">For Kids</a>
-        <a href="desserts.html">Desserts</a>
-        <a href="side-dishes.html">Side Dishes</a>
-        <a href="snacks.html">Snacks</a>
-        <a href="drinks.html">Drinks</a>
+  <section class="hero">
+    <div class="hero-left">
+      <div class="tag"><i class='bx  bx-fire-alt'  ></i> Hot Recipes</div>
+      <h1>Spicy delicious chicken wings</h1>
+      <p>This sweet and spicy baked chicken wings recipe is packed with flavor – perfect for parties or game day! Honey, sriracha, and soy create a delicious wing sauce everyone loves. Baking chicken wings in the oven is much easier than deep frying, but you still get crispy baked wings that are finger licking good!
+      </p>
+      <div class="tags">
+        <div class="tag">30 Minutes</div>
+        <div class="tag">Chicken</div>
+      </div>
+      <div class="author-info">
+        <div class="tag"><i class='bx  bx-user'></i>Pelmeshek</div>
+        <div class="tag"><i class='bx  bx-calendar-alt'></i> 30 May 2025</div>
+        <button class="btn-view"><a href="#"> View Recipe</a></button>
       </div>
     </div>
-    <a href="top5.html">Top 5 recipes</a>
-  <a href="upload.html">Upload</a>
-  <a href="about.html">About</a>
-  <a href="login-password/login.html">My profile</a>
-</nav>
-<br><br><br><br><br><br><br><br><br><br><br><br>
-<section class="about-section">
-  <div class="about-text">
-    <h2>About us</h2>
-    <p>
-      Discover, cook, and share your favorite dishes with a community that loves food as much as you do!
-      Whether you're a seasoned chef or just starting out in the kitchen, this is the perfect place to
-      explore delicious recipes from around the world – and share your own culinary creations.
-    </p>
-    <p>
-      Upload your recipes, add photos, and inspire others with your special touch.
-      From quick weekday meals to festive family favorites, every recipe has a story.
-      Let's cook, connect, and celebrate good food together!
-    </p>
-  </div>
-  <br><br>
-  <div class="about-image">
-    <img src="Image/delicious_meal.jpg">
-  </div>
-  <br><br><br><br><br>
-</section>
+    <div class="hero-right">
+      <img src="Image/baked-chicken-wings.jpg"/>
+    </div>
+  </section>
 
-<br><br><br><br><br><br><br><br><br><br>
+  <section class="categories">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2>Categories</h2>
+      <button class="btn-profile">View All Categories</button>
+    </div>
+    <div class="category-grid">
+      <div class="category-card"><img src="Image/breads.png"><div>Breakfast</div></div>
+      <div class="category-card"><img src="Image/lunch.png"><div>Lunch</div></div>
+      <div class="category-card"><img src="Image/dinner.png"><div>Dinner</div></div>
+      <div class="category-card"><img src="Image/dessert.png"/><div>Dessert</div></div>
+      <div class="category-card"><img src="Image/vegan.png"/><div>Vegan</div></div>
+      <div class="category-card"><img src="Image/children.png"/><div>For kids</div></div>
+    </div>
+  </section>
 
-<section class="top-recipes">
-  <h2>Top recipes of the week</h2>
-  <br><br>
-  <div class="recipe-grid">
-    <div class="recipe-item">
-      <img src="Image/obed.jpg">
-      <p>1. *****</p>
-    </div>
-    <div class="recipe-item">
-      <img src="Image/obed.jpg">
-      <p>2. *****</p>
-    </div>
-    <div class="recipe-item">
-      <img src="Image/obed.jpg">
-      <p>3. *****</p>
-    </div>
-    <div class="recipe-item">
-      <img src="Image/obed.jpg">
-      <p>4. *****</p>
-    </div>
-    <div class="recipe-item">
-      <img src="Image/obed.jpg">
-      <p>5. *****</p>
-    </div>
-  </div>
-</section>
-
-<br><br><br><br>
-
-<section class="authors-section">
-  <h1 class="section-title">Top Author of the time</h1>
-  <div class="author-cards-container">
-      <div class="author-card">
-          <h2 class="author-name">Name</h2>
-          <p class="author-description">Description</p>
+  <section class="recipes-section">
+    <h2>Simple and tasty recipes</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</p>
+    <div class="recipe-grid">
+      <div class="recipe-card">
+        <img src="Image/chessburger.jpg"/>
+        <div class="content">
+          <h3>Big and Juicy Wagyu Beef Cheeseburger</h3>
+          <div class="meta">30 Minutes • Snack</div>
+        </div>
       </div>
-      <div class="author-card middle-card">
-          <h2 class="author-name">Name</h2>
-          <p class="author-description">Description</p>
+      <div class="recipe-card">
+        <img src="Image/spicy salmon.jpg"/>
+        <div class="content">
+          <h3>Fresh Lime Roasted Salmon with Ginger Sauce</h3>
+          <div class="meta">30 Minutes • Fish</div>
+        </div>
       </div>
-      <div class="author-card">
-          <h2 class="author-name">Name</h2>
-          <p class="author-description">Description</p>
+      <div class="recipe-card">
+        <img src="Image/pancake.jpg"/>
+        <div class="content">
+          <h3>Strawberry Oatmeal Pancake with Honey Syrup</h3>
+          <div class="meta">30 Minutes • Breakfast</div>
+        </div>
       </div>
-      <div class="author-card middle-card">
-        <h2 class="author-name">Name</h2>
-        <p class="author-description">Description</p>
     </div>
-    <div class="author-card">
-        <h2 class="author-name">Name</h2>
-        <p class="author-description">Description</p>
-    </div>
-  </div>
-</section>
-
-</body>
-<footer>
-    <div class="footer-links">
-      <a href="#">Terms of service</a>
-      <a href="#">Privacy Policy</a>
-      <a href="#">Cookie Policy</a>
-    </div>
-  </footer>
+  </section>
 </body>
 </html>
