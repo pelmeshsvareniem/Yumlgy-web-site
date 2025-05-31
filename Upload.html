@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Create Recipe | Yumlogy</title>
   <link rel="stylesheet" href="css/style for upload.css" />
-  <script src="script/js for uplod.js"></script>
+  <script src="script/js for uplod.js" defer></script> 
   <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
   <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
 
@@ -26,43 +26,46 @@
 
   <main class="container">
     <h1>Create an recipe</h1>
-    <form class="recipe-form">
+    <form class="recipe-form" id="createRecipeForm" enctype="multipart/form-data">
       <div class="left-panel">
         <div class="image-upload">
-          <img src="https://via.placeholder.com/250" alt="Preview" class="recipe-img"/>
-          <button type="button" class="upload-btn">Upload the Image</button>
+          <img src="#" alt="Image Preview" class="recipe-img" id="imagePreview" style="display: none;"/>
+          
+          <input type="file" name="recipeImage" id="recipeImageInput" accept="image/*" style="display: none;"/>
+          <button type="button" class="upload-btn" id="triggerImageUpload">Upload the Image</button>
         </div>
 
         <div class="nutrition-box">
           <h3>Nutrition Information</h3>
-          <input type="text" placeholder="Calories"/>
-          <input type="text" placeholder="Total Fat"/>
-          <input type="text" placeholder="Protein"/>
-          <input type="text" placeholder="Carbohydrate"/>
-          <input type="text" placeholder="Cholesterol"/>
-          <input type="text" placeholder="Possible allergens"/>
+          <input type="text" name="calories" placeholder="Calories"/>
+          <input type="text" name="total_fat" placeholder="Total Fat"/>
+          <input type="text" name="protein" placeholder="Protein"/>
+          <input type="text" name="carbohydrate" placeholder="Carbohydrate"/>
+          <input type="text" name="cholesterol" placeholder="Cholesterol"/>
+          <input type="text" name="allergens" placeholder="Possible allergens"/>
         </div>
       </div>
 
       <div class="right-panel">
         <div class="input-row">
-          <input type="text" placeholder="Enter the name..." />
-          <input type="text" placeholder="Your prep time in min,h" />
+          <input type="text" name="name" placeholder="Enter the name..." />
+          <input type="text" name="prep_time" placeholder="Your prep time in min,h" />
         </div>
         <div class="input-row">
-          <input type="text" placeholder="Enter tags with #..." />
-          <input type="text" placeholder="Your cooking time in min,h" />
+          <input type="text" name="tags" placeholder="Enter tags with #..." />
+          <input type="text" name="cooking_time" placeholder="Your cooking time in min,h" />
         </div>
-        <textarea placeholder="Enter your description..." rows="4"></textarea>
-        <textarea placeholder="Enter list of ingredients..." rows="3"></textarea>
+        <textarea name="description" placeholder="Enter your description..." rows="4"></textarea>
+        <textarea name="ingredients" class="ingredient-textarea" placeholder="Enter list of ingredients..." rows="3"></textarea>
         <button type="button" class="add-btn">+</button>
-        <textarea placeholder="Enter direction by path..." rows="6"></textarea>
+        <textarea name="directions" placeholder="Enter direction by path..." rows="6"></textarea>
         <div class="button-row">
-          <button type="button" class="add-img-btn">Add image</button>
-          <button type="submit" class="submit-btn">Submit</button>
+          <button type="button" class="add-img-btn">Add image</button> 
+          <button type="submit" class="submit-btn" id="submitRecipeButton">Submit</button>
         </div>
       </div>
     </form>
+    <p id="recipeResult" style="color: green; margin-top: 15px; text-align: center;"></p>
   </main>
 
   <footer class="footer">
@@ -78,9 +81,9 @@
         <li><a href="#">My profile</a></li>
       </ul>
     </div>
-  
+
     <hr class="divider" />
-  
+
     <div class="footer-bottom">
       <p>© 2025 Yumlogy. Powered by <span class="highlight">AAW-231</span></p>
       <div class="footer-socials">
