@@ -137,22 +137,29 @@ app.post('/login', async (req, res) => {
         res.status(500).json({ message: 'Server error during login.' });
     }
 });
-
 // --- NEW RECIPE CREATION ROUTE ---
-app.post('/recipes', upload.single('recipeImage'), async (req, res) => {
+app.post('/recipes', upload.fields([
+    { name: 'recipeImage', maxCount: 1 }, // For your main recipe image
+    { name: 'directionImages', maxCount: 10 } // For multiple images in directions (adjust maxCount as needed)
+]), async (req, res) => {
     try {
         // Access text fields from req.body
         const { name, prep_time, cooking_time, tags, description, ingredients, directions, calories, total_fat, protein, carbohydrate, cholesterol, allergens } = req.body;
 
-        // Get the path to the uploaded image (if available)
-        // This 'imageUrl' will be stored in the database.
-        const imageUrl = req.file ? `/uploaded_images/${req.file.filename}` : null;
+        // Access uploaded files from req.files (NOTE THE CHANGE from req.file to req.files)
+        const recipeImageFile = req.files && req.files['recipeImage'] ? req.files['recipeImage'][0] : null;
+        const directionImageFiles = req.files && req.files['directionImages'] ? req.files['directionImages'] : []; // This will be an array of files
+
+        // Get the path to the main uploaded image
+        const imageUrl = recipeImageFile ? `/uploaded_images/${recipeImageFile.filename}` : null;
+
+        // Process direction images (if you truly want to upload them)
+        // You would need to decide how to store these paths and link them to the directions text
+        // For example, you might stringify the array of paths or store them in a separate table.
+        const directionImageUrls = directionImageFiles.map(file => `/uploaded_images/${file.filename}`);
+        // console.log('Direction image URLs:', directionImageUrls); // For debugging
 
         // --- IMPORTANT: Handling user_id ---
-        // For now, using a placeholder user_id = 5.
-        // In a real application, after successful login, you would store the user's ID
-        // (e.g., in a session variable or a JWT token) and retrieve it here.
-        // Example: const userId = req.session.userId; // If you implement sessions
         const userId = 5; // Placeholder: ENSURE a user with ID 5 exists in your 'users' table for testing!
 
         // Basic validation (add more as needed for all fields)
@@ -160,22 +167,27 @@ app.post('/recipes', upload.single('recipeImage'), async (req, res) => {
             return res.status(400).json({ message: 'Missing required recipe fields: name, ingredients, directions, or user_id.' });
         }
 
-        // Insert recipe into database
+        // Insert recipe into database (you'll need to decide how to store directionImageUrls)
+        // For now, let's just insert the main image. If you want to store direction images,
+        // you'll need new columns or a separate table, or combine them into a JSON string.
         const [result] = await pool.execute(
             `INSERT INTO recipes (user_id, name, prep_time, cooking_time, tags, description, ingredients, directions, calories, total_fat, protein, carbohydrate, cholesterol, allergens, image_url)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [userId, name, prep_time, cooking_time, tags, description, ingredients, directions, calories, total_fat, protein, carbohydrate, cholesterol, allergens, imageUrl]
         );
 
-        res.status(201).json({ message: 'Recipe created successfully!', recipeId: result.insertId, imageUrl: imageUrl });
+        res.status(201).json({ message: 'Recipe created successfully!', recipeId: result.insertId, imageUrl: imageUrl, directionImageUrls: directionImageUrls }); // Also send back direction URLs for debugging
 
     } catch (error) {
         console.error('Error creating recipe:', error);
-        // More specific error messages can be added here based on 'error.code'
+        if (error instanceof multer.MulterError) {
+            if (error.code === 'LIMIT_UNEXPECTED_FILE') {
+                return res.status(400).json({ message: 'Too many files or unexpected file field. Please check your file inputs.' });
+            }
+        }
         res.status(500).json({ message: 'Failed to create recipe. Please try again.' });
     }
 });
-
 
 // --- START THE SERVER ---
 // This should always be the last part of your server.js file.
