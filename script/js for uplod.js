@@ -10,21 +10,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Ingredient handling elements
     const addIngredientBtn = document.querySelector(".add-btn");
-    // Select the initial ingredient textarea by its name and class
     const initialIngredientTextarea = document.querySelector("textarea[name='ingredients'].ingredient-textarea");
-    let ingredientContainer; // This will be the parent of ingredient textareas
+    let ingredientContainer;
 
     // Directions handling elements
-    const addImgBtn = document.querySelector(".add-img-btn");
+    // Updated selector to match the new ID for clarity
+    const triggerDirectionImageUploadButton = document.getElementById("triggerDirectionImageUpload");
     const directionsTextarea = document.querySelector("textarea[name='directions']");
 
-    // --- Dynamic File Input for Directions Image (if needed) ---
-    // This input is for images *within* directions, not the main recipe image
-    const directionImgInput = document.createElement("input");
-    directionImgInput.type = "file";
-    directionImgInput.accept = "image/*";
-    directionImgInput.style.display = "none";
-    document.body.appendChild(directionImgInput);
+    // Reference the hidden input for direction images from the HTML
+    const directionImageInput = document.getElementById("directionImageInput");
 
 
     // --- Event Listeners ---
@@ -39,56 +34,50 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. Main Recipe Image Preview
     if (recipeImageInput && imagePreview) {
         recipeImageInput.addEventListener("change", function() {
-            const file = this.files[0]; // Get the selected file
+            const file = this.files[0];
             if (file) {
-                const reader = new FileReader(); // FileReader to read file content
+                const reader = new FileReader();
                 reader.onload = (e) => {
-                    imagePreview.src = e.target.result; // Set the image source
-                    imagePreview.style.display = 'block'; // Make the image visible
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
                 };
-                reader.readAsDataURL(file); // Read the file as a Data URL (base64 string)
+                reader.readAsDataURL(file);
             } else {
-                imagePreview.src = ''; // Clear image if no file selected
-                imagePreview.style.display = 'none'; // Hide the image
+                imagePreview.src = '';
+                imagePreview.style.display = 'none';
             }
         });
     }
 
     // 3. Add More Ingredients Textarea
     if (addIngredientBtn && initialIngredientTextarea) {
-        // Find the parent container for ingredients (e.g., the div holding the first textarea and the add button)
-        // This helps insert new textareas in the correct place relative to the button
         ingredientContainer = initialIngredientTextarea.parentNode;
 
         addIngredientBtn.addEventListener("click", () => {
-            // Clone the initial textarea to maintain its styling and attributes
-            const newTextarea = initialIngredientTextarea.cloneNode(true); // true for deep clone (copies attributes)
-            newTextarea.value = ""; // Clear its value
-            // Ensure it has the same name attribute so FormData can pick it up
-            newTextarea.name = "ingredients"; // Explicitly set name if cloning doesn't always copy it
-            newTextarea.classList.add("ingredient-textarea"); // Ensure class is present for selection
+            const newTextarea = initialIngredientTextarea.cloneNode(true);
+            newTextarea.value = "";
+            newTextarea.name = "ingredients";
+            newTextarea.classList.add("ingredient-textarea");
 
-            // Insert the new textarea before the "Add" button
             ingredientContainer.insertBefore(newTextarea, addIngredientBtn);
         });
     }
 
-    // 4. Add Image to Directions Textarea (Markdown format)
-    if (addImgBtn && directionsTextarea && directionImgInput) {
-        addImgBtn.addEventListener("click", () => {
-            directionImgInput.click(); // Trigger the hidden file input for directions image
+    // 4. Trigger Directions Image Upload Input
+    // This now triggers the hidden HTML input for direction images
+    if (triggerDirectionImageUploadButton && directionImageInput) {
+        triggerDirectionImageUploadButton.addEventListener("click", () => {
+            directionImageInput.click(); // Programmatically click the hidden file input
         });
 
-        directionImgInput.addEventListener("change", () => {
-            const file = directionImgInput.files[0];
-            if (file) {
-                // This creates a fake path for markdown. The actual image is NOT uploaded via this input.
-                // It's assumed the main recipe image input handles the actual file upload to the server.
-                // If you need multiple images for directions, you'd need a more complex backend setup
-                // (e.g., multiple file uploads, or a rich text editor that handles image embeds).
-                const fakePath = `images/${file.name}`; // This path is for display/markdown only
-                const imageMarkdown = `\n\n![Step image](${fakePath})\n`;
-                directionsTextarea.value += imageMarkdown; // Append markdown to directions
+        // Optional: You might want to add a preview or list of selected direction images here
+        // For now, this just logs selection.
+        directionImageInput.addEventListener("change", () => {
+            if (directionImageInput.files.length > 0) {
+                console.log(`${directionImageInput.files.length} direction image(s) selected for upload.`);
+                // Example: You could display file names in a div here
+                // let fileNames = Array.from(directionImageInput.files).map(f => f.name).join(', ');
+                // SomeElementForDisplay.textContent = `Selected: ${fileNames}`;
             }
         });
     }
@@ -105,31 +94,33 @@ document.addEventListener("DOMContentLoaded", () => {
             const formData = new FormData(); // Create a new FormData object
 
             // Manually append text fields from the form
-            // Get all input fields with 'name' attributes
+            // Filter out file inputs here, as they are handled explicitly by name below
             createRecipeForm.querySelectorAll('input[name], textarea[name]').forEach(input => {
                 // Handle multiple ingredient textareas
                 if (input.name === 'ingredients' && input.classList.contains('ingredient-textarea')) {
-                    // Collect all ingredient textareas and join their values
                     const allIngredients = Array.from(document.querySelectorAll('textarea[name="ingredients"].ingredient-textarea'))
-                                                .map(textarea => textarea.value.trim())
-                                                .filter(value => value !== '') // Filter out empty ones
-                                                .join('\n'); // Join with newlines
-                    formData.set('ingredients', allIngredients); // Set the combined value for 'ingredients'
-                } else if (input.type === 'file') {
-                    // Handle file input separately
-                    if (input.files.length > 0) {
-                        formData.append(input.name, input.files[0]);
-                    }
-                } else {
+                                            .map(textarea => textarea.value.trim())
+                                            .filter(value => value !== '')
+                                            .join('\n');
+                    formData.set('ingredients', allIngredients);
+                }
+                // Only append non-file inputs here
+                else if (input.type !== 'file') {
                     formData.append(input.name, input.value.trim());
                 }
             });
 
-            // Ensure the main recipe image is appended
+            // Explicitly append the main recipe image
             if (recipeImageInput && recipeImageInput.files.length > 0) {
                 formData.append('recipeImage', recipeImageInput.files[0]);
             }
 
+            // Explicitly append direction images (multiple files are allowed)
+            if (directionImageInput && directionImageInput.files.length > 0) {
+                for (let i = 0; i < directionImageInput.files.length; i++) {
+                    formData.append('directionImages', directionImageInput.files[i]);
+                }
+            }
 
             try {
                 // Send data to your backend API endpoint
@@ -145,10 +136,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     recipeResult.textContent = data.message; // Display success message
                     createRecipeForm.reset(); // Clear all form fields
                     if (imagePreview) {
-                        imagePreview.src = '#'; // Clear image preview
-                        imagePreview.style.display = 'none'; // Hide image preview
+                        imagePreview.src = ''; // Clear main image preview
+                        imagePreview.style.display = 'none'; // Hide main image preview
                     }
-                    // Hide dynamically added ingredient textareas, or reset them
+                    // Reset dynamically added ingredient textareas
                     Array.from(document.querySelectorAll('textarea.ingredient-textarea')).forEach((textarea, index) => {
                         if (index > 0) textarea.remove(); // Remove all but the first one
                     });
@@ -172,9 +163,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- Placeholder for any existing login/register form logic in this file ---
     // If you have existing code for login/register forms in this same js file,
     // ensure it's still here or moved appropriately.
-    // Example:
-    // const loginForm = document.getElementById('loginForm');
-    // if (loginForm) {
-    //     loginForm.addEventListener('submit', async (event) => { /* ... login logic ... */ });
-    // }
 });
