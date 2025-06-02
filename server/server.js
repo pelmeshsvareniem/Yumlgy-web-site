@@ -5,18 +5,17 @@ const path = require('path');
 const mysql = require('mysql2/promise'); // Using promise-based API for async/await
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
+const fs = require('fs'); // For file system operations, e.g., deleting old profile images
 
 const app = express();
 const port = process.env.PORT || 3000; // Server will run on port 3000
 
 // --- MIDDLEWARE ---
-// These app.use() lines tell Express how to process incoming requests.
 app.use(cors()); // Enable CORS for all routes
 app.use(express.json()); // Parse JSON request bodies
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from the root of your frontend (Yumolgy-web-site folder)
-// This makes files like index.html, Upload.html, recipes.html accessible directly.
 app.use(express.static(path.join(__dirname, '../')));
 
 // Serve uploaded images via a dedicated URL path (e.g., /uploaded_images)
@@ -24,7 +23,6 @@ app.use(express.static(path.join(__dirname, '../')));
 app.use('/uploaded_images', express.static(path.join(__dirname, 'uploads')));
 
 // --- ROUTE: Serve index.html for the root URL ---
-// This handles requests to http://localhost:3000/
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../index.html'));
 });
@@ -34,7 +32,6 @@ app.get('/', (req, res) => {
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         // Save files to the 'uploads' directory directly within the 'server' directory
-        // __dirname refers to the current directory of the server.js file
         cb(null, path.join(__dirname, 'uploads/'));
     },
     filename: function (req, file, cb) {
@@ -46,7 +43,6 @@ const upload = multer({ storage: storage });
 
 
 // --- DATABASE CONNECTION POOL ---
-// This needs to be defined early so routes can use it.
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -79,16 +75,13 @@ app.post('/register', async (req, res) => {
     }
 
     try {
-        // Check if user already exists
         const [existingUsers] = await pool.execute('SELECT id FROM users WHERE email = ?', [email]);
         if (existingUsers.length > 0) {
             return res.status(409).json({ message: 'Email already registered.' });
         }
 
-        // Hash password
-        const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Insert new user into database
         const [result] = await pool.execute(
             'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
             [name, email, hashedPassword]
@@ -102,7 +95,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// Login User (MODIFIED to include description and favorite_tags)
+// Login User (MODIFIED to include description, favorite_tags, and profile_image_url)
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -112,7 +105,7 @@ app.post('/login', async (req, res) => {
 
     try {
         // Retrieve user from database, including new profile fields
-        const [users] = await pool.execute('SELECT id, name, password, description, favorite_tags FROM users WHERE email = ?', [email]);
+        const [users] = await pool.execute('SELECT id, name, password, description, favorite_tags, profile_image_url FROM users WHERE email = ?', [email]);
 
         if (users.length === 0) {
             return res.status(401).json({ message: 'Invalid email or password.' });
@@ -120,21 +113,20 @@ app.post('/login', async (req, res) => {
 
         const user = users[0];
 
-        // Compare provided password with hashed password
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid email or password.' });
         }
 
-        // If login successful, return all relevant user data
         res.status(200).json({
             message: 'Login successful!',
             userId: user.id,
             userName: user.name,
             userEmail: user.email,
-            userDescription: user.description || '', // Default to empty string if null
-            userFavoriteTags: user.favorite_tags || '' // Default to empty string if null
+            userDescription: user.description || '',
+            userFavoriteTags: user.favorite_tags || '',
+            userProfileImageUrl: user.profile_image_url || '' // Added profile_image_url
         });
 
     } catch (error) {
@@ -143,14 +135,14 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// --- NEW PROFILE DATA ENDPOINT ---
+// --- GET PROFILE DATA ENDPOINT (MODIFIED to include profile_image_url) ---
 app.get('/profile/:userId', async (req, res) => {
     const { userId } = req.params;
 
     try {
         // 1. Fetch user's basic profile information
         const [users] = await pool.execute(
-            'SELECT id, name, email, description, favorite_tags FROM users WHERE id = ?',
+            'SELECT id, name, email, description, favorite_tags, profile_image_url FROM users WHERE id = ?', // Added profile_image_url
             [userId]
         );
 
@@ -161,15 +153,12 @@ app.get('/profile/:userId', async (req, res) => {
         const user = users[0];
 
         // 2. Fetch recipes uploaded by this user
-        // Assuming 'id' is the primary key for recipes, not 'recipe_id'
         const [myRecipes] = await pool.execute(
-            'SELECT id, name, prep_time, cooking_time, tags, image_url FROM recipes WHERE user_id = ? ORDER BY created_at DESC', // CHANGED 'recipe_id' to 'id' here
+            'SELECT id, name, prep_time, cooking_time, tags, image_url FROM recipes WHERE user_id = ? ORDER BY created_at DESC',
             [userId]
         );
 
-        // 3. (Optional) Fetch saved recipes - Requires 'user_saved_recipes' table and joining
-        // For now, returning an empty array. You can implement this later.
-        const savedRecipes = []; // Placeholder
+        const savedRecipes = []; // Placeholder for now, you'd fetch these from a 'saved_recipes' table if you had one
 
         res.status(200).json({
             user: {
@@ -177,12 +166,12 @@ app.get('/profile/:userId', async (req, res) => {
                 name: user.name,
                 email: user.email,
                 description: user.description || '',
-                favoriteTags: user.favorite_tags || ''
-                // Add profile_image_url if you add this column to users table
+                favoriteTags: user.favorite_tags || '',
+                profileImageUrl: user.profile_image_url || '' // Added profileImageUrl
             },
             myRecipes: myRecipes,
-            savedRecipes: savedRecipes, // Will be empty until implemented
-            postsCount: myRecipes.length // Dynamic posts count
+            savedRecipes: savedRecipes,
+            postsCount: myRecipes.length
         });
 
     } catch (error) {
@@ -191,38 +180,131 @@ app.get('/profile/:userId', async (req, res) => {
     }
 });
 
+// --- NEW: UPDATE PROFILE ENDPOINT (PUT /profile/:userId) ---
+app.put('/profile/:userId', upload.single('profilePicture'), async (req, res) => {
+    const { userId } = req.params;
+    const { name, email, description, favoriteTags, password } = req.body; // password is optional
+    const profilePictureFile = req.file; // The uploaded file, if any
 
-// --- RECIPE CREATION ROUTE ---
+    if (!userId) {
+        return res.status(400).json({ message: 'User ID is required.' });
+    }
+
+    let newProfileImageUrl = null;
+    let updateFields = [];
+    let queryParams = [];
+
+    // Construct update query dynamically
+    if (name) {
+        updateFields.push('name = ?');
+        queryParams.push(name);
+    }
+    if (email) {
+        updateFields.push('email = ?');
+        queryParams.push(email);
+    }
+    if (description !== undefined) { // Allow empty string for description
+        updateFields.push('description = ?');
+        queryParams.push(description);
+    }
+    if (favoriteTags !== undefined) { // Allow empty string for tags
+        updateFields.push('favorite_tags = ?');
+        queryParams.push(favoriteTags); // favoriteTags comes as a comma-separated string
+    }
+
+    try {
+        // If a new profile picture is uploaded
+        if (profilePictureFile) {
+            newProfileImageUrl = `/uploaded_images/${profilePictureFile.filename}`;
+
+            // Fetch old profile image URL to delete it
+            const [oldUser] = await pool.execute('SELECT profile_image_url FROM users WHERE id = ?', [userId]);
+            if (oldUser.length > 0 && oldUser[0].profile_image_url) {
+                // Ensure the path is relative to the server's root for deletion
+                const oldImagePath = path.join(__dirname, oldUser[0].profile_image_url.replace('/uploaded_images/', 'uploads/'));
+
+                // Check if file exists before attempting to delete
+                if (fs.existsSync(oldImagePath)) {
+                    fs.unlink(oldImagePath, (err) => {
+                        if (err) console.error('Error deleting old profile image:', err);
+                        else console.log('Old profile image deleted:', oldImagePath);
+                    });
+                }
+            }
+            updateFields.push('profile_image_url = ?');
+            queryParams.push(newProfileImageUrl);
+        }
+
+        // Handle password update (only if a new password is provided)
+        if (password && password.trim() !== '') {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            updateFields.push('password = ?');
+            queryParams.push(hashedPassword);
+        }
+
+        if (updateFields.length === 0) {
+            return res.status(400).json({ message: 'No fields provided for update.' });
+        }
+
+        const sql = `UPDATE users SET ${updateFields.join(', ')} WHERE id = ?`;
+        queryParams.push(userId);
+
+        const [result] = await pool.execute(sql, queryParams);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'User not found or no changes made.' });
+        }
+
+        // Fetch updated user data to send back (optional, but good for client-side localStorage update)
+        const [updatedUsers] = await pool.execute(
+            'SELECT id, name, email, description, favorite_tags, profile_image_url FROM users WHERE id = ?',
+            [userId]
+        );
+        const updatedUser = updatedUsers[0];
+
+        res.status(200).json({
+            message: 'Profile updated successfully!',
+            user: {
+                id: updatedUser.id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                description: updatedUser.description || '',
+                favoriteTags: updatedUser.favorite_tags || '',
+                profileImageUrl: updatedUser.profile_image_url || ''
+            }
+        });
+
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        res.status(500).json({ message: 'Failed to update profile. Server error.' });
+    }
+});
+
+
+// --- RECIPE CREATION ROUTE (Corrected - No more hardcoded userId) ---
 app.post('/recipes', upload.fields([
-    { name: 'recipeImage', maxCount: 1 }, // For your main recipe image
-    { name: 'directionImages', maxCount: 10 } // For multiple images in directions (adjust maxCount as needed)
+    { name: 'recipeImage', maxCount: 1 },
+    { name: 'directionImages', maxCount: 10 }
 ]), async (req, res) => {
     try {
-        // Access text fields from req.body
-        const { name, prep_time, cooking_time, tags, description, ingredients, directions, calories, total_fat, protein, carbohydrate, cholesterol, allergens } = req.body;
+        // Make sure userId is destructured from req.body
+        const { name, prep_time, cooking_time, tags, description, ingredients, directions, calories, total_fat, protein, carbohydrate, cholesterol, allergens, userId } = req.body;
 
-        // Access uploaded files from req.files
         const recipeImageFile = req.files && req.files['recipeImage'] ? req.files['recipeImage'][0] : null;
         const directionImageFiles = req.files && req.files['directionImages'] ? req.files['directionImages'] : [];
 
-        // Get the path to the main uploaded image
         const imageUrl = recipeImageFile ? `/uploaded_images/${recipeImageFile.filename}` : null;
-
-        // Process direction images (if you truly want to upload them)
         const directionImageUrls = directionImageFiles.map(file => `/uploaded_images/${file.filename}`);
 
-        // --- IMPORTANT: Handling user_id ---
-        // For now, 'userId' is hardcoded to 5.
-        // In a real application, you would get this from the logged-in user's session or a JWT token.
-        // For testing, ensure a user with ID 5 exists in your 'users' table!
-        const userId = 5;
-
-        // Basic validation (add more as needed for all fields)
-        if (!name || !ingredients || !directions || !userId) {
-            return res.status(400).json({ message: 'Missing required recipe fields: name, ingredients, directions, or user_id.' });
+        // Validate that userId is provided by the client
+        if (!userId) {
+            return res.status(400).json({ message: 'User ID is required to create a recipe.' });
         }
 
-        // Insert recipe into database
+        if (!name || !ingredients || !directions) { // userId check handled above
+            return res.status(400).json({ message: 'Missing required recipe fields: name, ingredients, or directions.' });
+        }
+
         const [result] = await pool.execute(
             `INSERT INTO recipes (user_id, name, prep_time, cooking_time, tags, description, ingredients, directions, calories, total_fat, protein, carbohydrate, cholesterol, allergens, image_url)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -244,7 +326,6 @@ app.post('/recipes', upload.fields([
 
 
 // --- START THE SERVER ---
-// This should always be the last part of your server.js file.
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
