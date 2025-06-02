@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit my profile | Yumlogy</title>
+    <link rel="stylesheet" href="css/style for edit my profile.css">
+    <script src="script/js for edit my profile.js"></script>
+</head>
+<body>
+
+    <div class="edit-profile-container">
+        <h1 class="page-title">Edit my profile</h1>
+
+        <div class="profile-form-grid">
+            <div class="profile-avatar-section">
+                <div class="profile-avatar-edit">
+                    <img id="profile-image-display" src="#" alt="Profile Avatar">
+                </div>
+                <button class="edit-photo-button">Edit photo</button>
+                <input type="file" id="profile-image-upload" accept="image/*" style="display: none;">
+            </div>
+           
+            </div>
+            <br>
+            <div class="profile-input-fields">
+                <div class="input-row">
+                    <input type="text" id="name" name="name" placeholder="Name">
+                    <input type="text" id="surname" name="surname" placeholder="Surname">
+                </div>
+                <div class="input-row">
+                    <input type="email" id="email" name="email" placeholder="Email">
+                    <input type="password" id="password" name="password" placeholder="My password">
+                </div>
+                <div class="input-row full-width">
+                    <input type="description" id="description" name="description" placeholder="Description"></input>
+                </div>
+
+                <div class="input-row full-width favorite-tags-section">
+                    <label class="tags-label">Favorite tags</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tag1" name="tags" value="Vegetarian">
+                            <label for="tag1">Vegetarian</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tag2" name="tags" value="Healthy">
+                            <label for="tag2">Healthy</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tag3" name="tags" value="Desserts">
+                            <label for="tag3">Desserts</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tag4" name="tags" value="Desserts">
+                            <label for="tag4">Desserts</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tag5" name="tags" value="Dinner">
+                            <label for="tag5">Dinner</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tag6" name="tags" value="Lunch">
+                            <label for="tag6">Lunch</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tag7" name="tags" value="For kids">
+                            <label for="tag7">For kids</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="submit-button-container">
+                <button class="submit-button"><a href="#"> Submit</a></button>
+            </div>
+        </div>
+
+        
+    </div>
+
+</body>
+</html>
