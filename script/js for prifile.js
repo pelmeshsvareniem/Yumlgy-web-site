@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // --- User Profile Data Population ---
     const userId = localStorage.getItem('userId');
-    const userNameElement = document.getElementById('profileName'); // Changed to ID
-    const userDescriptionElement = document.getElementById('profileDescription'); // Changed to ID
-    const userFavoriteTagsElement = document.getElementById('profileFavoriteTags'); // Changed to ID
-    const profileAvatarImg = document.getElementById('profileAvatar'); // Changed to ID
-    const profileHeaderTitle = document.getElementById('profileHeaderTitle'); // Changed to ID
-    const postsCountBubble = document.getElementById('postsCount'); // Changed to ID
+    const userNameElement = document.getElementById('profileName');
+    const userDescriptionElement = document.getElementById('profileDescription');
+    const userFavoriteTagsElement = document.getElementById('profileFavoriteTags');
+    const profileAvatarImg = document.getElementById('profileAvatar');
+    const profileHeaderTitle = document.getElementById('profileHeaderTitle');
+    const postsCountBubble = document.getElementById('postsCount');
 
     const myRecipesGrid = document.querySelector('.content-area .recipe-grid:first-of-type');
     const savedRecipesGrid = document.querySelector('.content-area .recipe-grid:last-of-type');
@@ -22,38 +22,42 @@ document.addEventListener('DOMContentLoaded', async () => {
         const response = await fetch(`http://localhost:3000/profile/${userId}`);
         const data = await response.json();
 
-        if (response.ok) {
+        if (response.ok && data.user) { // Ensure response is OK and user data exists
             const user = data.user;
             const myRecipes = data.myRecipes;
-            // const savedRecipes = data.savedRecipes; // Will be empty for now
+            // const savedRecipes = data.savedRecipes; // Will be empty for now from backend
 
             // Populate user details
-            if (profileHeaderTitle) profileHeaderTitle.textContent = user.name + "'s Profile"; // Update main profile title
-            if (userNameElement) userNameElement.textContent = user.name;
+            if (profileHeaderTitle) profileHeaderTitle.textContent = user.name + "'s Profile";
+            if (userNameElement) userNameElement.textContent = user.name || '';
             if (userDescriptionElement) userDescriptionElement.textContent = user.description || 'No description provided yet.';
             if (userFavoriteTagsElement) userFavoriteTagsElement.textContent = user.favoriteTags || 'No favorite tags set.';
 
-            // Update avatar if you have a dynamic URL (e.g., from user.profile_image_url)
-            // For now, it keeps the static image or you can set a placeholder
-            // if (profileAvatarImg && user.profile_image_url) {
-            //     profileAvatarImg.src = user.profile_image_url;
-            // }
+            // --- CORRECTED PROFILE IMAGE DISPLAY LOGIC ---
+            if (profileAvatarImg) {
+                if (user.profileImageUrl) {
+                    // Prepend the base URL for the image
+                    profileAvatarImg.src = `http://localhost:3000${user.profileImageUrl}`;
+                } else {
+                    // Fallback to default if no profile image URL is present
+                    profileAvatarImg.src = 'Image/pelmeshek.jpg';
+                }
+            }
+            // --- END OF CORRECTED PROFILE IMAGE DISPLAY LOGIC ---
 
             // Update posts count
             if (postsCountBubble) {
-                postsCountBubble.textContent = data.postsCount;
+                postsCountBubble.textContent = data.postsCount || '0'; // Default to '0' if no count
             }
 
             // Populate My Recipes
             if (myRecipesGrid) {
                 myRecipesGrid.innerHTML = ''; // Clear existing static cards
-                if (myRecipes.length === 0) {
-                    myRecipesGrid.innerHTML = '<p>No recipes uploaded yet.</p>';
-                } else {
+                if (myRecipes && myRecipes.length > 0) { // Check if myRecipes array exists and has items
                     myRecipes.forEach(recipe => {
                         const recipeCard = document.createElement('div');
                         recipeCard.classList.add('recipe-card');
-                        
+
                         const imageUrl = recipe.image_url ? `http://localhost:3000${recipe.image_url}` : 'Image/placeholder-recipe.jpg';
 
                         recipeCard.innerHTML = `
@@ -69,16 +73,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                         `;
                         myRecipesGrid.appendChild(recipeCard);
                     });
+                } else {
+                    myRecipesGrid.innerHTML = '<p>No recipes uploaded yet.</p>';
                 }
             }
 
-            // Populate Saved Recipes (currently empty from backend) - keep as is for now
+            // Populate Saved Recipes (currently empty from backend)
             if (savedRecipesGrid) {
-                savedRecipesGrid.innerHTML = '<p>No saved recipes yet.</p>'; // Simplified for empty state
+                // Assuming savedRecipes is an array from your backend, even if empty
+                // if (data.savedRecipes && data.savedRecipes.length > 0) {
+                //     savedRecipesGrid.innerHTML = ''; // Clear existing static cards
+                //     data.savedRecipes.forEach(recipe => {
+                //         // Add logic to create saved recipe cards similar to myRecipes
+                //     });
+                // } else {
+                    savedRecipesGrid.innerHTML = '<p>No saved recipes yet.</p>';
+                // }
             }
 
         } else {
-            console.error('Failed to fetch profile data:', data.message);
+            console.error('Failed to fetch profile data:', data.message || 'Unknown error');
             alert('Error loading profile: ' + (data.message || 'Unknown error'));
         }
     } catch (error) {
@@ -93,29 +107,43 @@ document.addEventListener('DOMContentLoaded', async () => {
             const button = event.target.closest('.favorite-button');
             const recipeId = button.dataset.recipeId; // Get recipe ID from data attribute
 
-            button.classList.toggle('active');
+            // Toggle favorite state (visual feedback)
+            button.classList.toggle('active'); // You might need CSS for .active class
+
+            // Example: Change heart icon fill based on active state
+            const heartIcon = button.querySelector('.bx.bxs-heart');
             if (button.classList.contains('active')) {
                 console.log(`Recipe ${recipeId} added to favorites!`);
-                // TODO: Send request to backend to save favorite
+                if (heartIcon) heartIcon.style.color = '#ff0000'; // Red heart
+                // TODO: Send request to backend to save favorite (e.g., fetch POST)
             } else {
                 console.log(`Recipe ${recipeId} removed from favorites!`);
-                // TODO: Send request to backend to remove favorite
+                if (heartIcon) heartIcon.style.color = ''; // Reset to default color
+                // TODO: Send request to backend to remove favorite (e.g., fetch DELETE)
             }
         }
     });
 
     // --- Logout Button ---
-    // You'll need to add a logout button to your My profile.html with id="logoutButton"
-    // For example: <button id="logoutButton">Log Out</button>
     const logoutButton = document.getElementById('logoutButton');
     if (logoutButton) {
         logoutButton.addEventListener('click', () => {
+            // Clear all relevant localStorage items
             localStorage.removeItem('userId');
             localStorage.removeItem('userName');
             localStorage.removeItem('userDescription');
             localStorage.removeItem('userFavoriteTags');
+            localStorage.removeItem('userProfileImageUrl'); // Clear image URL on logout too
+
             alert('You have been logged out.');
             window.location.href = 'index.html'; // Redirect to home or login page
         });
     }
+
+    // You also have an "Edit profile" button in the sidebar (a href to edit my profile.html)
+    // and another one in the bottom profile-actions. Make sure they point to the correct file.
+    // The current HTML links are correct:
+    // <a href="edit my profile.html"><button class="see-more-button">Edit profile</button></a>
+    // <button class="see-more-button"><a href="edit_profile.html" id="editProfileButton">Edit Profile</a></button>
+    // Note: The second one should likely be <a href="edit_profile.html" class="see-more-button" id="editProfileButton">Edit Profile</a> to make the whole button clickable.
 });

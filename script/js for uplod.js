@@ -11,13 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let ingredientContainer;
 
     const triggerDirectionImageUploadButton = document.getElementById("triggerDirectionImageUpload");
-    const directionsTextarea = document.querySelector("textarea[name='directions']");
-
+    const directionsTextarea = document.querySelector("textarea[name='directions']"); // Not directly used in the submit, but good to have
     const directionImageInput = document.getElementById("directionImageInput");
 
+    // --- Event Listeners for Image Upload Buttons ---
     if (triggerImageUploadButton && recipeImageInput) {
         triggerImageUploadButton.addEventListener("click", () => {
-            recipeImageInput.click(); 
+            recipeImageInput.click();
         });
     }
 
@@ -38,22 +38,24 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // --- Add Ingredient Button ---
     if (addIngredientBtn && initialIngredientTextarea) {
         ingredientContainer = initialIngredientTextarea.parentNode;
 
         addIngredientBtn.addEventListener("click", () => {
             const newTextarea = initialIngredientTextarea.cloneNode(true);
             newTextarea.value = "";
-            newTextarea.name = "ingredients";
+            newTextarea.name = "ingredients"; // Ensure the name is 'ingredients'
             newTextarea.classList.add("ingredient-textarea");
 
             ingredientContainer.insertBefore(newTextarea, addIngredientBtn);
         });
     }
 
+    // --- Direction Image Upload ---
     if (triggerDirectionImageUploadButton && directionImageInput) {
         triggerDirectionImageUploadButton.addEventListener("click", () => {
-            directionImageInput.click(); 
+            directionImageInput.click();
         });
 
         directionImageInput.addEventListener("change", () => {
@@ -63,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-
+    // --- Recipe Form Submission ---
     if (createRecipeForm) {
         createRecipeForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -71,26 +73,45 @@ document.addEventListener("DOMContentLoaded", () => {
             recipeResult.textContent = '';
             recipeResult.style.color = '';
 
-            const formData = new FormData(); 
+            // --- IMPORTANT: Get userId from localStorage ---
+            const userId = localStorage.getItem('userId');
 
+            if (!userId) {
+                recipeResult.style.color = 'red';
+                recipeResult.textContent = 'Error: You must be logged in to upload a recipe.';
+                alert('You must be logged in to upload a recipe. Redirecting to login...');
+                window.location.href = 'login-password/login.html'; // Redirect to login page
+                return; // Stop execution
+            }
+
+            const formData = new FormData();
+
+            // Append userId to formData
+            formData.append('userId', userId); // This is the crucial line!
+
+            // Iterate over all relevant form elements and append them
             createRecipeForm.querySelectorAll('input[name], textarea[name]').forEach(input => {
-
+                // Special handling for multiple ingredient textareas
                 if (input.name === 'ingredients' && input.classList.contains('ingredient-textarea')) {
                     const allIngredients = Array.from(document.querySelectorAll('textarea[name="ingredients"].ingredient-textarea'))
-                                            .map(textarea => textarea.value.trim())
-                                            .filter(value => value !== '')
-                                            .join('\n');
-                    formData.set('ingredients', allIngredients);
+                        .map(textarea => textarea.value.trim())
+                        .filter(value => value !== '')
+                        .join('\n'); // Join all ingredients with a newline character
+                    formData.set('ingredients', allIngredients); // Use set to ensure only one 'ingredients' field
                 }
+                // Handle regular text inputs and textareas (but exclude file inputs, handled separately)
                 else if (input.type !== 'file') {
                     formData.append(input.name, input.value.trim());
                 }
+                // Note: The `userId` handling for `formData.append('userId', userId)` is already done outside this loop.
             });
 
+            // Append recipe main image
             if (recipeImageInput && recipeImageInput.files.length > 0) {
                 formData.append('recipeImage', recipeImageInput.files[0]);
             }
 
+            // Append direction images
             if (directionImageInput && directionImageInput.files.length > 0) {
                 for (let i = 0; i < directionImageInput.files.length; i++) {
                     formData.append('directionImages', directionImageInput.files[i]);
@@ -100,25 +121,30 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 const response = await fetch('http://localhost:3000/recipes', {
                     method: 'POST',
-                    body: formData 
+                    body: formData // FormData automatically sets 'Content-Type': 'multipart/form-data'
                 });
 
-                const data = await response.json(); 
+                const data = await response.json();
 
-                if (response.ok) { 
+                if (response.ok) {
                     recipeResult.style.color = 'green';
-                    recipeResult.textContent = data.message; 
-                    createRecipeForm.reset(); 
+                    recipeResult.textContent = data.message;
+                    // Reset the form and previews after successful submission
+                    createRecipeForm.reset();
                     if (imagePreview) {
-                        imagePreview.src = ''; 
-                        imagePreview.style.display = 'none'; 
+                        imagePreview.src = '';
+                        imagePreview.style.display = 'none';
                     }
+                    // Remove dynamically added ingredient textareas and clear the initial one
                     Array.from(document.querySelectorAll('textarea.ingredient-textarea')).forEach((textarea, index) => {
-                        if (index > 0) textarea.remove(); 
+                        if (index > 0) textarea.remove();
                     });
-                    if (initialIngredientTextarea) initialIngredientTextarea.value = ""; 
-                    
-                } else { 
+                    if (initialIngredientTextarea) initialIngredientTextarea.value = "";
+
+                    // Optional: Redirect to profile page after successful upload
+                    // window.location.href = 'My profile.html';
+
+                } else {
                     recipeResult.style.color = 'red';
                     recipeResult.textContent = data.message || 'Failed to create recipe. Please check your inputs.';
                     console.error('Backend error:', data.message);
@@ -130,4 +156,5 @@ document.addEventListener("DOMContentLoaded", () => {
                 recipeResult.textContent = 'Network error. Could not connect to the server.';
             }
         });
-    } });
+    }
+});
