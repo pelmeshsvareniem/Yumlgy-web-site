@@ -52,9 +52,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (response.ok) {
                         finalResult.style.color = 'green';
                         finalResult.textContent = data.message;
-                        // Redirect or perform other actions after successful login
+
+                        // --- IMPORTANT: Store user data in localStorage ---
+                        localStorage.setItem('userId', data.userId);
+                        localStorage.setItem('userName', data.userName);
+                        localStorage.setItem('userDescription', data.userDescription || ''); // Store, default to empty if null/undefined
+                        localStorage.setItem('userFavoriteTags', data.userFavoriteTags || ''); // Store, default to empty if null/undefined
+
+                        // Redirect to the profile page or home page
                         setTimeout(() => {
-                            window.location.href = '../index.html'; // Redirect to home page
+                            // You can choose to redirect to My profile.html directly after login,
+                            // or keep it as index.html. For profile feature, profile is more direct.
+                            window.location.href = '../My profile.html'; // Redirect to My profile page
+                            // Or: window.location.href = '../index.html'; // Redirect to home page
                         }, 1500);
                     } else {
                         finalResult.style.color = 'red';
@@ -69,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Register Form Submission ---
+    // --- Register Form Submission --- (Keep as is, no changes needed here for profile functionality)
     if (registerForm) {
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevent default form submission
@@ -77,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const nameInput = document.getElementById('name');
             const emailInput = document.getElementById('email');
             const passwordInput = document.getElementById('password');
-            const confirmPasswordInput = document.getElementById('confirmPassword'); // Corrected ID
+            const confirmPasswordInput = document.getElementById('confirmPassword');
 
             const name = nameInput.value.trim();
             const email = emailInput.value.trim();
