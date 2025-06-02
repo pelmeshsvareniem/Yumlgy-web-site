@@ -23,10 +23,9 @@ app.use(express.static(path.join(__dirname, '../')));
 // These files are physically located in Yumolgy-web-site/server/uploads
 app.use('/uploaded_images', express.static(path.join(__dirname, 'uploads')));
 
-// --- NEW ROUTE: Serve index.html for the root URL ---
+// --- ROUTE: Serve index.html for the root URL ---
 // This handles requests to http://localhost:3000/
 app.get('/', (req, res) => {
-    // THIS LINE IS CHANGED BACK to send the index.html file
     res.sendFile(path.join(__dirname, '../index.html'));
 });
 
@@ -51,7 +50,7 @@ const upload = multer({ storage: storage });
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD, // <<< THIS LINE IS THE KEY
+    password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
@@ -61,7 +60,7 @@ const pool = mysql.createPool({
 // Test database connection
 pool.getConnection()
     .then(connection => {
-        console.log('Katea');
+        console.log('Katea'); // Connection successful indicator
         connection.release(); // Release the connection back to the pool
     })
     .catch(err => {
@@ -70,7 +69,6 @@ pool.getConnection()
 
 
 // --- API ENDPOINTS ---
-// All your app.post (or app.get) routes go here, after middleware and setup.
 
 // Register User
 app.post('/register', async (req, res) => {
@@ -104,7 +102,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// Login User
+// Login User (MODIFIED to include description and favorite_tags)
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -113,8 +111,8 @@ app.post('/login', async (req, res) => {
     }
 
     try {
-        // Retrieve user from database
-        const [users] = await pool.execute('SELECT id, name, password FROM users WHERE email = ?', [email]);
+        // Retrieve user from database, including new profile fields
+        const [users] = await pool.execute('SELECT id, name, password, description, favorite_tags FROM users WHERE email = ?', [email]);
 
         if (users.length === 0) {
             return res.status(401).json({ message: 'Invalid email or password.' });
@@ -129,15 +127,72 @@ app.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Invalid email or password.' });
         }
 
-        // If login successful, you might want to return a token here for future authentication
-        res.status(200).json({ message: 'Login successful!', userId: user.id, userName: user.name });
+        // If login successful, return all relevant user data
+        res.status(200).json({
+            message: 'Login successful!',
+            userId: user.id,
+            userName: user.name,
+            userEmail: user.email,
+            userDescription: user.description || '', // Default to empty string if null
+            userFavoriteTags: user.favorite_tags || '' // Default to empty string if null
+        });
 
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ message: 'Server error during login.' });
     }
 });
-// --- NEW RECIPE CREATION ROUTE ---
+
+// --- NEW PROFILE DATA ENDPOINT ---
+app.get('/profile/:userId', async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        // 1. Fetch user's basic profile information
+        const [users] = await pool.execute(
+            'SELECT id, name, email, description, favorite_tags FROM users WHERE id = ?',
+            [userId]
+        );
+
+        if (users.length === 0) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        const user = users[0];
+
+        // 2. Fetch recipes uploaded by this user
+        // Assuming 'id' is the primary key for recipes, not 'recipe_id'
+        const [myRecipes] = await pool.execute(
+            'SELECT id, name, prep_time, cooking_time, tags, image_url FROM recipes WHERE user_id = ? ORDER BY created_at DESC', // CHANGED 'recipe_id' to 'id' here
+            [userId]
+        );
+
+        // 3. (Optional) Fetch saved recipes - Requires 'user_saved_recipes' table and joining
+        // For now, returning an empty array. You can implement this later.
+        const savedRecipes = []; // Placeholder
+
+        res.status(200).json({
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                description: user.description || '',
+                favoriteTags: user.favorite_tags || ''
+                // Add profile_image_url if you add this column to users table
+            },
+            myRecipes: myRecipes,
+            savedRecipes: savedRecipes, // Will be empty until implemented
+            postsCount: myRecipes.length // Dynamic posts count
+        });
+
+    } catch (error) {
+        console.error('Error fetching profile data:', error);
+        res.status(500).json({ message: 'Failed to fetch profile data.' });
+    }
+});
+
+
+// --- RECIPE CREATION ROUTE ---
 app.post('/recipes', upload.fields([
     { name: 'recipeImage', maxCount: 1 }, // For your main recipe image
     { name: 'directionImages', maxCount: 10 } // For multiple images in directions (adjust maxCount as needed)
@@ -146,37 +201,35 @@ app.post('/recipes', upload.fields([
         // Access text fields from req.body
         const { name, prep_time, cooking_time, tags, description, ingredients, directions, calories, total_fat, protein, carbohydrate, cholesterol, allergens } = req.body;
 
-        // Access uploaded files from req.files (NOTE THE CHANGE from req.file to req.files)
+        // Access uploaded files from req.files
         const recipeImageFile = req.files && req.files['recipeImage'] ? req.files['recipeImage'][0] : null;
-        const directionImageFiles = req.files && req.files['directionImages'] ? req.files['directionImages'] : []; // This will be an array of files
+        const directionImageFiles = req.files && req.files['directionImages'] ? req.files['directionImages'] : [];
 
         // Get the path to the main uploaded image
         const imageUrl = recipeImageFile ? `/uploaded_images/${recipeImageFile.filename}` : null;
 
         // Process direction images (if you truly want to upload them)
-        // You would need to decide how to store these paths and link them to the directions text
-        // For example, you might stringify the array of paths or store them in a separate table.
         const directionImageUrls = directionImageFiles.map(file => `/uploaded_images/${file.filename}`);
-        // console.log('Direction image URLs:', directionImageUrls); // For debugging
 
         // --- IMPORTANT: Handling user_id ---
-        const userId = 5; // Placeholder: ENSURE a user with ID 5 exists in your 'users' table for testing!
+        // For now, 'userId' is hardcoded to 5.
+        // In a real application, you would get this from the logged-in user's session or a JWT token.
+        // For testing, ensure a user with ID 5 exists in your 'users' table!
+        const userId = 5;
 
         // Basic validation (add more as needed for all fields)
         if (!name || !ingredients || !directions || !userId) {
             return res.status(400).json({ message: 'Missing required recipe fields: name, ingredients, directions, or user_id.' });
         }
 
-        // Insert recipe into database (you'll need to decide how to store directionImageUrls)
-        // For now, let's just insert the main image. If you want to store direction images,
-        // you'll need new columns or a separate table, or combine them into a JSON string.
+        // Insert recipe into database
         const [result] = await pool.execute(
             `INSERT INTO recipes (user_id, name, prep_time, cooking_time, tags, description, ingredients, directions, calories, total_fat, protein, carbohydrate, cholesterol, allergens, image_url)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [userId, name, prep_time, cooking_time, tags, description, ingredients, directions, calories, total_fat, protein, carbohydrate, cholesterol, allergens, imageUrl]
         );
 
-        res.status(201).json({ message: 'Recipe created successfully!', recipeId: result.insertId, imageUrl: imageUrl, directionImageUrls: directionImageUrls }); // Also send back direction URLs for debugging
+        res.status(201).json({ message: 'Recipe created successfully!', recipeId: result.insertId, imageUrl: imageUrl, directionImageUrls: directionImageUrls });
 
     } catch (error) {
         console.error('Error creating recipe:', error);
@@ -188,6 +241,7 @@ app.post('/recipes', upload.fields([
         res.status(500).json({ message: 'Failed to create recipe. Please try again.' });
     }
 });
+
 
 // --- START THE SERVER ---
 // This should always be the last part of your server.js file.
