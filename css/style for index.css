@@ -193,7 +193,7 @@ nav ul li a {
   padding-right: 40px;
 }
 
-.text-content h1 {
+.text-content h2 {
   font-size: 2.5rem;
   line-height: 1.2;
   color: #000;
@@ -283,4 +283,69 @@ nav ul li a {
   }
 }
 
+.instagram-section {
+  background: linear-gradient(to bottom, #fff, #eaf9ff);
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.instagram-section h2 {
+  font-size: 2rem;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.instagram-section h2 span {
+  color: #000;
+  font-weight: bold;
+}
+
+.instagram-section p {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.instagram-posts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 60px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.instagram-posts img {
+  width: 310px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.instagram-posts img:hover {
+  transform: translateY(-5px);
+}
+
+.insta-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 24px;
+  background-color: #000;
+  color: #fff;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.insta-btn i {
+  margin-right: 8px;
+}
+
+.insta-btn:hover {
+  background-color: #333;
+}
 
