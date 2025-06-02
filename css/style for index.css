@@ -168,3 +168,119 @@ nav ul li a {
   display: flex;
   gap: 10px;
 }
+
+.everyone-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  background: #f9fbfd;
+  font-family: Arial, sans-serif;
+  border-radius: 50px;
+}
+
+.everyone-section .container {
+  display: flex;
+  max-width: 1200px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.text-content {
+  flex: 1;
+  min-width: 320px;
+  padding-right: 40px;
+}
+
+.text-content h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  color: #000;
+}
+
+.text-content p {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 20px 0;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #000;
+  color: #fff;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #333;
+}
+
+.image-content {
+  position: relative;
+  flex: 1;
+  min-width: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chef-img {
+  max-width: 80%;
+  height: auto;
+  z-index: 1;
+}
+
+.veggie {
+  position: absolute;
+  width: 50px;
+  height: auto;
+  z-index: 2;
+}
+
+.tomato {
+  bottom: 20%;
+  left: 0%;
+  animation-duration: 3s;
+}
+
+.onion {
+  top: 20px;
+  right: 10%;
+  animation-duration: 2.5s;
+}
+
+.lettuce {
+  top: 50%;
+  right: 0;
+  animation-duration: 3.2s;
+}
+
+.meat {
+  top: 20%;
+  left: 13%;
+  animation-duration: 2.8s;
+}
+
+.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+
