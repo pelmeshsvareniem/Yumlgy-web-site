@@ -12,3 +12,4 @@ dropdown.addEventListener('mouseleave', () => {
     menu.classList.remove('show');
   }, 2000); 
 });
+
