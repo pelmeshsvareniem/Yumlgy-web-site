@@ -303,18 +303,17 @@ nav ul li a {
 }
 
 .recipe-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 15px;
-    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 15px; /* spațiu mic între carduri */
 }
 
 .recipe-card {
-    background-color: var(--recipe-card-bg);
+
     border-radius: 10px;
     box-shadow: 0 2px 8px var(--recipe-card-shadow);
     overflow: hidden;
-    position: relative;
     display: flex;
     width: 300px; /* Consider using max-width for responsiveness */
     flex-direction: column;

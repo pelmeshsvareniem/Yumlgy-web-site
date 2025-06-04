@@ -55,6 +55,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 myRecipesGrid.innerHTML = ''; // Clear existing static cards
                 if (myRecipes && myRecipes.length > 0) { // Check if myRecipes array exists and has items
                     myRecipes.forEach(recipe => {
+                        const recipeCardLink = document.createElement('a'); // Create an anchor element
+                        recipeCardLink.href = `uploaded_recipe.html?id=${recipe.id}`; // Link to the new page with recipe ID
+                        recipeCardLink.classList.add('recipe-card-link'); // Add a class for styling if needed
+
                         const recipeCard = document.createElement('div');
                         recipeCard.classList.add('recipe-card');
 
@@ -69,9 +73,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                                     <span><i class='bx bxs-fork-spoon'></i>${recipe.tags || 'General'}</span>
                                 </div>
                             </div>
-                            <button class="favorite-button" data-recipe-id="${recipe.recipe_id}"><i class='bx bxs-heart'></i></button>
+                            <button class="favorite-button" data-recipe-id="${recipe.id}"><i class='bx bxs-heart'></i></button>
                         `;
-                        myRecipesGrid.appendChild(recipeCard);
+                        recipeCardLink.appendChild(recipeCard); // Append the card to the link
+                        myRecipesGrid.appendChild(recipeCardLink); // Append the link to the grid
                     });
                 } else {
                     myRecipesGrid.innerHTML = '<p>No recipes uploaded yet.</p>';
