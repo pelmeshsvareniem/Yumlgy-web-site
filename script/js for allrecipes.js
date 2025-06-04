@@ -80,23 +80,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                         recipeCard.classList.add('recipe-card');
 
                         // Ensure image URL is correctly prefixed
-                        const imageUrl = recipe.image_url ? `http://localhost:3000${recipe.image_url}` : 'Image/placeholder-recipe.jpg';
+                        const imageUrl = recipe.image_url
+    ? `http://localhost:3000${recipe.image_url}`
+    : 'Image/placeholder-recipe.jpg';
 
-                        recipeCard.innerHTML = `
-                            <div class="card-image-placeholder" style="background-image: url('${imageUrl}');"></div>
-                            <div class="card-content">
-                                <h3 class="recipe-name">${recipe.name}</h3>
-                                <p class="recipe-description">${recipe.description || 'No description provided.'}</p>
-                                <div class="recipe-tags">
-                                    ${recipe.tags ? recipe.tags.split(',').map(tag => `<span class="tag">#${tag.trim()}</span>`).join('') : ''}
-                                </div>
-                                <div class="recipe-meta">
-                                    <span><i class='bx bxs-timer'></i> ${recipe.prep_time || 'N/A'} min</span>
-                                    <span><i class='bx bxs-bowl-hot'></i> ${recipe.cooking_time || 'N/A'} min</span>
-                                    <span>By ${recipe.author_name || 'Unknown'}</span>
-                                </div>
-                            </div>
-                        `;
+recipeCard.innerHTML = `
+    <div class="card-image" style="background-image: url('${imageUrl}');"></div>
+    <div class="card-content">
+        <h3 class="recipe-name">${recipe.name}</h3>
+        <p class="recipe-description">${recipe.description || 'No description provided.'}</p>
+        <div class="recipe-tags">
+            ${recipe.tags ? recipe.tags.split(',').map(tag => `<span class="tag">#${tag.trim()}</span>`).join('') : ''}
+        </div>
+        <div class="recipe-meta">
+            <span><i class='bx bxs-timer'></i> ${recipe.prep_time || 'N/A'} min</span>
+            <span><i class='bx bxs-bowl-hot'></i> ${recipe.cooking_time || 'N/A'} min</span>
+            <span>By ${recipe.author_name || 'Unknown'}</span>
+        </div>
+    </div>
+`;
+
                         recipeCardLink.appendChild(recipeCard);
                         allRecipesGrid.appendChild(recipeCardLink);
                     });
