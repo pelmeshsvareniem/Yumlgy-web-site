@@ -30,27 +30,34 @@
     <div class="container">
         <header class="header">
             <div class="logo">
-                <h2 id="recipeTitle"><i class="fas fa-leaf"></i> Hibachi Fried Rice</h2> <!-- ADDED ID -->
+                <h2 id="recipeTitle"><i class="fas fa-leaf"></i> Hibachi Fried Rice</h2>
             </div>
             <div class="header-info">
                 <div class="info-item">
-                    <i class="fas fa-calendar-alt"></i> <span id="recipeDate">3 Jun 2025</span> <!-- ADDED ID -->
+                    <i class="fas fa-calendar-alt"></i> <span id="recipeDate">3 Jun 2025</span>
                 </div>
                 <div class="info-item">
-                    <i class="fas fa-tag"></i> Prep time <span id="recipePrepTime">10 min</span> <!-- ADDED ID -->
+                    <i class="fas fa-tag"></i> Prep time <span id="recipePrepTime">10 min</span>
                 </div>
                 <div class="info-item">
-                    <i class="fas fa-clock"></i> Cook time <span id="recipeCookTime">15 min</span> <!-- ADDED ID -->
+                    <i class="fas fa-clock"></i> Cook time <span id="recipeCookTime">15 min</span>
                 </div>
                 <div class="info-item">
-                    <i class="fas fa-utensils"></i> <span id="recipeTags">Chicken</span> <!-- ADDED ID -->
+                    <i class="fas fa-utensils"></i> <span id="recipeTags">Chicken</span>
                 </div>
-                <button class="delete-button" id="deleteRecipeButton"> <!-- ADDED ID -->
+                <button class="delete-button" id="deleteRecipeButton">
                     <i class='bx bx-trash'></i> Delete
                 </button>
             </div>
             <div class="header-actions">
-                <!-- These are static icons, no IDs needed unless they become interactive -->
+                <!-- Export Buttons Added Here -->
+                <button class="export-button" id="exportCsvButton" title="Export as CSV">
+                    <i class='bx bx-file'></i> CSV
+                </button>
+                <button class="export-button" id="exportJsonButton" title="Export as JSON">
+                    <i class='bx bx-code-alt'></i> JSON
+                </button>
+                <!-- Original static icons -->
                 <i class="fas fa-bell"></i>
                 <i class="fas fa-upload"></i>
                 <i class="fas fa-share-alt"></i>
@@ -60,42 +67,42 @@
         <main class="main-content">
             <section class="recipe-hero">
                 <div class="video-placeholder">
-                    <img id="mainRecipeImage" src="Image/Healthier-Hibachi-Fried-Rice.jpeg" alt="Japanese Fried Rice" class="main-recipe-image"> <!-- ADDED ID -->
+                    <img id="mainRecipeImage" src="Image/Healthier-Hibachi-Fried-Rice.jpeg" alt="Japanese Fried Rice" class="main-recipe-image">
                 </div>
                 <div class="nutrition-info">
                     <h3>Nutrition Information</h3>
                     <table>
                         <tr>
                             <td>Calories</td>
-                            <td id="nutritionCalories">218.9 kcal</td> <!-- ADDED ID -->
+                            <td id="nutritionCalories">218.9 kcal</td>
                         </tr>
                         <tr>
                             <td>Protein</td>
-                            <td id="nutritionProtein">10.7 g</td> <!-- ADDED ID -->
+                            <td id="nutritionProtein">10.7 g</td>
                         </tr>
                         <tr>
                             <td>Total Fat</td>
-                            <td id="nutritionTotalFat">7.8 g</td> <!-- ADDED ID -->
+                            <td id="nutritionTotalFat">7.8 g</td>
                         </tr>
                         <tr>
                             <td>Carbohydrate</td>
-                            <td id="nutritionCarbohydrate">16.5 g</td> <!-- ADDED ID -->
+                            <td id="nutritionCarbohydrate">16.5 g</td>
                         </tr>
                         <tr>
                             <td>Cholesterol</td>
-                            <td id="nutritionCholesterol">20.4 mg</td> <!-- ADDED ID -->
+                            <td id="nutritionCholesterol">20.4 mg</td>
                         </tr>
                     </table>
                     <p class="small-text" id="nutritionDescription">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p> <!-- ADDED ID -->
+                    </p>
                 </div>
             </section>
 
             <section class="description">
                 <p id="recipeDescription">
                     Easy and flavorful, this healthier hibachi fried rice is the perfect side dish for my hibachi steak and hibachi chicken recipes! Made with leftover rice, you could even throw it together and top with your favorite protein; we love it with everything from this air fryer shrimp and my pan fried salmon to this Asian pork tenderloin!
-                </p> <!-- ADDED ID -->
+                </p>
             </section>
 
             <section class="recipe-details">
