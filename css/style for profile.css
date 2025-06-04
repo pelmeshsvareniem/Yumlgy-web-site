@@ -190,7 +190,7 @@ nav ul li a {
 .recipe-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
+    gap: 15px;
     margin-bottom: 30px;
 }
 
@@ -201,6 +201,7 @@ nav ul li a {
     overflow: hidden;
     position: relative;
     display: flex;
+    width: 300px;
     flex-direction: column;
 }
 

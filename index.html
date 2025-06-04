@@ -11,93 +11,7 @@
 </head>
 <body>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-  const recipes = [
-    {
-      title: "Mixed Tropical Fruit Salad with Superfood Boosts",
-      image: "Image/fruit salad.jpg",
-      tag: "Healthy",
-      liked: true
-    },
-    {
-      title: "Big and Juicy Wagyu Beef Cheeseburger",
-      image: "Image/chessburger.jpg",
-      tag: "Snacks",
-      liked: true
-    },
-    {
-      title: "Healthy Japanese Fried Rice with Asparagus",
-      image: "Image/Japanese-Fried-Rice.jpg",
-      tag: "Healthy",
-      liked: true
-    },
-    {
-      title: "Cauliflower Walnut Vegetarian Taco Meat",
-      image: "Image/vegan-taco-meat-healthy.jpg",
-      tag: "Eastern",
-      liked: true
-    },
-    {
-      title: "Rainbow Chicken Salad with Almond Honey Mustard Dressing",
-      image: "Image/raynbow salad.jpg",
-      tag: "Healthy",
-      liked: true
-    },
-    {
-      title: "Barbeque Spicy Sandwiches with Chips",
-      image: "Image/Barbeque Spicy Sandwiches with Chips.jpg",
-      tag: "Snack",
-      liked: true
-    },
-    {
-      title: "Firecracker Vegan Lettuce Wraps - Spicy!",
-      image: "Image/Tofu-Lettuce-Wraps-Recipe.jpg",
-      tag: "Seafood",
-      liked: true
-    },
-    {
-      title: "Chicken Ramen Soup with Mushroom",
-      image: "Image/ramen.jpg",
-      tag: "Japanese",
-      liked: true
-    }
-  ];
-
-  const grid = document.getElementById("recipe-grid");
-
-  recipes.forEach(recipe => {
-    const card = document.createElement("div");
-    card.className = "recipe-card-homepage";
-
-    card.innerHTML = `
-      <div class="card-image-wrapper">
-        <img src="${recipe.image}" class="card-image" alt="${recipe.title}">
-        <button class="favorite-icon-overlay">
-          <i class='bx ${recipe.liked ? "bxs-heart" : "bx-heart"}' ${recipe.liked ? "style='color:#ff0000'" : ""}></i>
-        </button>
-      </div>
-      <div class="card-info">
-        <h3 class="recipe-title">${recipe.title}</h3>
-        <div class="recipe-meta">
-          <span class="meta-item">
-            <button class="favorite-icon-overlay">
-              <i class='bx bx-heart'></i>
-            </button>
-          </span>
-          <span class="meta-item">
-            <i class='bx bxs-fork-spoon'></i> ${recipe.tag}
-          </span>
-        </div>
-      </div>
-    `;
-
-    grid.appendChild(card);
-  });
-});
-    </script>
-    
-
+  
   <header>
     <div class="logo">Yumlogy</div>
     <nav>
@@ -266,6 +180,92 @@
       <h2 class="section-heading">Try this delicious recipe <br> to make your day</h2>
       <div class="recipe-grid-homepage" id="recipe-grid"></div>
     </div>
+    
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+  const recipes = [
+    {
+      title: "Mixed Tropical Fruit Salad with Superfood Boosts",
+      image: "Image/fruit salad.jpg",
+      tag: "Healthy",
+      liked: true
+    },
+    {
+      title: "Big and Juicy Wagyu Beef Cheeseburger",
+      image: "Image/chessburger.jpg",
+      tag: "Snacks",
+      liked: true
+    },
+    {
+      title: "Healthy Japanese Fried Rice with Asparagus",
+      image: "Image/Japanese-Fried-Rice.jpg",
+      tag: "Healthy",
+      liked: true
+    },
+    {
+      title: "Cauliflower Walnut Vegetarian Taco Meat",
+      image: "Image/vegan-taco-meat-healthy.jpg",
+      tag: "Eastern",
+      liked: true
+    },
+    {
+      title: "Rainbow Chicken Salad with Almond Honey Mustard Dressing",
+      image: "Image/raynbow salad.jpg",
+      tag: "Healthy",
+      liked: true
+    },
+    {
+      title: "Barbeque Spicy Sandwiches with Chips",
+      image: "Image/Barbeque Spicy Sandwiches with Chips.jpg",
+      tag: "Snack",
+      liked: true
+    },
+    {
+      title: "Firecracker Vegan Lettuce Wraps - Spicy!",
+      image: "Image/Tofu-Lettuce-Wraps-Recipe.jpg",
+      tag: "Seafood",
+      liked: true
+    },
+    {
+      title: "Chicken Ramen Soup with Mushroom",
+      image: "Image/ramen.jpg",
+      tag: "Japanese",
+      liked: true
+    }
+  ];
+
+  const grid = document.getElementById("recipe-grid");
+
+  recipes.forEach(recipe => {
+    const card = document.createElement("div");
+    card.className = "recipe-card-homepage";
+
+    card.innerHTML = `
+      <div class="card-image-wrapper">
+        <img src="${recipe.image}" class="card-image" alt="${recipe.title}">
+        <button class="favorite-icon-overlay">
+          <i class='bx ${recipe.liked ? "bxs-heart" : "bx-heart"}' ${recipe.liked ? "style='color:#ff0000'" : ""}></i>
+        </button>
+      </div>
+      <div class="card-info">
+        <h3 class="recipe-title">${recipe.title}</h3>
+        <div class="recipe-meta">
+          <span class="meta-item">
+            <button class="favorite-icon-overlay">
+              <i class='bx bx-heart'></i>
+            </button>
+          </span>
+          <span class="meta-item">
+            <i class='bx bxs-fork-spoon'></i> ${recipe.tag}
+          </span>
+        </div>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+});
+    </script>
   </section>
   
 
