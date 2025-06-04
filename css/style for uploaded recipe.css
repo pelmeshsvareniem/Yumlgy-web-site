@@ -1,0 +1,515 @@
+@import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Judson:ital,wght@0,400;0,700;1,400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: #fff;
+  padding: 20px;
+  color: #333;
+}
+
+img {
+  width: 100%;
+}
+
+a {
+  color: #fff;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+nav ul li a {
+  color: #222;
+  font-weight: 500;
+}
+
+.btn-profile {
+  background-color: #d4f1f9;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: #000;
+  font-weight: 500;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    display: flex;
+    align-items: center;
+}
+
+.logo i {
+    margin-right: 8px;
+}
+
+.header-info {
+    display: flex;
+    gap: 20px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #666;
+}
+
+.info-item i {
+    margin-right: 5px;
+    color: #d4f1f9;
+}
+
+.header-actions {
+    display: flex;
+    gap: 15px;
+    font-size: 18px;
+    color: #666;
+}
+
+.header-actions i {
+    cursor: pointer;
+}
+
+.recipe-hero {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.video-placeholder {
+    flex: 2;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.main-recipe-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.delete-button {
+    background-color: #fff; 
+    color: #dc3545; 
+    border: 1px solid #dc3545; 
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px; 
+    transition: all 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #dc3545; 
+    color: #fff;
+}
+
+.delete-button i {
+    font-size: 16px; 
+}
+
+
+.nutrition-info {
+    background-color: #f2fcf2; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    
+}
+
+.nutrition-info h3 {
+    margin-top: 0;
+    color: #000;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.nutrition-info table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    
+}
+
+.nutrition-info table td {
+    padding: 8px 0;
+    border-bottom: 1px dashed #ddd;
+    font-size: 14px;
+}
+
+.nutrition-info table tr:last-child td {
+    border-bottom: none;
+}
+
+.nutrition-info table td:first-child {
+    font-weight: 500;
+}
+
+.small-text {
+    font-size: 12px;
+    color: #777;
+    line-height: 1.5;
+}
+
+.description {
+    margin-bottom: 40px;
+    line-height: 1.7;
+    color: #555;
+}
+
+.recipe-details {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.ingredients {
+    flex: 2;
+}
+
+.ingredients h2,
+.directions h2,
+.other-recipes h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.ingredient-section {
+    margin-bottom: 25px;
+}
+
+.ingredient-section h3 {
+    font-size: 18px;
+    color: #000;
+    margin-bottom: 15px;
+}
+
+.ingredients ul {
+    list-style: none;
+    padding: 0;
+}
+
+.ingredients ul li {
+    margin-bottom: 10px;
+}
+
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: #555;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #d4f1f9;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+.other-recipes {
+    flex: 1;
+}
+
+.other-recipe-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.other-recipe-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.recipe-text h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.recipe-text p {
+    margin: 5px 0 0;
+    font-size: 13px;
+    color: #777;
+}
+
+.ad-banner {
+    background: url('../Image/Healthy-Food.png') center/cover no-repeat;
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    color: #ffffff; 
+    position: relative; 
+    overflow: hidden; 
+}
+
+.ad-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); 
+    border-radius: 8px;
+    z-index: 1; 
+}
+
+
+.ad-banner p,
+.ad-banner h3 {
+    position: relative; 
+    z-index: 2;
+    margin: 0;
+    font-size: 16px;
+    color: #ffffff; 
+    font-weight: 600;
+}
+
+.ad-banner h3 {
+    margin: 10px 0 20px;
+    font-size: 28px;
+}
+
+.ad-banner img { 
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    position: relative;
+    z-index: 2;
+}
+
+.ad-button {
+    background-color: #18230F;
+    color: #fff; 
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    position: relative;
+    z-index: 2;
+}
+
+.ad-button:hover {
+    background-color: #255F38; 
+}
+
+.direction-step {
+    margin-bottom: 30px;
+}
+
+.direction-step {
+    margin-bottom: 30px;
+}
+
+.direction-step h3 {
+    font-size: 20px;
+    color: #000;
+    margin-bottom: 15px;
+}
+
+.direction-step p {
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.direction-step img {
+    width: 100%;
+    max-width: 600px; /* Adjust as needed */
+    height: auto;
+    display: block;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.footer {
+    background-color: #fff;
+    padding: 40px 60px;
+    font-family: sans-serif;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .footer-brand h2.logo {
+    font-family: cursive;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .footer-brand p {
+    color: #888;
+    max-width: 300px;
+    line-height: 1.6;
+  }
+  
+  .footer-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-links a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+  }
+  
+  .footer-links a:hover {
+    text-decoration: underline;
+  }
+  
+  .divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 30px 0;
+  }
+  
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: #555;
+  }
+  
+  .footer-bottom .highlight {
+    color: #ff6b6b;
+    font-weight: 500;
+    text-align: center;
+  }
+  
+  .footer-socials a {
+    color: #000;
+    text-decoration: none;
+    margin-left: 15px;
+    font-size: 16px;
+  }
+  
+  .footer-socials a:hover {
+    color: #ff6b6b;
+  }
