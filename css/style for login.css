@@ -1,148 +1,202 @@
 @import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Judson:ital,wght@0,400;0,700;1,400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-*{
+:root {
+    --body-bg: #fff;
+    --text-color: #222;
+    --element-bg: #fff;
+    --border-color: #000;
+    --shadow-color: #222;
+    --input-placeholder-color: #222;
+    --link-color: #222;
+    --link-hover-color: #f0f0f0; 
+    --accent-color: #f0f0f0;
+    --error-color: red;
+    --success-color: green;
+}
+
+body.dark-mode {
+    --dark-blue-main: #070F2B;
+    --dark-blue-secondary: #1B1A55;
+    --dark-blue-light: #535C91;
+    --dark-blue-lighter: #9290C3;
+    --dark-purple: #363062;
+    --mid-blue-gray: #435585;
+    --light-blue-gray: #818FB4;
+    --cream-color: #F5E8C7;
+
+    --body-bg: var(--dark-blue-main);
+    --text-color: var(--cream-color);
+    --element-bg: var(--dark-blue-secondary);
+    --border-color: var(--mid-blue-gray);
+    --shadow-color: rgba(0, 0, 0, 0.5); 
+    --input-placeholder-color: var(--light-blue-gray);
+    --link-color: var(--cream-color);
+    --link-hover-color: var(--dark-blue-lighter);
+    --accent-color: var(--dark-blue-lighter); 
+    --error-color: #ff6666; 
+    --success-color: #90bfff; 
+}
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "popins",sans-serif;
+    font-family: "Poppins", sans-serif; /* Corrected typo: "popins" to "Poppins" */
 }
 
-#back{
+#back {
     width: 10%;
-    align-items: left;
+    align-items: left; /* This property doesn't exist for direct element alignment. Consider flexbox on parent. */
     height: 25px;
-    background: #fff;
+    background: var(--element-bg);
     border: none;
     outline: none;
     border-radius: 40px;
-    box-shadow: 0 0 10px #222;
+    box-shadow: 0 0 10px var(--shadow-color);
     cursor: pointer;
     font-size: 16px;
-    color: #000;
+    color: var(--text-color);
     font-weight: 600;
-    top: 0;
+    top: 0; /* This won't work without position: absolute/relative/fixed */
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
-body{
+body {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: #fff;
-
+    background: var(--body-bg);
+    transition: background-color 0.3s ease;
 }
 
-
-
-.wrapper{
+.wrapper {
     width: 500px;
-    background-color: #fff;
-    color: #222;
-    border: 2px solid #000;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 0 10px #222;
+    background-color: var(--element-bg);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    backdrop-filter: blur(20px); /* This might not be effective if element-bg is solid */
+    box-shadow: 0 0 10px var(--shadow-color);
     border-radius: 10px;
     padding: 50px 60px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.wrapper h1{
+.wrapper h1 {
     font-size: 36px;
     text-align: center;
+    color: inherit; /* Inherit from wrapper's text-color */
 }
 
-.wrapper .input-box{
+.wrapper .input-box {
     width: 100%;
     height: 50px;
     margin: 36px 0;
     position: relative;
 }
 
-.input-box input{
+.input-box input {
     width: 100%;
     height: 100%;
-    background: #fff;
+    background: var(--element-bg);
     border: none;
     outline: none;
-    border: 2px solid #222;
+    border: 2px solid var(--border-color);
     border-radius: 40px;
     font-size: 16px;
-    color: #000;
+    color: var(--text-color);
     padding: 20px 50px 20px 20px;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
-.input-box input::placeholder{
-    color: #222;
+.input-box input::placeholder {
+    color: var(--input-placeholder-color);
+    transition: color 0.3s ease;
 }
 
-.input-box i{
+.input-box i {
     position: absolute;
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 20px;
+    color: var(--text-color); /* Ensure icon color also adapts */
+    transition: color 0.3s ease;
 }
 
-.wrapper .remember{
-    display: flex;  
+.wrapper .remember {
+    display: flex;
     justify-content: space-between;
     font-size: 14.5px;
     margin: -15px 0 15px;
-    
+    color: inherit; /* Inherit from wrapper's text-color */
 }
 
-.remember label input{
-    accent-color: #f0f0f0;
+.remember label input {
+    accent-color: var(--accent-color); /* For checkbox color */
     margin-right: 3px;
     display: inline;
-
 }
 
-.remember a{
+.remember a {
     text-decoration: none;
-    color: #222;
-    
-
+    color: var(--link-color);
+    transition: color 0.3s ease;
 }
-.remember a:hover{
+
+.remember a:hover {
     text-decoration: underline;
-    color: #f0f0f0;
+    color: var(--link-hover-color);
 }
 
-.wrapper .btn{
+.wrapper .btn {
     width: 100%;
     height: 45px;
-    background:#fff;
+    background: var(--element-bg);
     border: none;
     outline: none;
     border-radius: 40px;
-    box-shadow: 0 0 10px #222;
+    box-shadow: 0 0 10px var(--shadow-color);
     cursor: pointer;
     font-size: 16px;
-    color: #000;
+    color: var(--text-color);
     font-weight: 600;
     text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.wrapper .register-link{
+.wrapper .register-link {
     font-size: 14.4px;
     text-align: center;
     margin-top: 20px;
-    
+    color: inherit; /* Inherit from wrapper's text-color */
 }
 
-.register-link p a{
-    color:#222;
+.register-link p a {
+    color: var(--link-color);
     text-decoration: none;
     font-weight: 600;
-
+    transition: color 0.3s ease;
 }
 
-.register-link p a:hover{
+.register-link p a:hover {
     text-decoration: underline;
-    color: #f0f0f0;
-
+    color: var(--link-hover-color);
 }
 
-input { display: block; margin-bottom: 5px; }
-    .error { color: red; font-size: 0.9em; }
-    .success { color: green; }
+/* Validation styles */
+input {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.error {
+    color: var(--error-color);
+    font-size: 0.9em;
+    transition: color 0.3s ease;
+}
+
+.success {
+    color: var(--success-color);
+    transition: color 0.3s ease;
+}

@@ -1,11 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Judson:ital,wght@0,400;0,700;1,400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-    /* Base Fonts - Imported at the top */
-
-    /* Light Mode Colors (Default) */
-    --bg-color: #fff;
-    --text-color: #000;
+    --bg-color: #f9fbfd;
+    --text-color: #222;
     --header-bg: #fff;
     --header-shadow: rgba(0,0,0,0.05);
     --link-color-header: #222;
@@ -56,58 +53,72 @@
     --social-icon-color: #000;
 }
 
-/* Dark Mode Overrides (for manual toggle) */
 body.dark-mode {
-    --bg-color: #1a1a1a;
-    --text-color: #f0f0f0;
-    --header-bg: #222;
-    --header-shadow: rgba(255,255,255,0.05);
-    --link-color-header: #f0f0f0;
-    --btn-profile-bg: #555;
-    --btn-profile-text: #f0f0f0;
+    --dark-blue-main: #070F2B;
+    --dark-blue-secondary: #1B1A55;
+    --dark-blue-light: #535C91;
+    --dark-blue-lighter: #9290C3;
+    --dark-purple: #363062;
+    --mid-blue-gray: #435585;
+    --light-blue-gray: #818FB4;
+    --cream-color: #F5E8C7;
 
-    --sidebar-bg: #222;
-    --sidebar-shadow: rgba(255,255,255,0.08);
-    --profile-header-text: #f0f0f0;
-    --profile-avatar-border: #333;
-    --avatar-text-bg: rgba(255, 255, 255, 0.2);
-    --avatar-text-color: #f0f0f0;
-    --detail-box-border: #333;
-    --detail-box-bg: #2b2b2b;
-    --detail-label-color: #aaa;
-    --detail-text-color: #f0f0f0;
-    --social-stats-container-bg: #333;
-    --social-stats-container-shadow: rgba(255,255,255,0.05);
-    --stat-category-color: #f0f0f0;
-    --stat-value-bubble-bg: #444;
-    --stat-value-bubble-border: #555;
-    --stat-value-bubble-color: #f0f0f0;
-    --stat-value-bubble-shadow: rgba(255,255,255,0.08);
-    --stat-item-bg: #333;
-    --stat-item-border: #444;
-    --stat-item-color: #90bfff;
+    --bg-color: var(--dark-blue-main);
+    --text-color: var(--cream-color);
+    --header-bg: var(--dark-blue-main);
+    --header-shadow: rgba(0,0,0,0.2); 
+    --link-color-header: var(--cream-color);
+    --btn-profile-bg: var(--dark-purple);
+    --btn-profile-text: var(--cream-color);
 
-    --section-title-color: #f0f0f0;
-    --recipe-card-bg: #222;
-    --recipe-card-shadow: rgba(255,255,255,0.08);
-    --card-title-color: #f0f0f0;
-    --card-meta-color: #aaa;
-    --favorite-button-bg: #333;
-    --favorite-button-shadow: rgba(255,255,255,0.1);
-    --favorite-icon-color: #666;
-    --favorite-icon-active: #ff6666;
-    --see-more-button-bg: #555;
-    --see-more-button-text: #f0f0f0;
-    --see-more-button-hover-bg: #666;
+    --sidebar-bg: var(--dark-blue-secondary);
+    --sidebar-shadow: rgba(0,0,0,0.3); 
+    --profile-header-text: var(--cream-color);
+    --profile-avatar-border: var(--mid-blue-gray);
+    --avatar-text-bg: rgba(245, 232, 199, 0.2); 
+    --avatar-text-color: var(--cream-color);
+    --detail-box-border: var(--mid-blue-gray);
+    --detail-box-bg: var(--dark-purple);
+    --detail-label-color: var(--light-blue-gray);
+    --detail-text-color: var(--cream-color);
+    --social-stats-container-bg: var(--dark-blue-secondary);
+    --social-stats-container-shadow: rgba(0,0,0,0.3);
+    --stat-category-color: var(--cream-color);
+    --stat-value-bubble-bg: var(--dark-purple);
+    --stat-value-bubble-border: var(--mid-blue-gray);
+    --stat-value-bubble-color: var(--cream-color);
+    --stat-value-bubble-shadow: rgba(0,0,0,0.2);
+    --stat-item-bg: var(--dark-purple);
+    --stat-item-border: var(--mid-blue-gray);
+    --stat-item-color: var(--dark-blue-lighter);
 
-    --footer-bg: #222;
-    --footer-text: #aaa;
-    --footer-brand-p-color: #888;
-    --footer-link-color: #f0f0f0;
-    --divider-color: #444;
-    --footer-bottom-text: #888;
-    --highlight-color: #ff9999;
-    --social-icon-color: #f0f0f0;
+    --section-title-color: var(--cream-color);
+    --recipe-card-bg: var(--dark-blue-secondary);
+    --recipe-card-shadow: rgba(0,0,0,0.3);
+    --card-title-color: var(--cream-color);
+    --card-meta-color: var(--light-blue-gray);
+    --favorite-button-bg: var(--dark-purple);
+    --favorite-button-shadow: rgba(0,0,0,0.2);
+    --favorite-icon-color: var(--mid-blue-gray);
+    --favorite-icon-active: #ff6666; 
+    --see-more-button-bg: var(--mid-blue-gray);
+    --see-more-button-text: var(--cream-color);
+    --see-more-button-hover-bg: var(--dark-purple);
+
+    --footer-bg: var(--dark-blue-main);
+    --footer-text: var(--cream-color);
+    --footer-brand-p-color: var(--light-blue-gray);
+    --footer-link-color: var(--cream-color);
+    --divider-color: var(--mid-blue-gray);
+    --footer-bottom-text: var(--light-blue-gray);
+    --highlight-color: var(--dark-blue-lighter);
+    --social-icon-color: var(--cream-color);
+
+    .category-card img,
+    .social-stats-bubble img,
+    .card-meta img {
+        filter: invert(1); 
+    }
 }
 
 * {
