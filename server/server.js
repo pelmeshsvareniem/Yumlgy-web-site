@@ -31,7 +31,6 @@ app.get('/', (req, res) => {
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const uploadPath = path.join(__dirname, 'uploads/');
-        // Ensure the uploads directory exists
         if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath, { recursive: true });
         }
@@ -285,8 +284,6 @@ app.post('/recipes', upload.fields([
 
         const imageUrl = recipeImageFile ? `/uploaded_images/${recipeImageFile.filename}` : null;
         const directionImageUrls = directionImageFiles.map(file => `/uploaded_images/${file.filename}`);
-        // Note: directionImageUrls are not currently stored in the DB.
-        // You'd need a separate table or a JSON column for complex storage.
 
         if (!userId) {
             return res.status(400).json({ message: 'User ID is required to create a recipe.' });
@@ -314,9 +311,9 @@ app.post('/recipes', upload.fields([
     }
 });
 
-// --- NEW: GET SINGLE RECIPE ENDPOINT ---
+// --- GET SINGLE RECIPE ENDPOINT ---
 app.get('/recipes/:id', async (req, res) => {
-    const { id } = req.params; // This is the recipe ID
+    const { id } = req.params;
 
     try {
         const [recipes] = await pool.execute(
@@ -341,28 +338,54 @@ app.get('/recipes/:id', async (req, res) => {
     }
 });
 
-// --- NEW: DELETE RECIPE ENDPOINT ---
+// --- NEW: GET ALL RECIPES ENDPOINT with optional search ---
+app.get('/recipes', async (req, res) => {
+    const searchQuery = req.query.search; // Get the search query from URL parameters
+
+    let sql = `SELECT r.id, r.name, r.prep_time, r.cooking_time, r.tags, r.image_url, u.name as author_name
+               FROM recipes r
+               JOIN users u ON r.user_id = u.id`;
+    let queryParams = [];
+
+    if (searchQuery) {
+        // Add WHERE clause for search, searching across name, description, and tags
+        sql += ` WHERE r.name LIKE ? OR r.description LIKE ? OR r.tags LIKE ?`;
+        const searchTerm = `%${searchQuery}%`;
+        queryParams.push(searchTerm, searchTerm, searchTerm);
+    }
+
+    sql += ` ORDER BY r.created_at DESC`; // Order by most recent
+
+    try {
+        const [recipes] = await pool.execute(sql, queryParams);
+        res.status(200).json({ recipes });
+    } catch (error) {
+        console.error('Error fetching all recipes:', error);
+        res.status(500).json({ message: 'Failed to fetch recipes. Server error.' });
+    }
+});
+
+
+// --- DELETE RECIPE ENDPOINT ---
 app.delete('/recipes/:id', async (req, res) => {
-    const { id } = req.params; // This is the recipe ID
-    const { userId } = req.body; // Expect userId from the client for authorization
+    const { id } = req.params;
+    const { userId } = req.body;
 
     if (!userId) {
         return res.status(401).json({ message: 'Unauthorized: User ID is required for deletion.' });
     }
 
     try {
-        // First, verify that the logged-in user is the owner of the recipe
         const [recipe] = await pool.execute('SELECT user_id, image_url FROM recipes WHERE id = ?', [id]);
 
         if (recipe.length === 0) {
             return res.status(404).json({ message: 'Recipe not found.' });
         }
 
-        if (recipe[0].user_id !== parseInt(userId)) { // Ensure userId is parsed to int for comparison
+        if (recipe[0].user_id !== parseInt(userId)) {
             return res.status(403).json({ message: 'Forbidden: You do not have permission to delete this recipe.' });
         }
 
-        // If the recipe has an image, delete the image file from the server
         if (recipe[0].image_url) {
             const imagePath = path.join(__dirname, recipe[0].image_url.replace('/uploaded_images/', 'uploads/'));
             if (fs.existsSync(imagePath)) {
@@ -373,11 +396,9 @@ app.delete('/recipes/:id', async (req, res) => {
             }
         }
 
-        // Delete the recipe from the database
         const [result] = await pool.execute('DELETE FROM recipes WHERE id = ?', [id]);
 
         if (result.affectedRows === 0) {
-            // This case should ideally not be hit if checks above pass, but good for robustness
             return res.status(404).json({ message: 'Recipe not found or already deleted.' });
         }
 
