@@ -358,22 +358,22 @@ nav ul li a {
 }
 
 .recipe-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* More standard sizing */
-  gap: 30px;
-  justify-content: center;
+  display: flex;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .recipe-card {
   background: var(--recipe-card-bg-light);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 12px var(--header-shadow-light); /* Consistent shadow */
+  box-shadow: 0 4px 12px var(--header-shadow-light);
   transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-  display: flex; /* Flex container for content */
+  display: flex;
+  width: 300px;
   flex-direction: column;
-
-  
 }
 
 .recipe-card:hover {
@@ -383,7 +383,7 @@ nav ul li a {
 
 .recipe-card .card-content {
   padding: 20px;
-  flex-grow: 1; /* Allow content to grow */
+  flex-grow: 1;
   text-align: left;
 }
 
@@ -394,7 +394,6 @@ nav ul li a {
   background-position: center;
   border-bottom: 1px solid rgba(0,0,0,0.05);
 }
-
 
 .recipe-card .recipe-name {
   font-size: 20px;
@@ -422,8 +421,9 @@ nav ul li a {
   border-radius: 12px;
   font-size: 13px;
   color: var(--tag-text-light);
-  white-space: nowrap; /* Prevent tags from breaking */
+  white-space: nowrap;
 }
+
 
 /* --- POPULAR TAGS SECTION --- */
 .popular-tags-section {
