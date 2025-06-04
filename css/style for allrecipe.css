@@ -1,10 +1,5 @@
- @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
-
-/* main.css */
-
 @import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Judson:ital,wght@0,400;0,700;1,400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-/* Define CSS Variables for colors */
 :root {
   
     --font-family-primary: 'Inter', sans-serif;
@@ -143,10 +138,6 @@ nav ul li a {
     color: var(--btn-profile-text-light);
     font-weight: 500;
 }
-.dark-mode .logo-image {
-  filter: var(--logo-filter-dark, invert(1)); /* Example for dark mode if logo is dark */
-}
-
 
 .main-nav .nav-list {
   list-style: none;
@@ -305,14 +296,14 @@ nav ul li a {
 
 /* --- CATEGORIES SECTION --- */
 .categories-section {
-  padding: 60px 0;
+  padding: 60px 40px;
   text-align: center;
-  background-color: var(--bg-color-light); /* Main background color */
+  background-color: var(--bg-color-light); 
 }
 
 .category-grid {
-  display: grid; /* Use grid for better control over layout */
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
   gap: 30px;
   justify-content: center;
   margin-top: 40px;
@@ -321,26 +312,26 @@ nav ul li a {
 .category-card {
   background: var(--category-card-bg-light);
   border-radius: 12px;
-  padding: 25px; /* Increased padding */
+  padding: 25px; 
   text-align: center;
   box-shadow: 0 4px 10px var(--category-card-shadow-light);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 180px; /* Ensure cards have some height */
+  min-height: 180px;
   transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-  color: var(--text-color-light); /* Inherit text color */
+  color: var(--text-color-light);
 }
 
 .category-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 8px 15px var(--category-card-shadow-light);
-  background-color: var(--hero-bg-light); /* Slightly different background on hover */
+  background-color: var(--hero-bg-light); 
 }
 
 .category-card .card-title {
-  font-size: 22px; /* Larger title */
+  font-size: 22px; 
   font-weight: 600;
   margin-bottom: 10px;
   color: var(--text-color-light);
@@ -354,7 +345,7 @@ nav ul li a {
 
 /* --- LATEST RECIPES SECTION --- */
 .latest-recipes-section {
-  padding: 60px 0;
+  padding: 60px 40px;
   background-color: var(--recipes-section-bg-light); /* Section background */
   text-align: center;
 }
