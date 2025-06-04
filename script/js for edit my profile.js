@@ -3,21 +3,56 @@ document.addEventListener('DOMContentLoaded', async () => {
     const profileImageUpload = document.getElementById('profile-image-upload');
     const profileImageDisplay = document.getElementById('profile-image-display');
 
-    const editProfileForm = document.getElementById('editProfileForm'); // The form element
+    const editProfileForm = document.getElementById('editProfileForm');
     const nameInput = document.getElementById('name');
-    // Removed surnameInput as it's not in DB
     const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password'); // For new password
+    const passwordInput = document.getElementById('password');
     const descriptionTextarea = document.getElementById('description');
     const tagCheckboxes = document.querySelectorAll('.checkbox-group input[type="checkbox"]');
-    const feedbackMessage = document.getElementById('feedbackMessage'); // For displaying messages
+    const feedbackMessage = document.getElementById('feedbackMessage');
 
     const userId = localStorage.getItem('userId');
+
+    // --- Dark Mode Toggle Functionality ---
+    const darkModeToggle = document.getElementById('darkModeToggle');
+
+    function applyTheme(theme) {
+        document.body.classList.toggle('dark-mode', theme === 'dark');
+        // Add any other elements that need dark mode styling toggled here
+    }
+
+    // Load saved theme preference on page load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        applyTheme(savedTheme);
+        if (darkModeToggle) {
+            darkModeToggle.textContent = savedTheme === 'dark' ? 'Light mode' : 'Dark mode';
+        }
+    } else {
+        // Default to light mode if no preference saved
+        applyTheme('light');
+        if (darkModeToggle) {
+            darkModeToggle.textContent = 'Dark mode';
+        }
+    }
+
+    // Add event listener for the toggle button
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme); // Save preference
+            darkModeToggle.textContent = newTheme === 'dark' ? 'Light mode' : 'Dark mode';
+        });
+    }
+    // --- END Dark Mode Toggle Functionality ---
+
 
     // --- Redirect if not logged in ---
     if (!userId) {
         alert('You need to be logged in to edit your profile.');
-        window.location.href = 'login-password/login.html'; // Adjust path if necessary
+        window.location.href = 'login-password/login.html';
         return;
     }
 
@@ -31,7 +66,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const user = data.user;
                 if (nameInput) nameInput.value = user.name || '';
                 if (emailInput) emailInput.value = user.email || '';
-                // Password field is intentionally left empty for security, it's for new password only
                 if (descriptionTextarea) descriptionTextarea.value = user.description || '';
 
                 // Set profile image
@@ -54,7 +88,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         }
                     });
                 } else {
-                    // If no favorite tags, ensure all are unchecked
                     tagCheckboxes.forEach(checkbox => {
                         checkbox.checked = false;
                     });
@@ -72,25 +105,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    fetchProfileData(); // Call this function to load data when the page loads
+    fetchProfileData();
 
     // --- Image Upload Preview Logic ---
     if (editPhotoButton && profileImageUpload && profileImageDisplay) {
         editPhotoButton.addEventListener('click', () => {
-            profileImageUpload.click(); // Trigger the hidden file input
+            profileImageUpload.click();
         });
 
         profileImageUpload.addEventListener('change', (event) => {
             const file = event.target.files[0];
-
             if (file) {
                 const reader = new FileReader();
-
                 reader.onload = (e) => {
-                    profileImageDisplay.src = e.target.result; // Display the selected image
+                    profileImageDisplay.src = e.target.result;
                     console.log('Image selected for preview:', file.name);
                 };
-
                 reader.readAsDataURL(file);
             }
         });
@@ -99,14 +129,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- Form Submission Logic ---
     if (editProfileForm) {
         editProfileForm.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault();
 
             feedbackMessage.textContent = 'Updating profile...';
             feedbackMessage.style.color = 'orange';
 
             const formData = new FormData();
             formData.append('name', nameInput.value.trim());
-            formData.append('email', emailInput.value.trim()); // Email sent as is (read-only for now)
+            formData.append('email', emailInput.value.trim());
             formData.append('description', descriptionTextarea.value.trim());
 
             const selectedTags = Array.from(tagCheckboxes)
@@ -115,12 +145,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                                     .join(',');
             formData.append('favoriteTags', selectedTags);
 
-            // Append password only if it's not empty
             if (passwordInput.value.trim() !== '') {
                 formData.append('password', passwordInput.value.trim());
             }
 
-            // Append the selected profile image file
             const imageFile = profileImageUpload.files[0];
             if (imageFile) {
                 formData.append('profilePicture', imageFile);
@@ -129,8 +157,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const response = await fetch(`http://localhost:3000/profile/${userId}`, {
                     method: 'PUT',
-                    // When using FormData, Content-Type header is automatically set to multipart/form-data
-                    // Do NOT manually set 'Content-Type': 'application/json'
                     body: formData
                 });
 
@@ -140,13 +166,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     feedbackMessage.textContent = data.message || 'Profile updated successfully!';
                     feedbackMessage.style.color = 'green';
 
-                    // Update localStorage with new user data for My profile.html
                     localStorage.setItem('userName', data.user.name);
                     localStorage.setItem('userDescription', data.user.description);
                     localStorage.setItem('userFavoriteTags', data.user.favoriteTags);
                     localStorage.setItem('userProfileImageUrl', data.user.profileImageUrl);
 
-                    // Redirect back to My profile.html after a short delay
                     setTimeout(() => {
                         window.location.href = 'My profile.html';
                     }, 1500);

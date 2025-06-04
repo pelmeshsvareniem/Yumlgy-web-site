@@ -32,6 +32,42 @@ document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const recipeId = urlParams.get('id');
 
+    // --- Dark Mode Toggle Functionality ---
+    const darkModeToggle = document.getElementById('darkModeToggle');
+
+    function applyTheme(theme) {
+        document.body.classList.toggle('dark-mode', theme === 'dark');
+        // Add any other elements that need dark mode styling toggled here
+    }
+
+    // Load saved theme preference on page load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        applyTheme(savedTheme);
+        if (darkModeToggle) {
+            darkModeToggle.textContent = savedTheme === 'dark' ? 'Light mode' : 'Dark mode';
+        }
+    } else {
+        // Default to light mode if no preference saved
+        applyTheme('light');
+        if (darkModeToggle) {
+            darkModeToggle.textContent = 'Dark mode';
+        }
+    }
+
+    // Add event listener for the toggle button
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme); // Save preference
+            darkModeToggle.textContent = newTheme === 'dark' ? 'Light mode' : 'Dark mode';
+        });
+    }
+    // --- END Dark Mode Toggle Functionality ---
+
+
     if (!recipeId) {
         alert('Recipe ID not found in URL. Redirecting to home.');
         window.location.href = 'index.html';
@@ -86,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             ul.appendChild(li);
                         });
                         ingredientsListElement.appendChild(ul);
-                        attachCheckboxListeners(); // Re-attach checkbox listeners
+                        attachCheckboxListeners();
                     } else {
                         ingredientsListElement.innerHTML += '<p>No ingredients listed.</p>';
                     }
@@ -170,7 +206,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- Function to handle recipe export ---
     function exportRecipe(format) {
         const exportUrl = `http://localhost:3000/recipes/${recipeId}/export/${format}`;
-        // Trigger download by setting window.location.href
         window.location.href = exportUrl;
     }
 
@@ -189,7 +224,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- Existing Play Button Interaction (placeholder) ---
-    const playButtonElement = document.querySelector('.play-button'); // Renamed to avoid conflict if 'playButton' was global
+    const playButtonElement = document.querySelector('.play-button');
     if (playButtonElement) {
         playButtonElement.addEventListener('click', () => {
             alert('Play video functionality would go here!');

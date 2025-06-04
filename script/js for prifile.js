@@ -11,18 +11,54 @@ document.addEventListener('DOMContentLoaded', async () => {
     const myRecipesGrid = document.querySelector('.content-area .recipe-grid:first-of-type');
     const savedRecipesGrid = document.querySelector('.content-area .recipe-grid:last-of-type');
 
+    // --- Dark Mode Toggle Functionality ---
+    const darkModeToggle = document.getElementById('darkModeToggle');
+
+    function applyTheme(theme) {
+        document.body.classList.toggle('dark-mode', theme === 'dark');
+        // Add any other elements that need dark mode styling toggled here
+    }
+
+    // Load saved theme preference on page load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        applyTheme(savedTheme);
+        if (darkModeToggle) {
+            darkModeToggle.textContent = savedTheme === 'dark' ? 'Light mode' : 'Dark mode';
+        }
+    } else {
+        // Default to light mode if no preference saved
+        applyTheme('light');
+        if (darkModeToggle) {
+            darkModeToggle.textContent = 'Dark mode';
+        }
+    }
+
+    // Add event listener for the toggle button
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme); // Save preference
+            darkModeToggle.textContent = newTheme === 'dark' ? 'Light mode' : 'Dark mode';
+        });
+    }
+    // --- END Dark Mode Toggle Functionality ---
+
+
     // Redirect if not logged in
     if (!userId) {
         alert('You need to be logged in to view your profile.');
-        window.location.href = 'login-password/login.html'; // Adjust this path if needed
-        return; // Stop execution
+        window.location.href = 'login-password/login.html';
+        return;
     }
 
     try {
         const response = await fetch(`http://localhost:3000/profile/${userId}`);
         const data = await response.json();
 
-        if (response.ok && data.user) { // Ensure response is OK and user data exists
+        if (response.ok && data.user) {
             const user = data.user;
             const myRecipes = data.myRecipes;
             // const savedRecipes = data.savedRecipes; // Will be empty for now from backend
@@ -33,31 +69,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (userDescriptionElement) userDescriptionElement.textContent = user.description || 'No description provided yet.';
             if (userFavoriteTagsElement) userFavoriteTagsElement.textContent = user.favoriteTags || 'No favorite tags set.';
 
-            // --- CORRECTED PROFILE IMAGE DISPLAY LOGIC ---
             if (profileAvatarImg) {
                 if (user.profileImageUrl) {
-                    // Prepend the base URL for the image
                     profileAvatarImg.src = `http://localhost:3000${user.profileImageUrl}`;
                 } else {
-                    // Fallback to default if no profile image URL is present
                     profileAvatarImg.src = 'Image/pelmeshek.jpg';
                 }
             }
-            // --- END OF CORRECTED PROFILE IMAGE DISPLAY LOGIC ---
 
             // Update posts count
             if (postsCountBubble) {
-                postsCountBubble.textContent = data.postsCount || '0'; // Default to '0' if no count
+                postsCountBubble.textContent = data.postsCount || '0';
             }
 
             // Populate My Recipes
             if (myRecipesGrid) {
-                myRecipesGrid.innerHTML = ''; // Clear existing static cards
-                if (myRecipes && myRecipes.length > 0) { // Check if myRecipes array exists and has items
+                myRecipesGrid.innerHTML = '';
+                if (myRecipes && myRecipes.length > 0) {
                     myRecipes.forEach(recipe => {
-                        const recipeCardLink = document.createElement('a'); // Create an anchor element
-                        recipeCardLink.href = `uploaded_recipe.html?id=${recipe.id}`; // Link to the new page with recipe ID
-                        recipeCardLink.classList.add('recipe-card-link'); // Add a class for styling if needed
+                        const recipeCardLink = document.createElement('a');
+                        recipeCardLink.href = `uploaded_recipe.html?id=${recipe.id}`;
+                        recipeCardLink.classList.add('recipe-card-link');
 
                         const recipeCard = document.createElement('div');
                         recipeCard.classList.add('recipe-card');
@@ -75,8 +107,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                             </div>
                             <button class="favorite-button" data-recipe-id="${recipe.id}"><i class='bx bxs-heart'></i></button>
                         `;
-                        recipeCardLink.appendChild(recipeCard); // Append the card to the link
-                        myRecipesGrid.appendChild(recipeCardLink); // Append the link to the grid
+                        recipeCardLink.appendChild(recipeCard);
+                        myRecipesGrid.appendChild(recipeCardLink);
                     });
                 } else {
                     myRecipesGrid.innerHTML = '<p>No recipes uploaded yet.</p>';
@@ -85,15 +117,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             // Populate Saved Recipes (currently empty from backend)
             if (savedRecipesGrid) {
-                // Assuming savedRecipes is an array from your backend, even if empty
-                // if (data.savedRecipes && data.savedRecipes.length > 0) {
-                //     savedRecipesGrid.innerHTML = ''; // Clear existing static cards
-                //     data.savedRecipes.forEach(recipe => {
-                //         // Add logic to create saved recipe cards similar to myRecipes
-                //     });
-                // } else {
-                    savedRecipesGrid.innerHTML = '<p>No saved recipes yet.</p>';
-                // }
+                savedRecipesGrid.innerHTML = '<p>No saved recipes yet.</p>';
             }
 
         } else {
@@ -106,25 +130,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- Event Delegation for Favorite Buttons ---
-    // This is more robust as it works for dynamically added elements
     document.querySelector('.main-content').addEventListener('click', (event) => {
         if (event.target.closest('.favorite-button')) {
             const button = event.target.closest('.favorite-button');
-            const recipeId = button.dataset.recipeId; // Get recipe ID from data attribute
+            const recipeId = button.dataset.recipeId;
 
-            // Toggle favorite state (visual feedback)
-            button.classList.toggle('active'); // You might need CSS for .active class
+            button.classList.toggle('active');
 
-            // Example: Change heart icon fill based on active state
             const heartIcon = button.querySelector('.bx.bxs-heart');
             if (button.classList.contains('active')) {
                 console.log(`Recipe ${recipeId} added to favorites!`);
-                if (heartIcon) heartIcon.style.color = '#ff0000'; // Red heart
-                // TODO: Send request to backend to save favorite (e.g., fetch POST)
+                if (heartIcon) heartIcon.style.color = '#ff0000';
             } else {
                 console.log(`Recipe ${recipeId} removed from favorites!`);
-                if (heartIcon) heartIcon.style.color = ''; // Reset to default color
-                // TODO: Send request to backend to remove favorite (e.g., fetch DELETE)
+                if (heartIcon) heartIcon.style.color = '';
             }
         }
     });
@@ -133,29 +152,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const logoutButton = document.getElementById('logoutButton');
     if (logoutButton) {
         logoutButton.addEventListener('click', () => {
-            // Clear all relevant localStorage items
             localStorage.removeItem('userId');
             localStorage.removeItem('userName');
             localStorage.removeItem('userDescription');
             localStorage.removeItem('userFavoriteTags');
-            localStorage.removeItem('userProfileImageUrl'); // Clear image URL on logout too
+            localStorage.removeItem('userProfileImageUrl');
 
             alert('You have been logged out.');
-            window.location.href = 'index.html'; // Redirect to home or login page
+            window.location.href = 'index.html';
         });
     }
-
-    // You also have an "Edit profile" button in the sidebar (a href to edit my profile.html)
-    // and another one in the bottom profile-actions. Make sure they point to the correct file.
-    // The current HTML links are correct:
-    // <a href="edit my profile.html"><button class="see-more-button">Edit profile</button></a>
-    // <button class="see-more-button"><a href="edit_profile.html" id="editProfileButton">Edit Profile</a></button>
-    // Note: The second one should likely be <a href="edit_profile.html" class="see-more-button" id="editProfileButton">Edit Profile</a> to make the whole button clickable.
 });
-
-
-
-function myFunction() {
-    var element = document.body;
-    element.classList.toggle("dark-mode");
-  }

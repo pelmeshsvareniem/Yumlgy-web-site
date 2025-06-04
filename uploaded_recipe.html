@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Recipe | Yumlogy</title>
     <link rel="stylesheet" href="css/style for uploaded recipe.css">
-    <!-- Defer loading of JS until after HTML is parsed -->
     <script src="script/js for uploaded recipe.js" defer></script>
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
-    <!-- Font Awesome for fas icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
@@ -24,6 +22,7 @@
                 <li><a href="#">About us</a></li>
             </ul>
         </nav>
+        <button id="darkModeToggle" class="btn-profile">Dark mode</button> <!-- ADDED DARK MODE TOGGLE -->
         <a class="btn-profile" href="login-password/login.html">My profile</a>
     </header>
 
@@ -50,14 +49,12 @@
                 </button>
             </div>
             <div class="header-actions">
-                <!-- Export Buttons Added Here -->
                 <button class="export-button" id="exportCsvButton" title="Export as CSV">
                     <i class='bx bx-file'></i> CSV
                 </button>
                 <button class="export-button" id="exportJsonButton" title="Export as JSON">
                     <i class='bx bx-code-alt'></i> JSON
                 </button>
-                <!-- Original static icons -->
                 <i class="fas fa-bell"></i>
                 <i class="fas fa-upload"></i>
                 <i class="fas fa-share-alt"></i>
@@ -109,19 +106,16 @@
                 <div class="ingredients">
                     <h2>Ingredients</h2>
                     <div class="ingredient-section" id="ingredientsList">
-                        <!-- Ingredients will be dynamically populated here -->
                         <h3>For main dish</h3>
                         <ul>
                             <li><label class="checkbox-container"><input type="checkbox"><span class="checkmark"></span>Brown rice, cooked and cooled</label></li>
                             <li><label class="checkbox-container"><input type="checkbox"><span class="checkmark"></span>Eggs</label></li>
-                            <!-- ... more static ingredients ... -->
                         </ul>
                     </div>
                 </div>
 
                 <div class="other-recipes">
                     <h2>Other Recipe</h2>
-                    <!-- Other recipes will be dynamically populated or removed if not needed -->
                     <div class="other-recipe-card">
                         <img src="Image/Chicken-Meatball.jpg" alt="Chicken Meatball">
                         <div class="recipe-text">
@@ -129,7 +123,6 @@
                             <p>By Pelmeshek s vareniem</p>
                         </div>
                     </div>
-                    <!-- ... more static other recipes ... -->
                     <div class="ad-banner">
                         <p>Don't forget to eat</p>
                         <h3>Healthy Food</h3>
@@ -142,13 +135,11 @@
             <section class="directions">
                 <h2>Directions</h2>
                 <div id="directionsList">
-                    <!-- Directions will be dynamically populated here -->
                     <div class="direction-step">
                         <h3>1. Lorem ipsum dolor sit amet</h3>
                         <p>Heat ½ tsp of butter in a large skillet or wok over medium-high heat. Add eggs to the hot pan and scramble, stirring occasionally until cooked through. Remove from pan and set aside.</p>
                         <img src="Image/recipe img/Hibachi-Fried-Rice-01.jpeg" alt="Cooking Step">
                     </div>
-                    <!-- ... more static directions ... -->
                 </div>
             </section>
         </main>
