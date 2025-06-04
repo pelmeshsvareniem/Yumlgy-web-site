@@ -1,5 +1,115 @@
 @import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Judson:ital,wght@0,400;0,700;1,400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+:root {
+    /* Base Fonts - Imported at the top */
+
+    /* Light Mode Colors (Default) */
+    --bg-color: #fff;
+    --text-color: #000;
+    --header-bg: #fff;
+    --header-shadow: rgba(0,0,0,0.05);
+    --link-color-header: #222;
+    --btn-profile-bg: #d4f1f9;
+    --btn-profile-text: #000;
+
+    --sidebar-bg: #fff;
+    --sidebar-shadow: rgba(0,0,0,0.08);
+    --profile-header-text: #333;
+    --profile-avatar-border: #eee;
+    --avatar-text-bg: rgba(0, 0, 0, 0.7);
+    --avatar-text-color: #fff;
+    --detail-box-border: #ddd;
+    --detail-box-bg: #f9f9f9;
+    --detail-label-color: #777;
+    --detail-text-color: #333;
+    --social-stats-container-bg: #e8f0fe;
+    --social-stats-container-shadow: rgba(0,0,0,0.05);
+    --stat-category-color: #333;
+    --stat-value-bubble-bg: #fff;
+    --stat-value-bubble-border: #d0e0fb;
+    --stat-value-bubble-color: #333;
+    --stat-value-bubble-shadow: rgba(0,0,0,0.08);
+    --stat-item-bg: #e8f0fe;
+    --stat-item-border: #d0e0fb;
+    --stat-item-color: #007bff;
+
+    --section-title-color: #333;
+    --recipe-card-bg: #fff;
+    --recipe-card-shadow: rgba(0,0,0,0.08);
+    --card-title-color: #333;
+    --card-meta-color: #777;
+    --favorite-button-bg: #fff;
+    --favorite-button-shadow: rgba(0,0,0,0.1);
+    --favorite-icon-color: #ccc;
+    --favorite-icon-active: #ff0000;
+    --see-more-button-bg: #333;
+    --see-more-button-text: #fff;
+    --see-more-button-hover-bg: #000;
+
+    --footer-bg: #fff;
+    --footer-text: #333;
+    --footer-brand-p-color: #888;
+    --footer-link-color: #000;
+    --divider-color: #eee;
+    --footer-bottom-text: #555;
+    --highlight-color: #ff6b6b;
+    --social-icon-color: #000;
+}
+
+/* Dark Mode Overrides (for manual toggle) */
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --header-bg: #222;
+    --header-shadow: rgba(255,255,255,0.05);
+    --link-color-header: #f0f0f0;
+    --btn-profile-bg: #555;
+    --btn-profile-text: #f0f0f0;
+
+    --sidebar-bg: #222;
+    --sidebar-shadow: rgba(255,255,255,0.08);
+    --profile-header-text: #f0f0f0;
+    --profile-avatar-border: #333;
+    --avatar-text-bg: rgba(255, 255, 255, 0.2);
+    --avatar-text-color: #f0f0f0;
+    --detail-box-border: #333;
+    --detail-box-bg: #2b2b2b;
+    --detail-label-color: #aaa;
+    --detail-text-color: #f0f0f0;
+    --social-stats-container-bg: #333;
+    --social-stats-container-shadow: rgba(255,255,255,0.05);
+    --stat-category-color: #f0f0f0;
+    --stat-value-bubble-bg: #444;
+    --stat-value-bubble-border: #555;
+    --stat-value-bubble-color: #f0f0f0;
+    --stat-value-bubble-shadow: rgba(255,255,255,0.08);
+    --stat-item-bg: #333;
+    --stat-item-border: #444;
+    --stat-item-color: #90bfff;
+
+    --section-title-color: #f0f0f0;
+    --recipe-card-bg: #222;
+    --recipe-card-shadow: rgba(255,255,255,0.08);
+    --card-title-color: #f0f0f0;
+    --card-meta-color: #aaa;
+    --favorite-button-bg: #333;
+    --favorite-button-shadow: rgba(255,255,255,0.1);
+    --favorite-icon-color: #666;
+    --favorite-icon-active: #ff6666;
+    --see-more-button-bg: #555;
+    --see-more-button-text: #f0f0f0;
+    --see-more-button-hover-bg: #666;
+
+    --footer-bg: #222;
+    --footer-text: #aaa;
+    --footer-brand-p-color: #888;
+    --footer-link-color: #f0f0f0;
+    --divider-color: #444;
+    --footer-bottom-text: #888;
+    --highlight-color: #ff9999;
+    --social-icon-color: #f0f0f0;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,14 +119,14 @@
 body {
     font-family: "Inter", sans-serif;
     font-weight: 400;
-    background: #fff;
-    color: #000;
+    background: var(--bg-color);
+    color: var(--text-color);
     line-height: 1.6;
 }
 
 a {
     text-decoration: none;
-    color: #fff;
+    color: inherit; 
 }
 
 img {
@@ -24,56 +134,62 @@ img {
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 60px;
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    background-color: var(--header-bg);
+    box-shadow: 0 2px 8px var(--header-shadow);
 }
 
 .logo {
-  font-weight: bold;
-  font-size: 24px;
+    font-weight: bold;
+    font-size: 24px;
+    color: var(--text-color); 
 }
+
 nav ul {
-  list-style: none;
-  display: flex;
-  gap: 25px;
+    list-style: none;
+    display: flex;
+    gap: 25px;
 }
+
 nav ul li a {
-  text-decoration: none;
-  color: #222;
-  font-weight: 500;
+    text-decoration: none;
+    color: var(--link-color-header);
+    font-weight: 500;
 }
+
 .btn-profile {
-  background-color: #d4f1f9;
-  padding: 8px 14px;
-  border-radius: 6px;
-  text-decoration: none;
-  color: #000;
-  font-weight: 500;
+    background-color: var(--btn-profile-bg);
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--btn-profile-text);
+    font-weight: 500;
 }
-  
+ 
+
 .main-content {
     display: flex;
     padding: 30px 50px;
     gap: 30px; 
 }
 
+
 .sidebar {
     flex: 0 0 280px; 
-    background-color: #fff;
+    background-color: var(--sidebar-bg);
     border-radius: 10px;
     padding: 25px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px var(--sidebar-shadow);
 }
 
 .profile-header h2 {
     font-size: 1.8em;
     font-weight: 600;
     margin-bottom: 25px;
-    color: #333;
+    color: var(--profile-header-text);
 }
 
 .profile-avatar {
@@ -83,7 +199,7 @@ nav ul li a {
     margin: 0 auto 30px auto;
     border-radius: 50%;
     overflow: hidden;
-    border: 3px solid #eee; 
+    border: 3px solid var(--profile-avatar-border); 
 }
 
 .profile-avatar img {
@@ -96,8 +212,8 @@ nav ul li a {
     position: absolute;
     bottom: 10px;
     right: -20px; 
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
+    background-color: var(--avatar-text-bg);
+    color: var(--avatar-text-color);
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 0.8em;
@@ -105,35 +221,34 @@ nav ul li a {
     transform: rotate(-10deg);
 }
 
-
 .profile-details .detail-box {
-    border: 1px solid #ddd;
+    border: 1px solid var(--detail-box-border);
     border-radius: 8px;
     padding: 12px 15px;
     margin-bottom: 15px;
-    background-color: #f9f9f9;
+    background-color: var(--detail-box-bg);
 }
 
 .profile-details .detail-label {
     font-size: 0.85em;
-    color: #777;
+    color: var(--detail-label-color);
     margin-bottom: 5px;
 }
 
 .profile-details .detail-text {
     font-size: 0.95em;
-    color: #333;
+    color: var(--detail-text-color);
 }
 
 .social-stats-container {
-    background-color: #e8f0fe; 
+    background-color: var(--social-stats-container-bg); 
     border-radius: 15px; 
     padding: 20px 15px; 
     margin-top: 30px; 
     display: flex; 
     justify-content: space-around; 
     align-items: center; 
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
+    box-shadow: 0 2px 8px var(--social-stats-container-shadow); 
 }
 
 .social-stats-bubble {
@@ -146,13 +261,13 @@ nav ul li a {
 .stat-category {
     font-size: 1em; 
     font-weight: 500;
-    color: #333; 
+    color: var(--stat-category-color); 
     white-space: nowrap; 
 }
 
 .stat-value-bubble {
-    background-color: #fff; 
-    border: 1px solid #d0e0fb; 
+    background-color: var(--stat-value-bubble-bg); 
+    border: 1px solid var(--stat-value-bubble-border); 
     border-radius: 50%; 
     width: 50px; 
     height: 50px; 
@@ -161,21 +276,21 @@ nav ul li a {
     align-items: center;
     font-size: 1.1em; 
     font-weight: 600; 
-    color: #333; 
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08); 
+    color: var(--stat-value-bubble-color); 
+    box-shadow: 0 1px 3px var(--stat-value-bubble-shadow); 
 }
 
 .stat-item {
-    background-color: #e8f0fe; 
-    border: 1px solid #d0e0fb;
+    background-color: var(--stat-item-bg); 
+    border: 1px solid var(--stat-item-border);
     border-radius: 8px;
     padding: 15px;
     font-weight: 500;
-    color: #007bff;
+    color: var(--stat-item-color);
     font-size: 0.9em;
 }
 
-
+/* --- Content Area Styles --- */
 .content-area {
     flex: 1; 
 }
@@ -184,7 +299,7 @@ nav ul li a {
     font-size: 1.6em;
     font-weight: 600;
     margin-bottom: 25px;
-    color: #333;
+    color: var(--section-title-color);
 }
 
 .recipe-grid {
@@ -195,13 +310,12 @@ nav ul li a {
 }
 
 .recipe-card {
-    width: 280px; /* lățime fixă */
-    background-color: #fff;
+
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px var(--recipe-card-shadow);
     overflow: hidden;
     display: flex;
-    width: 300px;
+    width: 300px; /* Consider using max-width for responsiveness */
     flex-direction: column;
 }
 
@@ -223,14 +337,14 @@ nav ul li a {
     font-size: 1.1em;
     font-weight: 600;
     margin-bottom: 10px;
-    color: #333;
+    color: var(--card-title-color);
 }
 
 .card-meta {
     display: flex;
     gap: 15px;
     font-size: 0.85em;
-    color: #777;
+    color: var(--card-meta-color);
 }
 
 .card-meta span {
@@ -248,7 +362,7 @@ nav ul li a {
     position: absolute;
     top: 15px;
     right: 15px;
-    background-color: #fff;
+    background-color: var(--favorite-button-bg);
     border: none;
     border-radius: 50%;
     width: 35px;
@@ -258,18 +372,18 @@ nav ul li a {
     align-items: center;
     font-size: 1.2em;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    color: #ccc; 
+    box-shadow: 0 2px 5px var(--favorite-button-shadow);
+    color: var(--favorite-icon-color); 
     transition: transform 0.2s ease, color 0.3s ease; 
 }
 
 .favorite-button i {
     display: none; 
-    color: #ff0000; 
+    color: var(--favorite-icon-active); 
 }
 
 .favorite-button.active {
-    color: #ff0000; 
+    color: var(--favorite-icon-active); 
 }
 
 .favorite-button.active i {
@@ -286,8 +400,8 @@ nav ul li a {
 }
 
 .see-more-button {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--see-more-button-bg);
+    color: var(--see-more-button-text);
     border: none;
     padding: 12px 25px;
     border-radius: 8px;
@@ -298,86 +412,85 @@ nav ul li a {
 }
 
 .see-more-button:hover {
-    background-color: #000;
+    background-color: var(--see-more-button-hover-bg);
 }
 
-
-
+/* --- Footer Styles --- */
 .footer {
-    background-color: #fff;
+    background-color: var(--footer-bg);
     padding: 40px 60px;
     font-family: sans-serif;
     font-size: 14px;
-    color: #333;
-  }
-  
-  .footer-top {
+    color: var(--footer-text);
+}
+ 
+.footer-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
     gap: 20px;
-  }
-  
-  .footer-brand h2.logo {
+}
+ 
+.footer-brand h2.logo {
     font-family: cursive;
     font-weight: bold;
     margin-bottom: 10px;
-  }
-  
-  .footer-brand p {
-    color: #888;
+    color: var(--footer-text); /* Ensuring logo in footer also adapts */
+}
+ 
+.footer-brand p {
+    color: var(--footer-brand-p-color);
     max-width: 300px;
     line-height: 1.6;
-  }
-  
-  .footer-links {
+}
+ 
+.footer-links {
     list-style: none;
     display: flex;
     gap: 25px;
     padding: 0;
     margin: 0;
-  }
-  
-  .footer-links a {
+}
+ 
+.footer-links a {
     text-decoration: none;
-    color: #000;
+    color: var(--footer-link-color);
     font-weight: 500;
-  }
-  
-  .footer-links a:hover {
+}
+ 
+.footer-links a:hover {
     text-decoration: underline;
-  }
-  
-  .divider {
+}
+ 
+.divider {
     border: none;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--divider-color);
     margin: 30px 0;
-  }
-  
-  .footer-bottom {
+}
+ 
+.footer-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     font-size: 13px;
-    color: #555;
-  }
-  
-  .footer-bottom .highlight {
-    color: #ff6b6b;
+    color: var(--footer-bottom-text);
+}
+ 
+.footer-bottom .highlight {
+    color: var(--highlight-color);
     font-weight: 500;
     text-align: center;
-  }
-  
-  .footer-socials a {
-    color: #000;
+}
+ 
+.footer-socials a {
+    color: var(--social-icon-color);
     text-decoration: none;
     margin-left: 15px;
     font-size: 16px;
-  }
-  
-  .footer-socials a:hover {
-    color: #ff6b6b;
-  }
-  
+}
+ 
+.footer-socials a:hover {
+    color: var(--highlight-color);
+}
