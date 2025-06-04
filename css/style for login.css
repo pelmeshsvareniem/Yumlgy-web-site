@@ -1,4 +1,92 @@
 @import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Judson:ital,wght@0,400;0,700;1,400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+:root {
+    /* Font Families */
+    --font-family-primary: 'Poppins', sans-serif; /* Adjusted to Poppins as used in * selector */
+    --font-family-brand: 'Judson', serif;
+
+    /* Light Mode Colors */
+    --bg-color-light: #f9fbfd;
+    --text-color-light: #222;
+    --header-bg-light: #fff;
+    --header-shadow-light: rgba(0,0,0,0.05);
+    --hero-bg-light: #eafaff; /* Not directly used here, but good to keep */
+    --hero-text-color-light: #555; /* Not directly used here, but good to keep */
+    --tag-bg-light: #fff; /* Not directly used here, but good to keep */
+    --tag-text-light: #333; /* Not directly used here, but good to keep */
+    --btn-primary-bg-light: #000; /* For main buttons like Login */
+    --btn-primary-text-light: #fff;
+    --btn-profile-bg-light: #d4f1f9; /* For profile-like buttons, not used on login */
+    --btn-profile-text-light: #000; /* For profile-like buttons, not used on login */
+    --category-card-bg-light: #fff; /* Not directly used here, but good to keep */
+    --category-card-shadow-light: rgba(0,0,0,0.1); /* Not directly used here, but good to keep */
+    --recipes-section-bg-light: #fff; /* Not directly used here, but good to keep */
+    --recipes-section-text-light: #666; /* Not directly used here, but good to keep */
+    --recipe-card-bg-light: #f5f5f5; /* Used for input backgrounds */
+    --recipe-card-text-light: #333; /* Not directly used here, but good to keep */
+    --recipe-meta-text-light: #777; /* Used for placeholder text and icons */
+    --divider-color-light: #eee; /* Used for input borders */
+    --footer-bg-light: #fff; /* Not directly used here, but good to keep */
+    --footer-text-color-light: #333; /* Not directly used here, but good to keep */
+    --footer-light-text-color: #888; /* Not directly used here, but good to keep */
+    --footer-link-color-light: #000; /* Used for links */
+    --footer-bottom-text-light: #555; /* Not directly used here, but good to keep */
+    --highlight-color-light: #ff6b6b; /* Used for errors and hover effects */
+    --favorite-icon-color-light: #ccc; /* Not directly used here, but good to keep */
+    --favorite-icon-hover-bg-light: #f0f0f0; /* Not directly used here, but good to keep */
+
+    /* Dark Mode Base Colors (used in .dark-mode overrides) */
+    --color-dark-blue-main: #070F2B;
+    --color-dark-blue-secondary: #1B1A55;
+    --color-dark-blue-light: #535C91;
+    --color-dark-blue-lighter: #9290C3;
+    --color-dark-purple: #363062;
+    --color-mid-blue-gray: #435585;
+    --color-light-blue-gray: #818FB4;
+    --color-cream: #F5E8C7;
+
+    /* Filters for images/icons (not directly used on this page, but good to keep consistent) */
+    --logo-filter: none;
+    --text-color-filter: invert(50%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(50%) contrast(100%);
+}
+
+/* Dark Mode Overrides */
+body.dark-mode {
+    --bg-color-light: var(--color-dark-blue-main);
+    --text-color-light: var(--color-cream);
+    --header-bg-light: var(--color-dark-blue-secondary); /* Darker background for wrapper */
+    --header-shadow-light: rgba(0,0,0,0.3);
+    --hero-bg-light: var(--color-dark-blue-secondary);
+    --hero-text-color-light: var(--color-light-blue-gray);
+    --tag-bg-light: var(--color-mid-blue-gray);
+    --tag-text-light: var(--color-cream);
+    --btn-primary-bg-light: var(--color-cream); /* Light button in dark mode */
+    --btn-primary-text-light: var(--color-dark-blue-main);
+    --btn-profile-bg-light: var(--color-dark-purple);
+    --btn-profile-text-light: var(--color-cream);
+    --category-card-bg-light: var(--color-dark-blue-secondary);
+    --category-card-shadow-light: rgba(0,0,0,0.4);
+    --recipes-section-bg-light: var(--color-dark-blue-main);
+    --recipes-section-text-light: var(--color-light-blue-gray);
+    --recipe-card-bg-light: var(--color-mid-blue-gray); /* Darker input backgrounds */
+    --recipe-card-text-light: var(--color-cream);
+    --recipe-meta-text-light: var(--color-light-blue-gray);
+    --divider-color-light: var(--color-mid-blue-gray);
+    --footer-bg-light: var(--color-dark-blue-main);
+    --footer-text-color-light: var(--color-cream);
+    --footer-light-text-color: var(--color-light-blue-gray);
+    --footer-link-color-light: var(--color-cream);
+    --footer-bottom-text-light: var(--color-light-blue-gray);
+    --highlight-color-light: var(--color-dark-blue-lighter);
+    --favorite-icon-color-light: var(--color-mid-blue-gray);
+    --favorite-icon-hover-bg-light: var(--color-dark-purple);
+
+    /* Image filter for dark mode (if any images are present and need inversion) */
+    .category-card img,
+    .social-stats-bubble img,
+    .card-meta img {
+        filter: invert(1);
+    }
+}
 
 :root {
     --body-bg: #fff;
@@ -196,7 +284,13 @@ input {
     transition: color 0.3s ease;
 }
 
+input { display: block; margin-bottom: 5px; }
+.error {
+    color: var(--highlight-color-light); /* Use highlight color for errors */
+    font-size: 0.9em;
+    transition: color 0.3s ease; /* Add transition for smooth theme change */
+}
 .success {
-    color: var(--success-color);
+    color: var(--success-color); /* Use a specific success color variable */
     transition: color 0.3s ease;
 }

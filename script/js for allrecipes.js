@@ -37,6 +37,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             darkModeToggle.textContent = newTheme === 'dark' ? 'Light mode' : 'Dark mode';
         });
     }
+ // --- Dynamic "My profile" Link ---
+    const myProfileLink = document.querySelector('header .btn-profile[href="login-password/login.html"]');
+    const userId = localStorage.getItem('userId');
+
+    if (myProfileLink) {
+        if (userId) {
+            // If user is logged in, change the link to point to their profile page
+            myProfileLink.href = 'My profile.html';
+        } else {
+            // If user is not logged in, ensure it points to the login page
+            myProfileLink.href = 'login-password/login.html';
+        }
+    }
+    // --- END Dynamic "My profile" Link ---
 
     // --- Function to fetch and display recipes ---
     async function fetchAndDisplayRecipes(searchTerm = '') {

@@ -25,14 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function applyTheme(theme) {
         document.body.classList.toggle('dark-mode', theme === 'dark');
-        // If you have specific images that need to be inverted in dark mode,
-        // you might add logic here, or handle it purely in CSS with filters.
-        // Example: document.querySelectorAll('.category-card img').forEach(img => {
-        //     img.style.filter = theme === 'dark' ? 'invert(1)' : 'none';
-        // });
     }
 
-    // Load saved theme preference on page load
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
         applyTheme(savedTheme);
@@ -40,27 +34,40 @@ document.addEventListener("DOMContentLoaded", () => {
             darkModeToggle.textContent = savedTheme === 'dark' ? 'Light mode' : 'Dark mode';
         }
     } else {
-        // Default to light mode if no preference saved
         applyTheme('light');
         if (darkModeToggle) {
             darkModeToggle.textContent = 'Dark mode';
         }
     }
 
-    // Add event listener for the toggle button
     if (darkModeToggle) {
         darkModeToggle.addEventListener('click', () => {
             const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             applyTheme(newTheme);
-            localStorage.setItem('theme', newTheme); // Save preference
+            localStorage.setItem('theme', newTheme);
             darkModeToggle.textContent = newTheme === 'dark' ? 'Light mode' : 'Dark mode';
         });
     }
     // --- END Dark Mode Toggle Functionality ---
 
+    // --- Dynamic "My profile" Link ---
+    const myProfileLink = document.querySelector('header .btn-profile[href="login-password/login.html"]');
+    const userId = localStorage.getItem('userId');
 
-    // --- Existing Recipe Display Logic (from your original index.html script) ---
+    if (myProfileLink) {
+        if (userId) {
+            // If user is logged in, change the link to point to their profile page
+            myProfileLink.href = 'My profile.html';
+        } else {
+            // If user is not logged in, ensure it points to the login page
+            myProfileLink.href = 'login-password/login.html';
+        }
+    }
+    // --- END Dynamic "My profile" Link ---
+
+
+    // --- Existing Recipe Display Logic ---
     const recipes = [
         {
             title: "Mixed Tropical Fruit Salad with Superfood Boosts",
@@ -114,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const grid = document.getElementById("recipe-grid");
 
-    if (grid) { // Ensure the grid element exists
+    if (grid) {
         recipes.forEach(recipe => {
             const card = document.createElement("div");
             card.className = "recipe-card-homepage";
