@@ -1,274 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home | Yumlogy</title>
-  <link rel="stylesheet" href="css/style for index.css">
-  <script src="script/js for index.js"></script>
-  <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
-  <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | Yumlogy</title>
+    <link rel="stylesheet" href="css/style for index.css">
+    <!-- Link to external JS file with defer -->
+    <script src="script/js for index.js" defer></script>
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
 </head>
 <body>
+    <header>
+        <div class="logo">Yumlogy</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="upload.html">Upload</a></li>
+                <li><a href="#">About us</a></li>
+            </ul>
+        </nav>
+        <!-- Added ID for JavaScript targeting and removed onclick -->
+        <button id="darkModeToggle" class="btn-profile">Dark mode</button>
+        <a class="btn-profile" href="login-password/login.html">My profile</a>
+    </header>
 
-  
-  <header>
-    <div class="logo">Yumlogy</div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="recipes.html">Recipes</a></li>
-        <li><a href="upload.html">Upload</a></li>
-        <li><a href="#">About us</a></li>
-      </ul>
-    </nav>
-    <button onclick="myFunction()" class="btn-profile">Dark mode</button>
-    <a class="btn-profile" href="login-password/login.html">My profile</a>
-  </header>
-
-  <section class="hero">
-    <div class="hero-left">
-      <div class="tag"><i class='bx  bx-fire-alt'  ></i> Hot Recipes</div>
-      <h1>Spicy delicious chicken wings</h1>
-      <p>This sweet and spicy baked chicken wings recipe is packed with flavor – perfect for parties or game day! Honey, sriracha, and soy create a delicious wing sauce everyone loves. Baking chicken wings in the oven is much easier than deep frying, but you still get crispy baked wings that are finger licking good!
-      </p>
-      <div class="tags">
-        <div class="tag">30 Minutes</div>
-        <div class="tag">Chicken</div>
-      </div>
-      <div class="author-info">
-        <div class="tag"><i class='bx  bx-user'></i>Pelmeshek</div>
-        <div class="tag"><i class='bx  bx-calendar-alt'></i> 30 May 2025</div>
-        <a href="#" class="btn">View recipe</a>
-      </div>
-    </div>
-    <div class="hero-right">
-      <img src="Image/baked-chicken-wings.jpg"/>
-    </div>
-  </section>
-
-  <section class="categories">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <h2>Categories</h2>
-      <button class="btn-profile"><a href="recipes.html"> View All Categories </a></button>
-    </div>
-    <br>
-    <div class="category-grid">
-      <div class="category-card"><img src="Image/breads.png"><div>Breakfast</div></div>
-      <div class="category-card"><img src="Image/lunch.png"><div>Lunch</div></div>
-      <div class="category-card"><img src="Image/dinner.png"><div>Dinner</div></div>
-      <div class="category-card"><img src="Image/dessert.png"/><div>Dessert</div></div>
-      <div class="category-card"><img src="Image/vegan.png"/><div>Vegan</div></div>
-      <div class="category-card"><img src="Image/children.png"/><div>For kids</div></div>
-    </div>
-  </section>
-
-  <section class="recipes-section">
-    <h2>Simple and tasty recipes</h2>
-    <br><br>
-    <p>This sweet and spicy baked chicken wings recipe is packed with flavor – perfect for parties or game day!.</p>
-    <div class="recipe-grid">
-      <div class="recipe-card">
-        <img src="Image/chessburger.jpg"/>
-        <div class="content">
-          <h3>Big and Juicy Wagyu Beef Cheeseburger</h3>
-          <div class="meta">30 Minutes • Snack</div>
+    <section class="hero">
+        <div class="hero-left">
+            <div class="tag"><i class='bx bx-fire-alt'></i> Hot Recipes</div>
+            <h1>Spicy delicious chicken wings</h1>
+            <p>This sweet and spicy baked chicken wings recipe is packed with flavor – perfect for parties or game day! Honey, sriracha, and soy create a delicious wing sauce everyone loves. Baking chicken wings in the oven is much easier than deep frying, but you still get crispy baked wings that are finger licking good!
+            </p>
+            <div class="tags">
+                <div class="tag">30 Minutes</div>
+                <div class="tag">Chicken</div>
+            </div>
+            <div class="author-info">
+                <div class="tag"><i class='bx bx-user'></i>Pelmeshek</div>
+                <div class="tag"><i class='bx bx-calendar-alt'></i> 30 May 2025</div>
+                <a href="#" class="btn">View recipe</a>
+            </div>
         </div>
-      </div>
-      <div class="recipe-card">
-        <img src="Image/spicy salmon.jpg"/>
-        <div class="content">
-          <h3>Fresh Lime Roasted Salmon with Ginger Sauce</h3>
-          <div class="meta">30 Minutes • Fish</div>
+        <div class="hero-right">
+            <img src="Image/baked-chicken-wings.jpg"/>
         </div>
-      </div>
-      <div class="recipe-card">
-        <img src="Image/pancake.jpg"/>
-        <div class="content">
-          <h3>Strawberry Oatmeal Pancake with Honey Syrup</h3>
-          <div class="meta">30 Minutes • Breakfast</div>
-        </div>
-      </div>
-    </div>
+    </section>
 
 
-    <div class="recipe-grid">
-      <div class="recipe-card">
-        <img src="Image/salad.jpg"/>
-        <div class="content">
-          <h3>Fresh and Healthy Mixed Mayonnaise Salad</h3>
-          <div class="meta">30 Minutes • Heathy</div>
+    <section class="categories">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Categories</h2>
+            <button class="btn-profile">View All Categories</button>
         </div>
-      </div>
-      <div class="recipe-card">
-        <img src="Image/Asian-Metballs.jpg"/>
-        <div class="content">
-          <h3>Chicken Meatballs with Cream Cheese</h3>
-          <div class="meta">30 Minutes • Lunch</div>
+        <br>
+        <div class="category-grid">
+            <div class="category-card"><img src="Image/breads.png"><div>Breakfast</div></div>
+            <div class="category-card"><img src="Image/lunch.png"><div>Lunch</div></div>
+            <div class="category-card"><img src="Image/dinner.png"><div>Dinner</div></div>
+            <div class="category-card"><img src="Image/dessert.png"/><div>Dessert</div></div>
+            <div class="category-card"><img src="Image/vegan.png"/><div>Vegan</div></div>
+            <div class="category-card"><img src="Image/children.png"/><div>For kids</div></div>
         </div>
-      </div>
-      <div class="recipe-card">
-        <img src="Image/dumplings.jpg"/>
-        <div class="content">
-          <h3>Pork and Chive Chinese Dumplings</h3>
-          <div class="meta">30 Minutes • Dinner</div>
+    </section>
+
+    <section class="recipes-section">
+        <h2>Simple and tasty recipes</h2>
+        <br><br>
+        <p>This sweet and spicy baked chicken wings recipe is packed with flavor – perfect for parties or game day!.</p>
+        <div class="recipe-grid">
+            <div class="recipe-card">
+                <img src="Image/chessburger.jpg"/>
+                <div class="content">
+                    <h3>Big and Juicy Wagyu Beef Cheeseburger</h3>
+                    <div class="meta">30 Minutes • Snack</div>
+                </div>
+            </div>
+            <div class="recipe-card">
+                <img src="Image/spicy salmon.jpg"/>
+                <div class="content">
+                    <h3>Fresh Lime Roasted Salmon with Ginger Sauce</h3>
+                    <div class="meta">30 Minutes • Fish</div>
+                </div>
+            </div>
+            <div class="recipe-card">
+                <img src="Image/pancake.jpg"/>
+                <div class="content">
+                    <h3>Strawberry Oatmeal Pancake with Honey Syrup</h3>
+                    <div class="meta">30 Minutes • Breakfast</div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="recipe-grid">
-      <div class="recipe-card">
-        <img src="Image/pancake with fruits.jpg"/>
-        <div class="content">
-          <h3>Fruity Pancake with Orange & Blueberry</h3>
-          <div class="meta">30 Minutes • Sweet</div>
+
+        <div class="recipe-grid">
+            <div class="recipe-card">
+                <img src="Image/salad.jpg"/>
+                <div class="content">
+                    <h3>Fresh and Healthy Mixed Mayonnaise Salad</h3>
+                    <div class="meta">30 Minutes • Heathy</div>
+                </div>
+            </div>
+            <div class="recipe-card">
+                <img src="Image/Asian-Metballs.jpg"/>
+                <div class="content">
+                    <h3>Chicken Meatballs with Cream Cheese</h3>
+                    <div class="meta">30 Minutes • Lunch</div>
+                </div>
+            </div>
+            <div class="recipe-card">
+                <img src="Image/dumplings.jpg"/>
+                <div class="content">
+                    <h3>Pork and Chive Chinese Dumplings</h3>
+                    <div class="meta">30 Minutes • Dinner</div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="recipe-card">
-        <img src="Image/one-pot-chicken-and-rice-1.jpeg"/>
-        <div class="content">
-          <h3>The Best Easy One Pot Chicken and Rice</h3>
-          <div class="meta">30 Minutes • Snack</div>
+
+        <div class="recipe-grid">
+            <div class="recipe-card">
+                <img src="Image/pancake with fruits.jpg"/>
+                <div class="content">
+                    <h3>Fruity Pancake with Orange & Blueberry</h3>
+                    <div class="meta">30 Minutes • Sweet</div>
+                </div>
+            </div>
+            <div class="recipe-card">
+                <img src="Image/one-pot-chicken-and-rice-1.jpeg"/>
+                <div class="content">
+                    <h3>The Best Easy One Pot Chicken and Rice</h3>
+                    <div class="meta">30 Minutes • Snack</div>
+                </div>
+            </div>
+            <div class="recipe-card">
+                <img src="Image/creamy-chicken-pasta-5095.jpg"/>
+                <div class="content">
+                    <h3>The Creamiest Creamy Chicken and Bacon Pasta</h3>
+                    <div class="meta">30 Minutes • Pasta</div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="recipe-card">
-        <img src="Image/creamy-chicken-pasta-5095.jpg"/>
-        <div class="content">
-          <h3>The Creamiest Creamy Chicken and Bacon Pasta</h3>
-          <div class="meta">30 Minutes • Pasta</div>
+    </section>
+
+    <section class="everyone-section">
+        <div class="container">
+            <div class="text-content">
+                <h2><strong>Everyone can be a<br>chef in their own kitchen</strong></h2>
+                <p>Lorem ipsum dolor sit amet, consecteturipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliquat enim ad minim</p>
+                <a href="#" class="btn">Learn More</a>
+            </div>
+            <div class="image-content">
+                <img src="Image/chef.png" class="chef-img" />
+                <img src="Image/tomato.png" class="floating veggie tomato" />
+                <img src="Image/onion.png" class="floating veggie onion" />
+                <img src="Image/lettuce.png" class="floating veggie lettuce" />
+                <img src="Image/beef.png" class="floating veggie meat" />
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="everyone-section">
-    <div class="container">
-      <div class="text-content">
-        <h2><strong>Everyone can be a<br>chef in their own kitchen</strong></h2>
-        <p>Lorem ipsum dolor sit amet, consecteturipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliquat enim ad minim</p>
-        <a href="#" class="btn">Learn More</a>
-      </div>
-      <div class="image-content">
-        <img src="Image/chef.png" class="chef-img" />
-        <img src="Image/tomato.png" class="floating veggie tomato" />
-        <img src="Image/onion.png" class="floating veggie onion" />
-        <img src="Image/lettuce.png" class="floating veggie lettuce" />
-        <img src="Image/beef.png" class="floating veggie meat" />
-      </div>
-    </div>
-  </section>
+    <section class="instagram-section">
+        <div class="container">
+            <h2>Check out <span>@yumlogy</span> on Instagram</h2>
+            <p>Lorem ipsum dolor sit amet, consecteturipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua aliquat enim ad minim</p>
 
-  <section class="instagram-section">
-    <div class="container">
-      <h2>Check out <span>@yumlogy</span> on Instagram</h2>
-      <p>Lorem ipsum dolor sit amet, consecteturipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua aliquat enim ad minim</p>
-  
-      <div class="instagram-posts">
-        <img src="Image/insta1.jpg">
-        <img src="Image/insta2.jpg">
-        <img src="Image/insta3.jpg">
-        <img src="Image/insta4.jpg">
-      </div>
-  
-      <a href="#" class="btn insta-btn">
-        <i class='bxl  bx-instagram'  ></i>  <strong>Visit Our Instagram</strong>
-      </a>
-    </div>
-  </section>
-  
-  <section class="recipes-section">
-    <div class="container">
-      <h2 class="section-heading">Try this delicious recipe <br> to make your day</h2>
-      <div class="recipe-grid-homepage" id="recipe-grid"></div>
-    </div>
-    
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-  const recipes = [
-    {
-      title: "Mixed Tropical Fruit Salad with Superfood Boosts",
-      image: "Image/fruit salad.jpg",
-      tag: "Healthy",
-      liked: true
-    },
-    {
-      title: "Big and Juicy Wagyu Beef Cheeseburger",
-      image: "Image/chessburger.jpg",
-      tag: "Snacks",
-      liked: true
-    },
-    {
-      title: "Healthy Japanese Fried Rice with Asparagus",
-      image: "Image/Japanese-Fried-Rice.jpg",
-      tag: "Healthy",
-      liked: true
-    },
-    {
-      title: "Cauliflower Walnut Vegetarian Taco Meat",
-      image: "Image/vegan-taco-meat-healthy.jpg",
-      tag: "Eastern",
-      liked: true
-    },
-    {
-      title: "Rainbow Chicken Salad with Almond Honey Mustard Dressing",
-      image: "Image/raynbow salad.jpg",
-      tag: "Healthy",
-      liked: true
-    },
-    {
-      title: "Barbeque Spicy Sandwiches with Chips",
-      image: "Image/Barbeque Spicy Sandwiches with Chips.jpg",
-      tag: "Snack",
-      liked: true
-    },
-    {
-      title: "Firecracker Vegan Lettuce Wraps - Spicy!",
-      image: "Image/Tofu-Lettuce-Wraps-Recipe.jpg",
-      tag: "Seafood",
-      liked: true
-    },
-    {
-      title: "Chicken Ramen Soup with Mushroom",
-      image: "Image/ramen.jpg",
-      tag: "Japanese",
-      liked: true
-    }
-  ];
+            <div class="instagram-posts">
+                <img src="Image/insta1.jpg">
+                <img src="Image/insta2.jpg">
+                <img src="Image/insta3.jpg">
+                <img src="Image/insta4.jpg">
+            </div>
 
-  const grid = document.getElementById("recipe-grid");
-
-  recipes.forEach(recipe => {
-    const card = document.createElement("div");
-    card.className = "recipe-card-homepage";
-
-    card.innerHTML = `
-      <div class="card-image-wrapper">
-        <img src="${recipe.image}" class="card-image" alt="${recipe.title}">
-        <button class="favorite-icon-overlay">
-          <i class='bx ${recipe.liked ? "bxs-heart" : "bx-heart"}' ${recipe.liked ? "style='color:#ff0000'" : ""}></i>
-        </button>
-      </div>
-      <div class="card-info">
-        <h3 class="recipe-title">${recipe.title}</h3>
-        <div class="recipe-meta">
-          <span class="meta-item">
-            <button class="favorite-icon-overlay">
-              <i class='bx bx-heart'></i>
-            </button>
-          </span>
-          <span class="meta-item">
-            <i class='bx bxs-fork-spoon'></i> ${recipe.tag}
-          </span>
+            <a href="#" class="btn insta-btn">
+                <i class='bxl bx-instagram'></i> <strong>Visit Our Instagram</strong>
+            </a>
         </div>
-      </div>
-    `;
+    </section>
 
-    grid.appendChild(card);
-  });
-});
-    </script>
-  </section>
-  
+    <section class="recipes-section">
+        <div class="container">
+            <h2 class="section-heading">Try this delicious recipe <br> to make your day</h2>
+            <div class="recipe-grid-homepage" id="recipe-grid"></div>
+        </div>
+    </section>
 
 <footer class="footer">
   <div class="footer-top">
@@ -284,17 +198,17 @@
       </ul>
   </div>
 
-  <hr class="divider" />
+        <hr class="divider" />
 
-  <div class="footer-bottom">
-      <p>© 2025 Yumlogy. Powered by <span class="highlight">AAW-231</span></p>
-      <div class="footer-socials">
-          <a href="#"><i class='bxl bx-telegram'></i> </a>
-          <a href="#"><i class='bxl bx-instagram'></i> </a>
-          <a href="#"><i class='bxl bx-twitter-x'></i> </a>
-      </div>
-  </div>
-</footer>
+        <div class="footer-bottom">
+            <p>© 2025 Yumlogy. Powered by <span class="highlight">AAW-231</span></p>
+            <div class="footer-socials">
+                <a href="#"><i class='bxl bx-telegram'></i> </a>
+                <a href="#"><i class='bxl bx-instagram'></i> </a>
+                <a href="#"><i class='bxl bx-twitter-x'></i> </a>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>

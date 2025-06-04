@@ -5,9 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit my profile | Yumlogy</title>
     <link rel="stylesheet" href="css/style for edit my profile.css">
-    <script src="script/js for edit my profile.js" defer></script> 
+    <script src="script/js for edit my profile.js" defer></script>
 </head>
 <body>
+
+    <header>
+        <div class="logo">Yumlogy</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="upload.html">Upload</a></li>
+                <li><a href="#">About us</a></li>
+            </ul>
+        </nav>
+        <button id="darkModeToggle" class="btn-profile">Dark mode</button> <!-- ADDED DARK MODE TOGGLE -->
+        <a class="btn-profile" href="login-password/login.html">My profile</a>
+    </header>
 
     <div class="edit-profile-container">
         <h1 class="page-title">Edit my profile</h1>
@@ -16,18 +30,19 @@
             <div class="profile-form-grid">
                 <div class="profile-avatar-section">
                     <div class="profile-avatar-edit">
-                        <img id="profile-image-display" src="Image/pelmeshek.jpg" alt="Profile Avatar"> 
+                        <img id="profile-image-display" src="Image/pelmeshek.jpg" alt="Profile Avatar">
                     </div>
                     <button type="button" class="edit-photo-button">Edit photo</button>
                     <input type="file" id="profile-image-upload" name="profilePicture" accept="image/*" style="display: none;">
                 </div>
-                
+
                 <div class="profile-input-fields">
                     <div class="input-row">
                         <input type="text" id="name" name="name" placeholder="Name">
                     </div>
                     <div class="input-row">
-                        <input type="email" id="email" name="email" placeholder="Email" readonly> <input type="password" id="password" name="password" placeholder="New Password (optional)">
+                        <input type="email" id="email" name="email" placeholder="Email" readonly>
+                        <input type="password" id="password" name="password" placeholder="New Password (optional)">
                     </div>
                     <div class="input-row full-width">
                         <textarea id="description" name="description" placeholder="Description"></textarea>

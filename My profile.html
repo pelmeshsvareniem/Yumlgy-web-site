@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>My profile | Yumlogy</title>
     <link rel="stylesheet" href="css/style for profile.css" />
-    <script src="script/js for prifile.js" defer></script> 
+    <script src="script/js for prifile.js" defer></script>
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
 </head>
@@ -20,27 +20,31 @@
                 <li><a href="#">About us</a></li>
             </ul>
         </nav>
-        <button onclick="myFunction()" class="btn-profile">Dark mode</button>
+        <button id="darkModeToggle" class="btn-profile">Dark mode</button> <!-- ADDED DARK MODE TOGGLE -->
         <a class="btn-profile" href="login-password/login.html">My profile</a>
     </header>
 
     <main class="main-content">
         <aside class="sidebar">
             <div class="profile-header">
-                <h2 id="profileHeaderTitle">My profile</h2> </div>
+                <h2 id="profileHeaderTitle">My profile</h2>
+            </div>
             <div class="profile-avatar">
-                <img src="Image/pelmeshek.jpg" alt="Profile Avatar" id="profileAvatar"> </div>
+                <img src="Image/pelmeshek.jpg" alt="Profile Avatar" id="profileAvatar">
+            </div>
 
             <div class="profile-details">
                 <div class="detail-box">
                     <p class="detail-label">Name</p>
-                    <p class="detail-text" id="profileName">Pelmeshek s vareniem</p> </div>
+                    <p class="detail-text" id="profileName">Pelmeshek s vareniem</p>
+                </div>
                 <div class="detail-box">
                     <p class="detail-label">Description</p>
-                    <p class="detail-text" id="profileDescription">Passionate home cook and food enthusiast. Always looking for new recipes and culinary adventures.</p> </div>
+                    <p class="detail-text" id="profileDescription">Passionate home cook and food enthusiast. Always looking for new recipes and culinary adventures.</p>
+                </div>
                 <div class="detail-box">
                     <p class="detail-label">Favorite tags</p>
-                    <p class="detail-text" id="profileFavoriteTags">Desserts, Healthy, Quick meals, Pasta</p> </div>
+
             </div>
 
             <div class="social-stats-container">
@@ -50,7 +54,8 @@
                 </div>
                 <div class="social-stats-bubble">
                     <div class="stat-category">Posts</div>
-                    <div class="stat-value-bubble" id="postsCount">3</div> </div>
+                    <div class="stat-value-bubble" id="postsCount">3</div>
+                </div>
                 <div class="social-stats-bubble">
                     <div class="stat-category">Likes</div>
                     <div class="stat-value-bubble">10</div>
@@ -60,15 +65,17 @@
                     <div class="stat-value-bubble">6</div>
                 </div>
             </div>
-            
+
             <div class="button-container profile-actions">
-                <button class="see-more-button"><a href="edit_profile.html" id="editProfileButton">Edit Profile</a></button>
-                <button class="see-more-button" id="logoutButton">Log Out</button> </div>
+                <button class="see-more-button"><a href="edit my profile.html" id="editProfileButton">Edit Profile</a></button>
+                <button class="see-more-button" id="logoutButton">Log Out</button>
+            </div>
         </aside>
 
         <section class="content-area">
             <h3 class="section-title">My recipes</h3>
-            <div class="recipe-grid">
+            <div class="recipe-grid" id="myRecipesGrid"> <!-- ADDED ID for consistency -->
+                <!-- Recipes will be dynamically loaded here -->
                 <div class="recipe-card">
                     <div class="card-image-placeholder" style="background-image: url('Image/chessburger.jpg');"></div>
                     <div class="card-content">
@@ -108,7 +115,8 @@
             </div>
 
             <h3 class="section-title">Saved recipes</h3>
-            <div class="recipe-grid">
+            <div class="recipe-grid" id="savedRecipesGrid"> <!-- ADDED ID for consistency -->
+                <!-- Saved recipes will be dynamically loaded here -->
                 <div class="recipe-card">
                     <div class="card-image-placeholder" style="background-image: url('Image/Chicken-Meatball.jpg');"></div>
                     <div class="card-content">
@@ -131,24 +139,9 @@
                     </div>
                     <button class="favorite-button"><i class='bx bxs-heart' style='color:#ff0000'></i></button>
                 </div>
-                <div class="recipe-card">
-                    <div class="card-image-placeholder" style="background-image: url('Image/dumplings.jpg');"></div>
-                    <div class="card-content">
-                        <h4>Pork and Chive Chinese Dumplings</h4>
-                        <div class="card-meta">
-                            <span><i class='bx bxs-timer'></i>30 Minutes</span>
-                            <span><i class='bx bxs-fork-spoon'></i> Dinner</span>
-                        </div>
-                    </div>
-                    <button class="favorite-button"><i class='bx bxs-heart' style='color:#ff0000'></i> </button>
-                </div>
-            </div>
-            <div class="button-container">
-                <button class="see-more-button"><a href="#">See more</a></button>
             </div>
         </section>
     </main>
-
     <footer class="footer">
         <div class="footer-top">
             <div class="footer-brand">
