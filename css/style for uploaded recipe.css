@@ -1,67 +1,309 @@
 @import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Judson:ital,wght@0,400;0,700;1,400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+:root {
+    /* Light Mode Colors (Default) */
+    --body-bg: #fff;
+    --text-color-primary: #333;
+    --text-color-secondary: #555;
+    --text-color-tertiary: #666;
+    --text-color-light: #777;
+    --text-color-dark: #000; /* For black text elements */
+
+    --header-bg: #fff;
+    --header-shadow: rgba(0,0,0,0.05);
+    --nav-link-color: #222;
+    --btn-profile-bg: #d4f1f9;
+    --btn-profile-text: #000;
+    --logo-color: #000;
+    --info-item-icon-color: #d4f1f9;
+
+    --container-bg: #fff;
+    --container-shadow: rgba(0, 0, 0, 0.1);
+    --border-color-light: #eee;
+    --delete-btn-bg: #fff;
+    --delete-btn-border: #dc3545;
+    --delete-btn-text: #dc3545;
+    --delete-btn-hover-bg: #dc3545;
+    --delete-btn-hover-text: #fff;
+
+    --nutrition-info-bg: #f2fcf2;
+    --nutrition-info-text-dark: #000; /* For H3 inside nutrition */
+    --nutrition-info-border: #ddd;
+    --small-text-color: #777;
+
+    --heading-color: #333; /* For H2s like Ingredients, Directions */
+    --ingredient-heading-color: #000; /* For H3s like "For The Donuts" */
+
+    --checkbox-bg: #eee;
+    --checkbox-hover-bg: #ccc;
+    --checkbox-checked-bg: #d4f1f9;
+    --checkbox-checkmark-color: white;
+
+    --other-recipe-card-bg: #f9f9f9;
+    --other-recipe-card-shadow: rgba(0, 0, 0, 0.05);
+    --other-recipe-card-title: #333;
+    --other-recipe-card-text: #777;
+
+    --ad-banner-overlay: rgba(0, 0, 0, 0.3);
+    --ad-banner-text: #ffffff;
+    --ad-button-bg: #18230F;
+    --ad-button-text: #fff;
+    --ad-button-hover-bg: #255F38;
+
+    --direction-step-heading: #000;
+    --direction-step-image-shadow: rgba(0, 0, 0, 0.1);
+
+    --footer-bg: #fff;
+    --footer-text: #333;
+    --footer-brand-p-color: #888;
+    --footer-link-color: #000;
+    --divider-color: #eee;
+    --footer-bottom-text: #555;
+    --highlight-color: #ff6b6b;
+    --social-icon-color: #000;
+}
+
+/* Dark Mode Overrides (for manual toggle) */
+body.dark-mode {
+    /* Your specified dark mode colors */
+    --dark-blue-main: #070F2B;
+    --dark-blue-secondary: #1B1A55;
+    --dark-blue-light: #535C91;
+    --dark-blue-lighter: #9290C3;
+    --dark-purple: #363062;
+    --mid-blue-gray: #435585;
+    --light-blue-gray: #818FB4;
+    --cream-color: #F5E8C7;
+
+    --body-bg: var(--dark-blue-main);
+    --text-color-primary: var(--cream-color);
+    --text-color-secondary: var(--light-blue-gray);
+    --text-color-tertiary: var(--light-blue-gray);
+    --text-color-light: var(--mid-blue-gray);
+    --text-color-dark: var(--cream-color);
+
+    --header-bg: var(--dark-blue-main);
+    --header-shadow: rgba(0,0,0,0.2);
+    --nav-link-color: var(--cream-color);
+    --btn-profile-bg: var(--dark-purple);
+    --btn-profile-text: var(--cream-color);
+    --logo-color: var(--cream-color);
+    --info-item-icon-color: var(--dark-blue-lighter);
+
+    --container-bg: var(--dark-blue-secondary);
+    --container-shadow: rgba(0, 0, 0, 0.3);
+    --border-color-light: var(--mid-blue-gray);
+    --delete-btn-bg: var(--dark-purple);
+    --delete-btn-border: #cc0000; /* Darker red for contrast */
+    --delete-btn-text: #ff6666; /* Lighter red for contrast */
+    --delete-btn-hover-bg: #ff6666;
+    --delete-btn-hover-text: var(--dark-blue-main);
+
+    --nutrition-info-bg: var(--dark-purple);
+    --nutrition-info-text-dark: var(--cream-color);
+    --nutrition-info-border: var(--mid-blue-gray);
+    --small-text-color: var(--light-blue-gray);
+
+    --heading-color: var(--cream-color);
+    --ingredient-heading-color: var(--cream-color);
+
+    --checkbox-bg: var(--mid-blue-gray);
+    --checkbox-hover-bg: var(--dark-purple);
+    --checkbox-checked-bg: var(--dark-blue-lighter);
+    --checkbox-checkmark-color: var(--dark-blue-main); /* Checkmark becomes dark on light background */
+
+    --other-recipe-card-bg: var(--dark-purple);
+    --other-recipe-card-shadow: rgba(0, 0, 0, 0.2);
+    --other-recipe-card-title: var(--cream-color);
+    --other-recipe-card-text: var(--light-blue-gray);
+
+    --ad-banner-overlay: rgba(0, 0, 0, 0.6); /* Darker overlay for better text contrast */
+    --ad-banner-text: var(--cream-color);
+    --ad-button-bg: var(--dark-blue-light);
+    --ad-button-text: var(--cream-color);
+    --ad-button-hover-bg: var(--mid-blue-gray);
+
+    --direction-step-heading: var(--cream-color);
+    --direction-step-image-shadow: rgba(0, 0, 0, 0.3);
+
+    --footer-bg: var(--dark-blue-main);
+    --footer-text: var(--cream-color);
+    --footer-brand-p-color: var(--light-blue-gray);
+    --footer-link-color: var(--cream-color);
+    --divider-color: var(--mid-blue-gray);
+    --footer-bottom-text: var(--light-blue-gray);
+    --highlight-color: var(--dark-blue-lighter);
+    --social-icon-color: var(--cream-color);
+
+    /* Image adjustments for dark mode */
+    img:not(.ad-banner img) { /* Exclude ad banner image if it's already dark-friendly */
+        filter: brightness(0.8) contrast(1.2); /* Adjust for better visibility */
+    }
+    .recipe-hero img, .other-recipe-card img, .direction-step img {
+        filter: brightness(0.9) contrast(1.1);
+    }
+    /* Specific icons that might need inversion */
+    .header-actions i, .info-item i {
+        filter: invert(0.8) hue-rotate(180deg); /* Adjust as needed for icon colors */
+    }
+}
+
+/* Automatic Dark Mode (Preferred by user's system settings) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Your specified dark mode colors */
+        --dark-blue-main: #070F2B;
+        --dark-blue-secondary: #1B1A55;
+        --dark-blue-light: #535C91;
+        --dark-blue-lighter: #9290C3;
+        --dark-purple: #363062;
+        --mid-blue-gray: #435585;
+        --light-blue-gray: #818FB4;
+        --cream-color: #F5E8C7;
+
+        --body-bg: var(--dark-blue-main);
+        --text-color-primary: var(--cream-color);
+        --text-color-secondary: var(--light-blue-gray);
+        --text-color-tertiary: var(--light-blue-gray);
+        --text-color-light: var(--mid-blue-gray);
+        --text-color-dark: var(--cream-color);
+
+        --header-bg: var(--dark-blue-main);
+        --header-shadow: rgba(0,0,0,0.2);
+        --nav-link-color: var(--cream-color);
+        --btn-profile-bg: var(--dark-purple);
+        --btn-profile-text: var(--cream-color);
+        --logo-color: var(--cream-color);
+        --info-item-icon-color: var(--dark-blue-lighter);
+
+        --container-bg: var(--dark-blue-secondary);
+        --container-shadow: rgba(0, 0, 0, 0.3);
+        --border-color-light: var(--mid-blue-gray);
+        --delete-btn-bg: var(--dark-purple);
+        --delete-btn-border: #cc0000;
+        --delete-btn-text: #ff6666;
+        --delete-btn-hover-bg: #ff6666;
+        --delete-btn-hover-text: var(--dark-blue-main);
+
+        --nutrition-info-bg: var(--dark-purple);
+        --nutrition-info-text-dark: var(--cream-color);
+        --nutrition-info-border: var(--mid-blue-gray);
+        --small-text-color: var(--light-blue-gray);
+
+        --heading-color: var(--cream-color);
+        --ingredient-heading-color: var(--cream-color);
+
+        --checkbox-bg: var(--mid-blue-gray);
+        --checkbox-hover-bg: var(--dark-purple);
+        --checkbox-checked-bg: var(--dark-blue-lighter);
+        --checkbox-checkmark-color: var(--dark-blue-main);
+
+        --other-recipe-card-bg: var(--dark-purple);
+        --other-recipe-card-shadow: rgba(0, 0, 0, 0.2);
+        --other-recipe-card-title: var(--cream-color);
+        --other-recipe-card-text: var(--light-blue-gray);
+
+        --ad-banner-overlay: rgba(0, 0, 0, 0.6);
+        --ad-banner-text: var(--cream-color);
+        --ad-button-bg: var(--dark-blue-light);
+        --ad-button-text: var(--cream-color);
+        --ad-button-hover-bg: var(--mid-blue-gray);
+
+        --direction-step-heading: var(--cream-color);
+        --direction-step-image-shadow: rgba(0, 0, 0, 0.3);
+
+        --footer-bg: var(--dark-blue-main);
+        --footer-text: var(--cream-color);
+        --footer-brand-p-color: var(--light-blue-gray);
+        --footer-link-color: var(--cream-color);
+        --divider-color: var(--mid-blue-gray);
+        --footer-bottom-text: var(--light-blue-gray);
+        --highlight-color: var(--dark-blue-lighter);
+        --social-icon-color: var(--cream-color);
+
+        /* Image adjustments for dark mode */
+        img:not(.ad-banner img) {
+            filter: brightness(0.8) contrast(1.2);
+        }
+        .recipe-hero img, .other-recipe-card img, .direction-step img {
+            filter: brightness(0.9) contrast(1.1);
+        }
+        .header-actions i, .info-item i {
+            filter: invert(0.8) hue-rotate(180deg);
+        }
+    }
+}
+
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
-  font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
 }
 
 body {
-  background-color: #fff;
-  padding: 20px;
-  color: #333;
+    background-color: var(--body-bg);
+    padding: 20px;
+    color: var(--text-color-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 img {
-  width: 100%;
+    width: 100%;
+    transition: filter 0.3s ease; /* For image adjustments in dark mode */
 }
 
 a {
-  color: #fff;
+    color: var(--text-color-dark); /* Changed to use a variable for general links */
 }
 
 .logo {
-  font-weight: bold;
-  font-size: 24px;
+    font-weight: bold;
+    font-size: 24px;
+    color: var(--logo-color);
+    transition: color 0.3s ease;
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 60px;
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    background-color: var(--header-bg);
+    box-shadow: 0 2px 8px var(--header-shadow);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 nav ul {
-  list-style: none;
-  display: flex;
-  gap: 25px;
+    list-style: none;
+    display: flex;
+    gap: 25px;
 }
 
 nav ul li a {
-  color: #222;
-  font-weight: 500;
+    color: var(--nav-link-color);
+    font-weight: 500;
+    transition: color 0.3s ease;
 }
 
 .btn-profile {
-  background-color: #d4f1f9;
-  padding: 8px 14px;
-  border-radius: 6px;
-  color: #000;
-  font-weight: 500;
+    background-color: var(--btn-profile-bg);
+    padding: 8px 14px;
+    border-radius: 6px;
+    color: var(--btn-profile-text);
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
     max-width: 1200px;
     margin: 20px auto;
-    background-color: #fff;
+    background-color: var(--container-bg);
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px var(--container-shadow);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .header {
@@ -69,20 +311,26 @@ nav ul li a {
     justify-content: space-between;
     align-items: center;
     padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color-light);
     margin-bottom: 30px;
+    transition: border-color 0.3s ease;
 }
 
-.logo {
+.logo { /* Duplicated rule, keep the one defined higher up for general logo styling */
+    /* This rule is redundant if the one above is the primary one for logo styling */
+    /* If this logo is specifically for the container header, consider a more specific class name */
     font-size: 24px;
     font-weight: 700;
-    color: #000;
+    color: var(--logo-color); /* Apply logo color variable */
     display: flex;
     align-items: center;
+    transition: color 0.3s ease;
 }
 
 .logo i {
     margin-right: 8px;
+    color: var(--logo-color); /* Ensure icon also adapts to logo color */
+    transition: color 0.3s ease;
 }
 
 .header-info {
@@ -94,23 +342,27 @@ nav ul li a {
     display: flex;
     align-items: center;
     font-size: 14px;
-    color: #666;
+    color: var(--text-color-tertiary);
+    transition: color 0.3s ease;
 }
 
 .info-item i {
     margin-right: 5px;
-    color: #d4f1f9;
+    color: var(--info-item-icon-color);
+    transition: color 0.3s ease, filter 0.3s ease; /* For icon adjustments */
 }
 
 .header-actions {
     display: flex;
     gap: 15px;
     font-size: 18px;
-    color: #666;
+    color: var(--text-color-tertiary);
+    transition: color 0.3s ease;
 }
 
 .header-actions i {
     cursor: pointer;
+    transition: color 0.3s ease, filter 0.3s ease; /* For icon adjustments */
 }
 
 .recipe-hero {
@@ -124,7 +376,8 @@ nav ul li a {
     position: relative;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px var(--container-shadow); /* Uses container shadow for consistency */
+    transition: box-shadow 0.3s ease;
 }
 
 .main-recipe-image {
@@ -134,9 +387,9 @@ nav ul li a {
 }
 
 .delete-button {
-    background-color: #fff; 
-    color: #dc3545; 
-    border: 1px solid #dc3545; 
+    background-color: var(--delete-btn-bg); 
+    color: var(--delete-btn-text); 
+    border: 1px solid var(--delete-btn-border); 
     padding: 8px 15px;
     border-radius: 5px;
     cursor: pointer;
@@ -148,41 +401,41 @@ nav ul li a {
 }
 
 .delete-button:hover {
-    background-color: #dc3545; 
-    color: #fff;
+    background-color: var(--delete-btn-hover-bg); 
+    color: var(--delete-btn-hover-text);
 }
 
 .delete-button i {
     font-size: 16px; 
 }
 
-
 .nutrition-info {
-    background-color: #f2fcf2; 
+    background-color: var(--nutrition-info-bg); 
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    
+    box-shadow: 0 2px 4px var(--container-shadow); /* Uses container shadow for consistency */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .nutrition-info h3 {
     margin-top: 0;
-    color: #000;
+    color: var(--nutrition-info-text-dark);
     font-size: 18px;
     margin-bottom: 15px;
+    transition: color 0.3s ease;
 }
 
 .nutrition-info table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 15px;
-    
 }
 
 .nutrition-info table td {
     padding: 8px 0;
-    border-bottom: 1px dashed #ddd;
+    border-bottom: 1px dashed var(--nutrition-info-border);
     font-size: 14px;
+    transition: border-color 0.3s ease;
 }
 
 .nutrition-info table tr:last-child td {
@@ -195,14 +448,16 @@ nav ul li a {
 
 .small-text {
     font-size: 12px;
-    color: #777;
+    color: var(--small-text-color);
     line-height: 1.5;
+    transition: color 0.3s ease;
 }
 
 .description {
     margin-bottom: 40px;
     line-height: 1.7;
-    color: #555;
+    color: var(--text-color-secondary);
+    transition: color 0.3s ease;
 }
 
 .recipe-details {
@@ -218,9 +473,10 @@ nav ul li a {
 .ingredients h2,
 .directions h2,
 .other-recipes h2 {
-    color: #333;
+    color: var(--heading-color);
     font-size: 24px;
     margin-bottom: 20px;
+    transition: color 0.3s ease;
 }
 
 .ingredient-section {
@@ -229,8 +485,9 @@ nav ul li a {
 
 .ingredient-section h3 {
     font-size: 18px;
-    color: #000;
+    color: var(--ingredient-heading-color);
     margin-bottom: 15px;
+    transition: color 0.3s ease;
 }
 
 .ingredients ul {
@@ -253,7 +510,8 @@ nav ul li a {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    color: #555;
+    color: var(--text-color-secondary);
+    transition: color 0.3s ease;
 }
 
 .checkbox-container input {
@@ -270,16 +528,17 @@ nav ul li a {
     left: 0;
     height: 20px;
     width: 20px;
-    background-color: #eee;
+    background-color: var(--checkbox-bg);
     border-radius: 50%;
+    transition: background-color 0.3s ease;
 }
 
 .checkbox-container:hover input ~ .checkmark {
-    background-color: #ccc;
+    background-color: var(--checkbox-hover-bg);
 }
 
 .checkbox-container input:checked ~ .checkmark {
-    background-color: #d4f1f9;
+    background-color: var(--checkbox-checked-bg);
 }
 
 .checkmark:after {
@@ -297,13 +556,12 @@ nav ul li a {
     top: 3px;
     width: 5px;
     height: 10px;
-    border: solid white;
+    border: solid var(--checkbox-checkmark-color);
     border-width: 0 3px 3px 0;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
-
 
 .other-recipes {
     flex: 1;
@@ -313,11 +571,12 @@ nav ul li a {
     display: flex;
     align-items: center;
     gap: 15px;
-    background-color: #f9f9f9;
+    background-color: var(--other-recipe-card-bg);
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 15px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 3px var(--other-recipe-card-shadow);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .other-recipe-card img {
@@ -330,25 +589,28 @@ nav ul li a {
 .recipe-text h4 {
     margin: 0;
     font-size: 16px;
-    color: #333;
+    color: var(--other-recipe-card-title);
+    transition: color 0.3s ease;
 }
 
 .recipe-text p {
     margin: 5px 0 0;
     font-size: 13px;
-    color: #777;
+    color: var(--other-recipe-card-text);
+    transition: color 0.3s ease;
 }
 
 .ad-banner {
-    background: url('../Image/Healthy-Food.png') center/cover no-repeat;
+    background: url('../Image/Healthy-Food.png') center/cover no-repeat; /* Keep original image path */
     padding: 25px;
     border-radius: 8px;
     text-align: center;
     margin-top: 30px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    color: #ffffff; 
+    box-shadow: 0 2px 4px var(--container-shadow); /* Uses container shadow for consistency */
+    color: var(--ad-banner-text); 
     position: relative; 
     overflow: hidden; 
+    transition: box-shadow 0.3s ease;
 }
 
 .ad-banner::before {
@@ -358,11 +620,11 @@ nav ul li a {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.3); 
+    background-color: var(--ad-banner-overlay); 
     border-radius: 8px;
     z-index: 1; 
+    transition: background-color 0.3s ease;
 }
-
 
 .ad-banner p,
 .ad-banner h3 {
@@ -370,8 +632,9 @@ nav ul li a {
     z-index: 2;
     margin: 0;
     font-size: 16px;
-    color: #ffffff; 
+    color: var(--ad-banner-text); 
     font-weight: 600;
+    transition: color 0.3s ease;
 }
 
 .ad-banner h3 {
@@ -389,8 +652,8 @@ nav ul li a {
 }
 
 .ad-button {
-    background-color: #18230F;
-    color: #fff; 
+    background-color: var(--ad-button-bg);
+    color: var(--ad-button-text); 
     border: none;
     padding: 10px 20px;
     border-radius: 20px;
@@ -403,11 +666,7 @@ nav ul li a {
 }
 
 .ad-button:hover {
-    background-color: #255F38; 
-}
-
-.direction-step {
-    margin-bottom: 30px;
+    background-color: var(--ad-button-hover-bg); 
 }
 
 .direction-step {
@@ -416,14 +675,16 @@ nav ul li a {
 
 .direction-step h3 {
     font-size: 20px;
-    color: #000;
+    color: var(--direction-step-heading);
     margin-bottom: 15px;
+    transition: color 0.3s ease;
 }
 
 .direction-step p {
     line-height: 1.7;
-    color: #555;
+    color: var(--text-color-secondary);
     margin-bottom: 20px;
+    transition: color 0.3s ease;
 }
 
 .direction-step img {
@@ -433,83 +694,92 @@ nav ul li a {
     display: block;
     margin: 20px 0;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px var(--direction-step-image-shadow);
+    transition: box-shadow 0.3s ease;
 }
 
 .footer {
-    background-color: #fff;
+    background-color: var(--footer-bg);
     padding: 40px 60px;
     font-family: sans-serif;
     font-size: 14px;
-    color: #333;
-  }
-  
-  .footer-top {
+    color: var(--footer-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+ 
+.footer-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
     gap: 20px;
-  }
-  
-  .footer-brand h2.logo {
+}
+ 
+.footer-brand h2.logo {
     font-family: cursive;
     font-weight: bold;
     margin-bottom: 10px;
-  }
-  
-  .footer-brand p {
-    color: #888;
+    color: var(--footer-text); /* Ensure logo in footer also adapts */
+}
+ 
+.footer-brand p {
+    color: var(--footer-brand-p-color);
     max-width: 300px;
     line-height: 1.6;
-  }
-  
-  .footer-links {
+    transition: color 0.3s ease;
+}
+ 
+.footer-links {
     list-style: none;
     display: flex;
     gap: 25px;
     padding: 0;
     margin: 0;
-  }
-  
-  .footer-links a {
+}
+ 
+.footer-links a {
     text-decoration: none;
-    color: #000;
+    color: var(--footer-link-color);
     font-weight: 500;
-  }
-  
-  .footer-links a:hover {
+    transition: color 0.3s ease;
+}
+ 
+.footer-links a:hover {
     text-decoration: underline;
-  }
-  
-  .divider {
+}
+ 
+.divider {
     border: none;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--divider-color);
     margin: 30px 0;
-  }
-  
-  .footer-bottom {
+    transition: border-color 0.3s ease;
+}
+ 
+.footer-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     font-size: 13px;
-    color: #555;
-  }
-  
-  .footer-bottom .highlight {
-    color: #ff6b6b;
+    color: var(--footer-bottom-text);
+    transition: color 0.3s ease;
+}
+ 
+.footer-bottom .highlight {
+    color: var(--highlight-color);
     font-weight: 500;
     text-align: center;
-  }
-  
-  .footer-socials a {
-    color: #000;
+    transition: color 0.3s ease;
+}
+ 
+.footer-socials a {
+    color: var(--social-icon-color);
     text-decoration: none;
     margin-left: 15px;
     font-size: 16px;
-  }
-  
-  .footer-socials a:hover {
-    color: #ff6b6b;
-  }
+    transition: color 0.3s ease;
+}
+ 
+.footer-socials a:hover {
+    color: var(--highlight-color);
+}
