@@ -13,3 +13,7 @@ dropdown.addEventListener('mouseleave', () => {
   }, 2000); 
 });
 
+function myFunction() {
+  var element = document.body;
+  element.classList.toggle("dark-mode");
+}
