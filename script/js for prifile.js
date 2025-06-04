@@ -147,3 +147,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     // <button class="see-more-button"><a href="edit_profile.html" id="editProfileButton">Edit Profile</a></button>
     // Note: The second one should likely be <a href="edit_profile.html" class="see-more-button" id="editProfileButton">Edit Profile</a> to make the whole button clickable.
 });
+
+
+
+function myFunction() {
+    var element = document.body;
+    element.classList.toggle("dark-mode");
+  }
