@@ -48,8 +48,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     // --- END Dark Mode Toggle Functionality ---
 
+    // --- Dynamic "My profile" Link ---
+    // This targets the "My profile" link in the header of this page
+    const myProfileLink = document.querySelector('header .btn-profile[href="login-password/login.html"]');
+    // Re-fetch userId here to ensure it's the most up-to-date value after any potential login/logout
+    const currentUserId = localStorage.getItem('userId');
+
+    if (myProfileLink) {
+        if (currentUserId) {
+            // If user is logged in, change the link to point to their profile page
+            myProfileLink.href = 'My profile.html'; // Assuming My profile.html is in the parent directory
+        } else {
+            // If user is not logged in, ensure it points to the login page
+            myProfileLink.href = 'login-password/login.html'; // Assuming login.html is in login-password/
+        }
+    }
+    // --- END Dynamic "My profile" Link ---
 
     // --- Redirect if not logged in ---
+    // This check is crucial for the edit profile page itself
     if (!userId) {
         alert('You need to be logged in to edit your profile.');
         window.location.href = 'login-password/login.html';
@@ -166,13 +183,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                     feedbackMessage.textContent = data.message || 'Profile updated successfully!';
                     feedbackMessage.style.color = 'green';
 
+                    // Update localStorage with potentially new user data
                     localStorage.setItem('userName', data.user.name);
                     localStorage.setItem('userDescription', data.user.description);
                     localStorage.setItem('userFavoriteTags', data.user.favoriteTags);
                     localStorage.setItem('userProfileImageUrl', data.user.profileImageUrl);
 
                     setTimeout(() => {
-                        window.location.href = 'My profile.html';
+                        window.location.href = 'My profile.html'; // Redirect to My profile after update
                     }, 1500);
 
                 } else {

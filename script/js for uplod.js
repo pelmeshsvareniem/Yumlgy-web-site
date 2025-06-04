@@ -1,4 +1,40 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // --- Dark Mode Toggle Functionality ---
+    const darkModeToggle = document.getElementById('darkModeToggle');
+
+    function applyTheme(theme) {
+        document.body.classList.toggle('dark-mode', theme === 'dark');
+        // Add any other elements that need dark mode styling toggled here
+    }
+
+    // Load saved theme preference on page load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        applyTheme(savedTheme);
+        if (darkModeToggle) {
+            darkModeToggle.textContent = savedTheme === 'dark' ? 'Light mode' : 'Dark mode';
+        }
+    } else {
+        // Default to light mode if no preference saved
+        applyTheme('light');
+        if (darkModeToggle) {
+            darkModeToggle.textContent = 'Dark mode';
+        }
+    }
+
+    // Add event listener for the toggle button
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme); // Save preference
+            darkModeToggle.textContent = newTheme === 'dark' ? 'Light mode' : 'Dark mode';
+        });
+    }
+    // --- END Dark Mode Toggle Functionality ---
+
+
     const createRecipeForm = document.getElementById('createRecipeForm');
     const recipeResult = document.getElementById('recipeResult');
 
@@ -11,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let ingredientContainer;
 
     const triggerDirectionImageUploadButton = document.getElementById("triggerDirectionImageUpload");
-    const directionsTextarea = document.querySelector("textarea[name='directions']"); // Not directly used in the submit, but good to have
+    const directionsTextarea = document.querySelector("textarea[name='directions']");
     const directionImageInput = document.getElementById("directionImageInput");
 
     // --- Event Listeners for Image Upload Buttons ---
@@ -37,7 +73,20 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+ // --- Dynamic "My profile" Link ---
+    const myProfileLink = document.querySelector('header .btn-profile[href="login-password/login.html"]');
+    const userId = localStorage.getItem('userId');
 
+    if (myProfileLink) {
+        if (userId) {
+            // If user is logged in, change the link to point to their profile page
+            myProfileLink.href = 'My profile.html';
+        } else {
+            // If user is not logged in, ensure it points to the login page
+            myProfileLink.href = 'login-password/login.html';
+        }
+    }
+    // --- END Dynamic "My profile" Link ---
     // --- Add Ingredient Button ---
     if (addIngredientBtn && initialIngredientTextarea) {
         ingredientContainer = initialIngredientTextarea.parentNode;
@@ -73,45 +122,35 @@ document.addEventListener("DOMContentLoaded", () => {
             recipeResult.textContent = '';
             recipeResult.style.color = '';
 
-            // --- IMPORTANT: Get userId from localStorage ---
             const userId = localStorage.getItem('userId');
 
             if (!userId) {
                 recipeResult.style.color = 'red';
                 recipeResult.textContent = 'Error: You must be logged in to upload a recipe.';
                 alert('You must be logged in to upload a recipe. Redirecting to login...');
-                window.location.href = 'login-password/login.html'; // Redirect to login page
-                return; // Stop execution
+                window.location.href = 'login-password/login.html';
+                return;
             }
 
             const formData = new FormData();
+            formData.append('userId', userId);
 
-            // Append userId to formData
-            formData.append('userId', userId); // This is the crucial line!
-
-            // Iterate over all relevant form elements and append them
             createRecipeForm.querySelectorAll('input[name], textarea[name]').forEach(input => {
-                // Special handling for multiple ingredient textareas
                 if (input.name === 'ingredients' && input.classList.contains('ingredient-textarea')) {
                     const allIngredients = Array.from(document.querySelectorAll('textarea[name="ingredients"].ingredient-textarea'))
                         .map(textarea => textarea.value.trim())
                         .filter(value => value !== '')
-                        .join('\n'); // Join all ingredients with a newline character
-                    formData.set('ingredients', allIngredients); // Use set to ensure only one 'ingredients' field
-                }
-                // Handle regular text inputs and textareas (but exclude file inputs, handled separately)
-                else if (input.type !== 'file') {
+                        .join('\n');
+                    formData.set('ingredients', allIngredients);
+                } else if (input.type !== 'file') {
                     formData.append(input.name, input.value.trim());
                 }
-                // Note: The `userId` handling for `formData.append('userId', userId)` is already done outside this loop.
             });
 
-            // Append recipe main image
             if (recipeImageInput && recipeImageInput.files.length > 0) {
                 formData.append('recipeImage', recipeImageInput.files[0]);
             }
 
-            // Append direction images
             if (directionImageInput && directionImageInput.files.length > 0) {
                 for (let i = 0; i < directionImageInput.files.length; i++) {
                     formData.append('directionImages', directionImageInput.files[i]);
@@ -121,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 const response = await fetch('http://localhost:3000/recipes', {
                     method: 'POST',
-                    body: formData // FormData automatically sets 'Content-Type': 'multipart/form-data'
+                    body: formData
                 });
 
                 const data = await response.json();
@@ -129,20 +168,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (response.ok) {
                     recipeResult.style.color = 'green';
                     recipeResult.textContent = data.message;
-                    // Reset the form and previews after successful submission
                     createRecipeForm.reset();
                     if (imagePreview) {
                         imagePreview.src = '';
                         imagePreview.style.display = 'none';
                     }
-                    // Remove dynamically added ingredient textareas and clear the initial one
                     Array.from(document.querySelectorAll('textarea.ingredient-textarea')).forEach((textarea, index) => {
                         if (index > 0) textarea.remove();
                     });
                     if (initialIngredientTextarea) initialIngredientTextarea.value = "";
-
-                    // Optional: Redirect to profile page after successful upload
-                    // window.location.href = 'My profile.html';
 
                 } else {
                     recipeResult.style.color = 'red';
@@ -150,7 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.error('Backend error:', data.message);
                 }
             } catch (error) {
-                // Handle network errors (e.g., server not running, no internet connection)
                 console.error('Network error submitting recipe:', error);
                 recipeResult.style.color = 'red';
                 recipeResult.textContent = 'Network error. Could not connect to the server.';
@@ -158,8 +191,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-
-function myFunction() {
-    var element = document.body;
-    element.classList.toggle("dark-mode");
-  }

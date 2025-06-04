@@ -1,100 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Create Recipe | Yumlogy</title>
-  <link rel="stylesheet" href="css/style for upload.css" />
-  <script src="script/js for uplod.js" defer></script> 
-  <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
-  <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Create Recipe | Yumlogy</title>
+    <link rel="stylesheet" href="css/style for upload.css" />
+    <script src="script/js for uplod.js" defer></script>
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
 
 </head>
 <body>
-  <header>
-    <div class="logo">Yumlogy</div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="recipes.html">Recipes</a></li>
-        <li><a href="upload.html">Upload</a></li>
-        <li><a href="#">About us</a></li>
-      </ul>
-    </nav>
-    <button onclick="myFunction()" class="btn-profile">Dark mode</button>
-    <a class="btn-profile" href="login-password/login.html">My profile</a>
-  </header>
+    <header>
+        <div class="logo">Yumlogy</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="upload.html">Upload</a></li>
+                <li><a href="#">About us</a></li>
+            </ul>
+        </nav>
+        <!-- Changed onclick to id for JavaScript targeting -->
+        <button id="darkModeToggle" class="btn-profile">Dark mode</button>
+        <a class="btn-profile" href="login-password/login.html">My profile</a>
+    </header>
 
-  <main class="container">
-    <h1>Create an recipe</h1>
-    <form class="recipe-form" id="createRecipeForm" enctype="multipart/form-data">
-      <div class="left-panel">
-        <div class="image-upload">
-          <img src="#" alt="Image Preview" class="recipe-img" id="imagePreview" style="display: none;"/>
-          
-          <input type="file" name="recipeImage" id="recipeImageInput" accept="image/*" style="display: none;"/>
-          <button type="button" class="upload-btn" id="triggerImageUpload">Upload the Image</button>
+    <main class="container">
+        <h1>Create an recipe</h1>
+        <form class="recipe-form" id="createRecipeForm" enctype="multipart/form-data">
+            <div class="left-panel">
+                <div class="image-upload">
+                    <img src="#" alt="Image Preview" class="recipe-img" id="imagePreview" style="display: none;"/>
+
+                    <input type="file" name="recipeImage" id="recipeImageInput" accept="image/*" style="display: none;"/>
+                    <button type="button" class="upload-btn" id="triggerImageUpload">Upload the Image</button>
+                </div>
+
+                <div class="nutrition-box">
+                    <h3>Nutrition Information</h3>
+                    <input type="text" name="calories" placeholder="Calories"/>
+                    <input type="text" name="total_fat" placeholder="Total Fat"/>
+                    <input type="text" name="protein" placeholder="Protein"/>
+                    <input type="text" name="carbohydrate" placeholder="Carbohydrate"/>
+                    <input type="text" name="cholesterol" placeholder="Cholesterol"/>
+                    <input type="text" name="allergens" placeholder="Possible allergens"/>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="input-row">
+                    <input type="text" name="name" placeholder="Enter the name..." />
+                    <input type="text" name="prep_time" placeholder="Your prep time in min,h" />
+                </div>
+                <div class="input-row">
+                    <input type="text" name="tags" placeholder="Enter tags with #..." />
+                    <input type="text" name="cooking_time" placeholder="Your cooking time in min,h" />
+                </div>
+                <textarea name="description" placeholder="Enter your description..." rows="4"></textarea>
+                <textarea name="ingredients" class="ingredient-textarea" placeholder="Enter list of ingredients..." rows="3"></textarea>
+                <button type="button" class="add-btn">+</button>
+                <textarea name="directions" placeholder="Enter direction by path..." rows="6"></textarea>
+                <div class="button-row">
+                    <input type="file" name="directionImages" id="directionImageInput" accept="image/*" multiple style="display: none;">
+                    <button type="button" class="add-img-btn" id="triggerDirectionImageUpload">Add image</button>
+                    <button type="submit" class="submit-btn" id="submitRecipeButton">Submit</button>
+                </div>
+            </div>
+        </form>
+        <p id="recipeResult" style="color: green; margin-top: 15px; text-align: center;"></p>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <h2 class="logo">Yumlogy.</h2>
+                <p>Discover, cook, and share your favorite dishes with a community that loves food as much as you do</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">Recipes</a></li>
+                <li><a href="#">Upload</a></li>
+                <li><a href="#">About us</a></li>
+                <li><a href="#">My profile</a></li>
+            </ul>
         </div>
 
-        <div class="nutrition-box">
-          <h3>Nutrition Information</h3>
-          <input type="text" name="calories" placeholder="Calories"/>
-          <input type="text" name="total_fat" placeholder="Total Fat"/>
-          <input type="text" name="protein" placeholder="Protein"/>
-          <input type="text" name="carbohydrate" placeholder="Carbohydrate"/>
-          <input type="text" name="cholesterol" placeholder="Cholesterol"/>
-          <input type="text" name="allergens" placeholder="Possible allergens"/>
-        </div>
-      </div>
+        <hr class="divider" />
 
-      <div class="right-panel">
-        <div class="input-row">
-          <input type="text" name="name" placeholder="Enter the name..." />
-          <input type="text" name="prep_time" placeholder="Your prep time in min,h" />
+        <div class="footer-bottom">
+            <p>© 2025 Yumlogy. Powered by <span class="highlight">AAW-231</span></p>
+            <div class="footer-socials">
+                <a href="#"><i class='bxl bx-telegram'></i> </a>
+                <a href="#"><i class='bxl bx-instagram'></i> </a>
+                <a href="#"><i class='bxl bx-twitter-x'></i> </a>
+            </div>
         </div>
-        <div class="input-row">
-          <input type="text" name="tags" placeholder="Enter tags with #..." />
-          <input type="text" name="cooking_time" placeholder="Your cooking time in min,h" />
-        </div>
-        <textarea name="description" placeholder="Enter your description..." rows="4"></textarea>
-        <textarea name="ingredients" class="ingredient-textarea" placeholder="Enter list of ingredients..." rows="3"></textarea>
-        <button type="button" class="add-btn">+</button>
-        <textarea name="directions" placeholder="Enter direction by path..." rows="6"></textarea>
-        <div class="button-row">
-          <input type="file" name="directionImages" id="directionImageInput" accept="image/*" multiple style="display: none;">
-          <button type="button" class="add-img-btn" id="triggerDirectionImageUpload">Add image</button> 
-          <button type="submit" class="submit-btn" id="submitRecipeButton">Submit</button>
-        </div>
-      </div>
-    </form>
-    <p id="recipeResult" style="color: green; margin-top: 15px; text-align: center;"></p>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <h2 class="logo">Yumlogy.</h2>
-        <p>Discover, cook, and share your favorite dishes with a community that loves food as much as you do</p>
-      </div>
-      <ul class="footer-links">
-        <li><a href="#">Recipes</a></li>
-        <li><a href="#">Upload</a></li>
-        <li><a href="#">About us</a></li>
-        <li><a href="#">My profile</a></li>
-      </ul>
-    </div>
-
-    <hr class="divider" />
-
-    <div class="footer-bottom">
-      <p>© 2025 Yumlogy. Powered by <span class="highlight">AAW-231</span></p>
-      <div class="footer-socials">
-        <a href="#"><i class='bxl  bx-telegram'  ></i> </a>
-        <a href="#"><i class='bxl  bx-instagram'  ></i> </a>
-        <a href="#"><i class='bxl  bx-twitter-x'  ></i> </a>
-      </div>
-    </div>
-  </footer>
+    </footer>
 
 </body>
 </html>

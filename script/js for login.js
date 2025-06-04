@@ -1,4 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Dark Mode Persistence Functionality (No Button) ---
+
+    /**
+     * Applies the specified theme to the document body.
+     * @param {string} theme - The theme to apply ('dark' or 'light').
+     */
+    function applyTheme(theme) {
+        document.body.classList.toggle('dark-mode', theme === 'dark');
+        // This is where you would add logic for specific images or elements
+        // that need their styles inverted or changed based on dark mode,
+        // if not handled purely by CSS variables and filters.
+    }
+
+    // Load saved theme preference from localStorage on page load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        // Apply the saved theme immediately
+        applyTheme(savedTheme);
+    } else {
+        // If no theme is saved, default to light mode
+        applyTheme('light');
+    }
+    // --- END Dark Mode Persistence Functionality ---
+
+
     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
     const finalResult = document.getElementById('finalResult');
@@ -17,13 +42,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const emailError = document.getElementById('emailError');
             const passwordError = document.getElementById('passwordError');
 
-            // Clear previous errors
+            // Clear previous errors and result message
             emailError.textContent = '';
             passwordError.textContent = '';
-            finalResult.textContent = ''; // Clear final result message
+            finalResult.textContent = '';
 
             let isValid = true;
 
+            // Basic client-side validation for email
             if (!email) {
                 emailError.textContent = 'Email is required.';
                 isValid = false;
@@ -32,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 isValid = false;
             }
 
+            // Basic client-side validation for password
             if (!password) {
                 passwordError.textContent = 'Password is required.';
                 isValid = false;
@@ -39,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (isValid) {
                 try {
+                    // Send login request to the backend
                     const response = await fetch('http://localhost:3000/login', {
                         method: 'POST',
                         headers: {
@@ -53,24 +81,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         finalResult.style.color = 'green';
                         finalResult.textContent = data.message;
 
-                        // --- IMPORTANT: Store user data in localStorage ---
+                        // Store user data in localStorage upon successful login
                         localStorage.setItem('userId', data.userId);
                         localStorage.setItem('userName', data.userName);
-                        localStorage.setItem('userDescription', data.userDescription || ''); // Store, default to empty if null/undefined
-                        localStorage.setItem('userFavoriteTags', data.userFavoriteTags || ''); // Store, default to empty if null/undefined
+                        localStorage.setItem('userDescription', data.userDescription || ''); // Default to empty if null/undefined
+                        localStorage.setItem('userFavoriteTags', data.userFavoriteTags || ''); // Default to empty if null/undefined
+                        localStorage.setItem('userProfileImageUrl', data.userProfileImageUrl || ''); // Store profile image URL
 
-                        // Redirect to the profile page or home page
+                        // Redirect to the profile page after a short delay
                         setTimeout(() => {
-                            // You can choose to redirect to My profile.html directly after login,
-                            // or keep it as index.html. For profile feature, profile is more direct.
-                            window.location.href = '../My profile.html'; // Redirect to My profile page
-                            // Or: window.location.href = '../index.html'; // Redirect to home page
+                            window.location.href = '../My profile.html'; // Adjust path if needed
                         }, 1500);
                     } else {
+                        // Display error message from the backend
                         finalResult.style.color = 'red';
                         finalResult.textContent = data.message || 'Login failed. Please try again.';
                     }
                 } catch (error) {
+                    // Handle network errors (e.g., server not running, no internet connection)
                     console.error('Error during login fetch:', error);
                     finalResult.style.color = 'red';
                     finalResult.textContent = 'Network error. Please try again later.';
@@ -79,7 +107,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Register Form Submission --- (Keep as is, no changes needed here for profile functionality)
+    // --- Register Form Submission ---
+    // This block assumes this same JS file is used for register.html.
+    // It will only execute if an element with registerForm ID is found.
     if (registerForm) {
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevent default form submission
@@ -98,17 +128,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const emailError = document.getElementById('emailError');
             const passwordError = document.getElementById('passwordError');
             const confirmError = document.getElementById('confirmError');
-            
-            // Clear previous errors
+
+            // Clear previous errors and result message
             nameError.textContent = '';
             emailError.textContent = '';
             passwordError.textContent = '';
             confirmError.textContent = '';
-            finalResult.textContent = ''; // Clear final result message
-
+            finalResult.textContent = '';
 
             let isValid = true;
 
+            // Client-side validation for registration fields
             if (!name) {
                 nameError.textContent = 'Name is required.';
                 isValid = false;
@@ -140,6 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (isValid) {
                 try {
+                    // Send registration request to the backend
                     const response = await fetch('http://localhost:3000/register', {
                         method: 'POST',
                         headers: {
@@ -153,15 +184,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (response.ok) {
                         finalResult.style.color = 'green';
                         finalResult.textContent = data.message;
-                        // Optionally redirect to login page after successful registration
+                        // Redirect to login page after successful registration
                         setTimeout(() => {
-                            window.location.href = 'login.html';
+                            window.location.href = 'login.html'; // Adjust path if needed
                         }, 2000);
                     } else {
+                        // Display error message from the backend
                         finalResult.style.color = 'red';
                         finalResult.textContent = data.message || 'Registration failed. Please try again.';
                     }
                 } catch (error) {
+                    // Handle network errors
                     console.error('Error during registration fetch:', error);
                     finalResult.style.color = 'red';
                     finalResult.textContent = 'Network error. Please try again later.';
@@ -170,10 +203,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-// For dark mode button if it's in js.js, make sure it's not conflicting
-// Example from your index.html:
-function myFunction() {
-    var element = document.body;
-    element.classList.toggle("dark-mode");
-}

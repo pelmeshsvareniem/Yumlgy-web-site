@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // --- User Profile Data Population ---
-    const userId = localStorage.getItem('userId');
     const userNameElement = document.getElementById('profileName');
     const userDescriptionElement = document.getElementById('profileDescription');
     const userFavoriteTagsElement = document.getElementById('profileFavoriteTags');
@@ -11,15 +10,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const myRecipesGrid = document.querySelector('.content-area .recipe-grid:first-of-type');
     const savedRecipesGrid = document.querySelector('.content-area .recipe-grid:last-of-type');
 
-    // --- Dark Mode Toggle Functionality ---
+    // --- Dark Mode Toggle Functionality (already in place) ---
     const darkModeToggle = document.getElementById('darkModeToggle');
 
     function applyTheme(theme) {
         document.body.classList.toggle('dark-mode', theme === 'dark');
-        // Add any other elements that need dark mode styling toggled here
     }
 
-    // Load saved theme preference on page load
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
         applyTheme(savedTheme);
@@ -27,29 +24,41 @@ document.addEventListener('DOMContentLoaded', async () => {
             darkModeToggle.textContent = savedTheme === 'dark' ? 'Light mode' : 'Dark mode';
         }
     } else {
-        // Default to light mode if no preference saved
         applyTheme('light');
         if (darkModeToggle) {
             darkModeToggle.textContent = 'Dark mode';
         }
     }
 
-    // Add event listener for the toggle button
     if (darkModeToggle) {
         darkModeToggle.addEventListener('click', () => {
             const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             applyTheme(newTheme);
-            localStorage.setItem('theme', newTheme); // Save preference
+            localStorage.setItem('theme', newTheme);
             darkModeToggle.textContent = newTheme === 'dark' ? 'Light mode' : 'Dark mode';
         });
     }
     // --- END Dark Mode Toggle Functionality ---
 
 
-    // Redirect if not logged in
+    // --- User ID Handling for Profile Access ---
+    let userId = localStorage.getItem('userId');
+
+    // If no userId is found in localStorage, use a default for development convenience
+    // IMPORTANT: Make sure a user with this ID exists in your database!
+    const defaultUserId = '1'; // You can change this to any existing user ID for testing
+
     if (!userId) {
-        alert('You need to be logged in to view your profile.');
+        console.warn(`No userId found in localStorage. Using defaultUserId: ${defaultUserId} for development.`);
+        userId = defaultUserId;
+        // Optionally, you could store this default ID in localStorage for future visits
+        // localStorage.setItem('userId', defaultUserId);
+    }
+
+    // If, for some reason, userId is still null/undefined (e.g., defaultUserId is also not set)
+    if (!userId) {
+        alert('User ID not available. Please log in.');
         window.location.href = 'login-password/login.html';
         return;
     }
@@ -61,7 +70,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (response.ok && data.user) {
             const user = data.user;
             const myRecipes = data.myRecipes;
-            // const savedRecipes = data.savedRecipes; // Will be empty for now from backend
 
             // Populate user details
             if (profileHeaderTitle) profileHeaderTitle.textContent = user.name + "'s Profile";
@@ -73,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (user.profileImageUrl) {
                     profileAvatarImg.src = `http://localhost:3000${user.profileImageUrl}`;
                 } else {
-                    profileAvatarImg.src = 'Image/pelmeshek.jpg';
+                    profileAvatarImg.src = 'Image/pelmeshek.jpg'; // Default placeholder
                 }
             }
 
@@ -84,7 +92,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             // Populate My Recipes
             if (myRecipesGrid) {
-                myRecipesGrid.innerHTML = '';
+                myRecipesGrid.innerHTML = ''; // Clear static content
                 if (myRecipes && myRecipes.length > 0) {
                     myRecipes.forEach(recipe => {
                         const recipeCardLink = document.createElement('a');
@@ -123,10 +131,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             console.error('Failed to fetch profile data:', data.message || 'Unknown error');
             alert('Error loading profile: ' + (data.message || 'Unknown error'));
+            // If the defaultUserId doesn't exist, you might still want to redirect to login
+            window.location.href = 'login-password/login.html';
         }
     } catch (error) {
         console.error('Network error fetching profile data:', error);
         alert('Network error. Could not load profile data.');
+        window.location.href = 'login-password/login.html';
     }
 
     // --- Event Delegation for Favorite Buttons ---
