@@ -1,35 +1,14 @@
-
-const dropdown = document.getElementById('dropdown');
-const menu = document.getElementById('dropdownMenu');
-let hideTimeout;
-
-dropdown.addEventListener('mouseenter', () => {
-  clearTimeout(hideTimeout);
-  menu.classList.add('show');
-});
-
-dropdown.addEventListener('mouseleave', () => {
-  hideTimeout = setTimeout(() => {
-    menu.classList.remove('show');
-  }, 2000); 
-});
-
-function myFunction() {
-  var element = document.body;
-  element.classList.toggle("dark-mode");
-}
-=======
 document.addEventListener("DOMContentLoaded", () => {
     // --- Dark Mode Toggle Functionality ---
     const darkModeToggle = document.getElementById('darkModeToggle');
 
+    /**
+     * Applies the specified theme to the document body.
+     * @param {string} theme - The theme to apply ('dark' or 'light').
+     */
     function applyTheme(theme) {
         document.body.classList.toggle('dark-mode', theme === 'dark');
-        // If you have specific images that need to be inverted in dark mode,
-        // you might add logic here, or handle it purely in CSS with filters.
-        // Example: document.querySelectorAll('.category-card img').forEach(img => {
-        //     img.style.filter = theme === 'dark' ? 'invert(1)' : 'none';
-        // });
+        // Add any other elements that need dark mode styling toggled here (e.g., image filters via CSS)
     }
 
     // Load saved theme preference on page load
@@ -59,8 +38,44 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     // --- END Dark Mode Toggle Functionality ---
 
+    // --- Dynamic "My profile" Link ---
+    // This targets the "My profile" link in the header
+    const myProfileLink = document.querySelector('header .btn-profile[href="login-password/login.html"]');
+    const userId = localStorage.getItem('userId'); // Get current userId from localStorage
 
-    // --- Existing Recipe Display Logic (from your original index.html script) ---
+    if (myProfileLink) {
+        if (userId) {
+            // If user is logged in, change the link to point to their profile page
+            myProfileLink.href = 'My profile.html';
+        } else {
+            // If user is not logged in, ensure it points to the login page
+            myProfileLink.href = 'login-password/login.html';
+        }
+    }
+    // --- END Dynamic "My profile" Link ---
+
+    // --- Dropdown Functionality (from your original "slay" branch code) ---
+    // Note: Ensure your HTML has elements with id="dropdown" and id="dropdownMenu"
+    const dropdown = document.getElementById('dropdown');
+    const menu = document.getElementById('dropdownMenu');
+    let hideTimeout;
+
+    if (dropdown && menu) {
+        dropdown.addEventListener('mouseenter', () => {
+            clearTimeout(hideTimeout);
+            menu.classList.add('show');
+        });
+
+        dropdown.addEventListener('mouseleave', () => {
+            hideTimeout = setTimeout(() => {
+                menu.classList.remove('show');
+            }, 2000); // 2-second delay before hiding
+        });
+    }
+    // --- END Dropdown Functionality ---
+
+
+    // --- Existing Recipe Display Logic ---
     const recipes = [
         {
             title: "Mixed Tropical Fruit Salad with Superfood Boosts",
@@ -114,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const grid = document.getElementById("recipe-grid");
 
-    if (grid) { // Ensure the grid element exists
+    if (grid) { // Ensure the grid element exists before trying to append to it
         recipes.forEach(recipe => {
             const card = document.createElement("div");
             card.className = "recipe-card-homepage";
