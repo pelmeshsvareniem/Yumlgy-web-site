@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Recipe | Yumlogy</title>
     <link rel="stylesheet" href="css/style for uploaded recipe.css">
-    <!-- Defer loading of JS until after HTML is parsed -->
     <script src="script/js for uploaded recipe.js" defer></script>
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
-    <!-- Font Awesome for fas icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
@@ -24,33 +22,39 @@
                 <li><a href="#">About us</a></li>
             </ul>
         </nav>
+        <button id="darkModeToggle" class="btn-profile">Dark mode</button> <!-- ADDED DARK MODE TOGGLE -->
         <a class="btn-profile" href="login-password/login.html">My profile</a>
     </header>
 
     <div class="container">
         <header class="header">
             <div class="logo">
-                <h2 id="recipeTitle"><i class="fas fa-leaf"></i> Hibachi Fried Rice</h2> <!-- ADDED ID -->
+                <h2 id="recipeTitle"><i class="fas fa-leaf"></i> Hibachi Fried Rice</h2>
             </div>
             <div class="header-info">
                 <div class="info-item">
-                    <i class="fas fa-calendar-alt"></i> <span id="recipeDate">3 Jun 2025</span> <!-- ADDED ID -->
+                    <i class="fas fa-calendar-alt"></i> <span id="recipeDate">3 Jun 2025</span>
                 </div>
                 <div class="info-item">
-                    <i class="fas fa-tag"></i> Prep time <span id="recipePrepTime">10 min</span> <!-- ADDED ID -->
+                    <i class="fas fa-tag"></i> Prep time <span id="recipePrepTime">10 min</span>
                 </div>
                 <div class="info-item">
-                    <i class="fas fa-clock"></i> Cook time <span id="recipeCookTime">15 min</span> <!-- ADDED ID -->
+                    <i class="fas fa-clock"></i> Cook time <span id="recipeCookTime">15 min</span>
                 </div>
                 <div class="info-item">
-                    <i class="fas fa-utensils"></i> <span id="recipeTags">Chicken</span> <!-- ADDED ID -->
+                    <i class="fas fa-utensils"></i> <span id="recipeTags">Chicken</span>
                 </div>
-                <button class="delete-button" id="deleteRecipeButton"> <!-- ADDED ID -->
+                <button class="delete-button" id="deleteRecipeButton">
                     <i class='bx bx-trash'></i> Delete
                 </button>
             </div>
             <div class="header-actions">
-                <!-- These are static icons, no IDs needed unless they become interactive -->
+                <button class="export-button" id="exportCsvButton" title="Export as CSV">
+                    <i class='bx bx-file'></i> CSV
+                </button>
+                <button class="export-button" id="exportJsonButton" title="Export as JSON">
+                    <i class='bx bx-code-alt'></i> JSON
+                </button>
                 <i class="fas fa-bell"></i>
                 <i class="fas fa-upload"></i>
                 <i class="fas fa-share-alt"></i>
@@ -60,61 +64,58 @@
         <main class="main-content">
             <section class="recipe-hero">
                 <div class="video-placeholder">
-                    <img id="mainRecipeImage" src="Image/Healthier-Hibachi-Fried-Rice.jpeg" alt="Japanese Fried Rice" class="main-recipe-image"> <!-- ADDED ID -->
+                    <img id="mainRecipeImage" src="Image/Healthier-Hibachi-Fried-Rice.jpeg" alt="Japanese Fried Rice" class="main-recipe-image">
                 </div>
                 <div class="nutrition-info">
                     <h3>Nutrition Information</h3>
                     <table>
                         <tr>
                             <td>Calories</td>
-                            <td id="nutritionCalories">218.9 kcal</td> <!-- ADDED ID -->
+                            <td id="nutritionCalories">218.9 kcal</td>
                         </tr>
                         <tr>
                             <td>Protein</td>
-                            <td id="nutritionProtein">10.7 g</td> <!-- ADDED ID -->
+                            <td id="nutritionProtein">10.7 g</td>
                         </tr>
                         <tr>
                             <td>Total Fat</td>
-                            <td id="nutritionTotalFat">7.8 g</td> <!-- ADDED ID -->
+                            <td id="nutritionTotalFat">7.8 g</td>
                         </tr>
                         <tr>
                             <td>Carbohydrate</td>
-                            <td id="nutritionCarbohydrate">16.5 g</td> <!-- ADDED ID -->
+                            <td id="nutritionCarbohydrate">16.5 g</td>
                         </tr>
                         <tr>
                             <td>Cholesterol</td>
-                            <td id="nutritionCholesterol">20.4 mg</td> <!-- ADDED ID -->
+                            <td id="nutritionCholesterol">20.4 mg</td>
                         </tr>
                     </table>
                     <p class="small-text" id="nutritionDescription">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p> <!-- ADDED ID -->
+                    </p>
                 </div>
             </section>
 
             <section class="description">
                 <p id="recipeDescription">
                     Easy and flavorful, this healthier hibachi fried rice is the perfect side dish for my hibachi steak and hibachi chicken recipes! Made with leftover rice, you could even throw it together and top with your favorite protein; we love it with everything from this air fryer shrimp and my pan fried salmon to this Asian pork tenderloin!
-                </p> <!-- ADDED ID -->
+                </p>
             </section>
 
             <section class="recipe-details">
                 <div class="ingredients">
                     <h2>Ingredients</h2>
                     <div class="ingredient-section" id="ingredientsList">
-                        <!-- Ingredients will be dynamically populated here -->
                         <h3>For main dish</h3>
                         <ul>
                             <li><label class="checkbox-container"><input type="checkbox"><span class="checkmark"></span>Brown rice, cooked and cooled</label></li>
                             <li><label class="checkbox-container"><input type="checkbox"><span class="checkmark"></span>Eggs</label></li>
-                            <!-- ... more static ingredients ... -->
                         </ul>
                     </div>
                 </div>
 
                 <div class="other-recipes">
                     <h2>Other Recipe</h2>
-                    <!-- Other recipes will be dynamically populated or removed if not needed -->
                     <div class="other-recipe-card">
                         <img src="Image/Chicken-Meatball.jpg" alt="Chicken Meatball">
                         <div class="recipe-text">
@@ -122,7 +123,6 @@
                             <p>By Pelmeshek s vareniem</p>
                         </div>
                     </div>
-                    <!-- ... more static other recipes ... -->
                     <div class="ad-banner">
                         <p>Don't forget to eat</p>
                         <h3>Healthy Food</h3>
@@ -135,7 +135,6 @@
             <section class="directions">
                 <h2>Directions</h2>
                 <div id="directionsList">
-                    <!-- Directions will be dynamically populated here -->
                     <div class="direction-step">
                         <h3>1. Lorem ipsum dolor sit amet</h3>
                         <p>Heat ½ tsp of butter in a large skillet or wok over medium-high heat. Add eggs to the hot pan and scramble, stirring occasionally until cooked through. Remove from pan and set aside.</p>

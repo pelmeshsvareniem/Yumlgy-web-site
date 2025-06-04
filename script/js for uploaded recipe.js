@@ -17,9 +17,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const directionsListElement = document.getElementById('directionsList');
     const deleteRecipeButton = document.getElementById('deleteRecipeButton');
 
-    // --- Elements for existing interactions (from your provided code) ---
+    // --- Elements for existing interactions ---
     const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]');
-    const playButton = document.querySelector('.play-button'); // Assuming you might add this HTML later
+    const playButton = document.querySelector('.play-button');
+
+    // --- New Elements for Export Buttons ---
+    const exportCsvButton = document.getElementById('exportCsvButton');
+    const exportJsonButton = document.getElementById('exportJsonButton');
 
     // --- User ID for Authorization ---
     const userId = localStorage.getItem('userId');
@@ -28,9 +32,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const recipeId = urlParams.get('id');
 
+    // --- Dark Mode Toggle Functionality ---
+    const darkModeToggle = document.getElementById('darkModeToggle');
+
+    function applyTheme(theme) {
+        document.body.classList.toggle('dark-mode', theme === 'dark');
+        // Add any other elements that need dark mode styling toggled here
+    }
+
+    // Load saved theme preference on page load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        applyTheme(savedTheme);
+        if (darkModeToggle) {
+            darkModeToggle.textContent = savedTheme === 'dark' ? 'Light mode' : 'Dark mode';
+        }
+    } else {
+        // Default to light mode if no preference saved
+        applyTheme('light');
+        if (darkModeToggle) {
+            darkModeToggle.textContent = 'Dark mode';
+        }
+    }
+
+    // Add event listener for the toggle button
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', () => {
+            const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme); // Save preference
+            darkModeToggle.textContent = newTheme === 'dark' ? 'Light mode' : 'Dark mode';
+        });
+    }
+    // --- END Dark Mode Toggle Functionality ---
+
+
     if (!recipeId) {
         alert('Recipe ID not found in URL. Redirecting to home.');
-        window.location.href = 'index.html'; // Redirect if no recipe ID
+        window.location.href = 'index.html';
         return;
     }
 
@@ -65,14 +105,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (nutritionTotalFatElement) nutritionTotalFatElement.textContent = `${recipe.total_fat || 'N/A'} g`;
                 if (nutritionCarbohydrateElement) nutritionCarbohydrateElement.textContent = `${recipe.carbohydrate || 'N/A'} g`;
                 if (nutritionCholesterolElement) nutritionCholesterolElement.textContent = `${recipe.cholesterol || 'N/A'} mg`;
-                if (nutritionDescriptionElement) nutritionDescriptionElement.textContent = recipe.allergens || 'No allergen info provided.'; // Using allergens for this text
+                if (nutritionDescriptionElement) nutritionDescriptionElement.textContent = recipe.allergens || 'No allergen info provided.';
 
                 // Populate main description
                 if (recipeDescriptionElement) recipeDescriptionElement.textContent = recipe.description || 'No description provided.';
 
                 // Populate ingredients
                 if (ingredientsListElement) {
-                    ingredientsListElement.innerHTML = '<h2>Ingredients</h2>'; // Clear existing static content
+                    ingredientsListElement.innerHTML = '<h2>Ingredients</h2>';
                     if (recipe.ingredients) {
                         const ingredientsArray = recipe.ingredients.split('\n').filter(line => line.trim() !== '');
                         const ul = document.createElement('ul');
@@ -82,7 +122,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                             ul.appendChild(li);
                         });
                         ingredientsListElement.appendChild(ul);
-                        // Re-attach checkbox listeners after dynamic content is added
                         attachCheckboxListeners();
                     } else {
                         ingredientsListElement.innerHTML += '<p>No ingredients listed.</p>';
@@ -91,14 +130,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 // Populate directions
                 if (directionsListElement) {
-                    directionsListElement.innerHTML = '<h2>Directions</h2>'; // Clear existing static content
+                    directionsListElement.innerHTML = '<h2>Directions</h2>';
                     if (recipe.directions) {
                         const directionsArray = recipe.directions.split('\n').filter(line => line.trim() !== '');
                         directionsArray.forEach((direction, index) => {
                             const div = document.createElement('div');
                             div.classList.add('direction-step');
                             div.innerHTML = `<h3>${index + 1}. ${direction}</h3>`;
-                            // If you stored direction images, you'd add logic here to display them
                             directionsListElement.appendChild(div);
                         });
                     } else {
@@ -109,28 +147,36 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Show/hide delete button based on ownership
                 if (deleteRecipeButton) {
                     if (userId && parseInt(userId) === recipe.user_id) {
-                        deleteRecipeButton.style.display = 'block'; // Show delete button
+                        deleteRecipeButton.style.display = 'block';
                         deleteRecipeButton.addEventListener('click', handleDeleteRecipe);
                     } else {
-                        deleteRecipeButton.style.display = 'none'; // Hide delete button
+                        deleteRecipeButton.style.display = 'none';
                     }
+                }
+
+                // Attach event listeners for export buttons (always visible)
+                if (exportCsvButton) {
+                    exportCsvButton.addEventListener('click', () => exportRecipe('csv'));
+                }
+                if (exportJsonButton) {
+                    exportJsonButton.addEventListener('click', () => exportRecipe('json'));
                 }
 
             } else {
                 alert('Recipe not found or an error occurred: ' + (data.message || 'Unknown error.'));
-                window.location.href = 'index.html'; // Redirect if recipe not found
+                window.location.href = 'index.html';
             }
         } catch (error) {
             console.error('Network error fetching recipe details:', error);
             alert('Network error. Could not load recipe details.');
-            window.location.href = 'index.html'; // Redirect on network error
+            window.location.href = 'index.html';
         }
     }
 
     // --- Function to handle recipe deletion ---
     async function handleDeleteRecipe() {
         if (!confirm('Are you sure you want to delete this recipe? This action cannot be undone.')) {
-            return; // User cancelled
+            return;
         }
 
         try {
@@ -139,14 +185,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ userId: userId }) // Send userId for authorization
+                body: JSON.stringify({ userId: userId })
             });
 
             const data = await response.json();
 
             if (response.ok) {
                 alert(data.message);
-                window.location.href = 'My profile.html'; // Redirect to profile after deletion
+                window.location.href = 'My profile.html';
             } else {
                 alert('Failed to delete recipe: ' + (data.message || 'Unknown error.'));
                 console.error('Delete error:', data);
@@ -157,6 +203,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // --- Function to handle recipe export ---
+    function exportRecipe(format) {
+        const exportUrl = `http://localhost:3000/recipes/${recipeId}/export/${format}`;
+        window.location.href = exportUrl;
+    }
+
     // --- Existing Checkbox Logic (re-attached after dynamic content loads) ---
     function attachCheckboxListeners() {
         const currentCheckboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]');
@@ -164,20 +216,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             checkbox.addEventListener('change', (event) => {
                 if (event.target.checked) {
                     console.log(`Ingredient "${event.target.parentNode.textContent.trim()}" checked.`);
-                    // Add any visual feedback for checked items if needed
                 } else {
                     console.log(`Ingredient "${event.target.parentNode.textContent.trim()}" unchecked.`);
-                    // Remove any visual feedback for unchecked items if needed
                 }
             });
         });
     }
 
     // --- Existing Play Button Interaction (placeholder) ---
-    if (playButton) {
-        playButton.addEventListener('click', () => {
+    const playButtonElement = document.querySelector('.play-button');
+    if (playButtonElement) {
+        playButtonElement.addEventListener('click', () => {
             alert('Play video functionality would go here!');
-            // In a real application, you'd replace the image with a video player
         });
     }
 
