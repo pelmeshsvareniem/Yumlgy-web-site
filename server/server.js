@@ -28,14 +28,15 @@ app.get('/', (req, res) => {
 });
 
 // --- MULTER STORAGE CONFIGURATION ---
-// This block must come BEFORE any routes that use 'upload', and before app.listen().
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        // Save files to the 'uploads' directory directly within the 'server' directory
-        cb(null, path.join(__dirname, 'uploads/'));
+        const uploadPath = path.join(__dirname, 'uploads/');
+        if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath, { recursive: true });
+        }
+        cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
-        // Generate a unique filename to prevent overwrites
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
@@ -95,7 +96,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// Login User (MODIFIED to include description, favorite_tags, and profile_image_url)
+// Login User
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -104,7 +105,6 @@ app.post('/login', async (req, res) => {
     }
 
     try {
-        // Retrieve user from database, including new profile fields
         const [users] = await pool.execute('SELECT id, name, password, description, favorite_tags, profile_image_url FROM users WHERE email = ?', [email]);
 
         if (users.length === 0) {
@@ -126,7 +126,7 @@ app.post('/login', async (req, res) => {
             userEmail: user.email,
             userDescription: user.description || '',
             userFavoriteTags: user.favorite_tags || '',
-            userProfileImageUrl: user.profile_image_url || '' // Added profile_image_url
+            userProfileImageUrl: user.profile_image_url || ''
         });
 
     } catch (error) {
@@ -135,14 +135,13 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// --- GET PROFILE DATA ENDPOINT (MODIFIED to include profile_image_url) ---
+// --- GET PROFILE DATA ENDPOINT ---
 app.get('/profile/:userId', async (req, res) => {
     const { userId } = req.params;
 
     try {
-        // 1. Fetch user's basic profile information
         const [users] = await pool.execute(
-            'SELECT id, name, email, description, favorite_tags, profile_image_url FROM users WHERE id = ?', // Added profile_image_url
+            'SELECT id, name, email, description, favorite_tags, profile_image_url FROM users WHERE id = ?',
             [userId]
         );
 
@@ -152,13 +151,12 @@ app.get('/profile/:userId', async (req, res) => {
 
         const user = users[0];
 
-        // 2. Fetch recipes uploaded by this user
         const [myRecipes] = await pool.execute(
             'SELECT id, name, prep_time, cooking_time, tags, image_url FROM recipes WHERE user_id = ? ORDER BY created_at DESC',
             [userId]
         );
 
-        const savedRecipes = []; // Placeholder for now, you'd fetch these from a 'saved_recipes' table if you had one
+        const savedRecipes = []; // Placeholder for now
 
         res.status(200).json({
             user: {
@@ -167,7 +165,7 @@ app.get('/profile/:userId', async (req, res) => {
                 email: user.email,
                 description: user.description || '',
                 favoriteTags: user.favorite_tags || '',
-                profileImageUrl: user.profile_image_url || '' // Added profileImageUrl
+                profileImageUrl: user.profile_image_url || ''
             },
             myRecipes: myRecipes,
             savedRecipes: savedRecipes,
@@ -180,11 +178,11 @@ app.get('/profile/:userId', async (req, res) => {
     }
 });
 
-// --- NEW: UPDATE PROFILE ENDPOINT (PUT /profile/:userId) ---
+// --- UPDATE PROFILE ENDPOINT ---
 app.put('/profile/:userId', upload.single('profilePicture'), async (req, res) => {
     const { userId } = req.params;
-    const { name, email, description, favoriteTags, password } = req.body; // password is optional
-    const profilePictureFile = req.file; // The uploaded file, if any
+    const { name, email, description, favoriteTags, password } = req.body;
+    const profilePictureFile = req.file;
 
     if (!userId) {
         return res.status(400).json({ message: 'User ID is required.' });
@@ -194,7 +192,6 @@ app.put('/profile/:userId', upload.single('profilePicture'), async (req, res) =>
     let updateFields = [];
     let queryParams = [];
 
-    // Construct update query dynamically
     if (name) {
         updateFields.push('name = ?');
         queryParams.push(name);
@@ -203,27 +200,23 @@ app.put('/profile/:userId', upload.single('profilePicture'), async (req, res) =>
         updateFields.push('email = ?');
         queryParams.push(email);
     }
-    if (description !== undefined) { // Allow empty string for description
+    if (description !== undefined) {
         updateFields.push('description = ?');
         queryParams.push(description);
     }
-    if (favoriteTags !== undefined) { // Allow empty string for tags
+    if (favoriteTags !== undefined) {
         updateFields.push('favorite_tags = ?');
-        queryParams.push(favoriteTags); // favoriteTags comes as a comma-separated string
+        queryParams.push(favoriteTags);
     }
 
     try {
-        // If a new profile picture is uploaded
         if (profilePictureFile) {
             newProfileImageUrl = `/uploaded_images/${profilePictureFile.filename}`;
 
-            // Fetch old profile image URL to delete it
             const [oldUser] = await pool.execute('SELECT profile_image_url FROM users WHERE id = ?', [userId]);
             if (oldUser.length > 0 && oldUser[0].profile_image_url) {
-                // Ensure the path is relative to the server's root for deletion
                 const oldImagePath = path.join(__dirname, oldUser[0].profile_image_url.replace('/uploaded_images/', 'uploads/'));
 
-                // Check if file exists before attempting to delete
                 if (fs.existsSync(oldImagePath)) {
                     fs.unlink(oldImagePath, (err) => {
                         if (err) console.error('Error deleting old profile image:', err);
@@ -235,7 +228,6 @@ app.put('/profile/:userId', upload.single('profilePicture'), async (req, res) =>
             queryParams.push(newProfileImageUrl);
         }
 
-        // Handle password update (only if a new password is provided)
         if (password && password.trim() !== '') {
             const hashedPassword = await bcrypt.hash(password, 10);
             updateFields.push('password = ?');
@@ -255,7 +247,6 @@ app.put('/profile/:userId', upload.single('profilePicture'), async (req, res) =>
             return res.status(404).json({ message: 'User not found or no changes made.' });
         }
 
-        // Fetch updated user data to send back (optional, but good for client-side localStorage update)
         const [updatedUsers] = await pool.execute(
             'SELECT id, name, email, description, favorite_tags, profile_image_url FROM users WHERE id = ?',
             [userId]
@@ -280,14 +271,12 @@ app.put('/profile/:userId', upload.single('profilePicture'), async (req, res) =>
     }
 });
 
-
-// --- RECIPE CREATION ROUTE (Corrected - No more hardcoded userId) ---
+// --- RECIPE CREATION ROUTE ---
 app.post('/recipes', upload.fields([
     { name: 'recipeImage', maxCount: 1 },
     { name: 'directionImages', maxCount: 10 }
 ]), async (req, res) => {
     try {
-        // Make sure userId is destructured from req.body
         const { name, prep_time, cooking_time, tags, description, ingredients, directions, calories, total_fat, protein, carbohydrate, cholesterol, allergens, userId } = req.body;
 
         const recipeImageFile = req.files && req.files['recipeImage'] ? req.files['recipeImage'][0] : null;
@@ -296,12 +285,10 @@ app.post('/recipes', upload.fields([
         const imageUrl = recipeImageFile ? `/uploaded_images/${recipeImageFile.filename}` : null;
         const directionImageUrls = directionImageFiles.map(file => `/uploaded_images/${file.filename}`);
 
-        // Validate that userId is provided by the client
         if (!userId) {
             return res.status(400).json({ message: 'User ID is required to create a recipe.' });
         }
-
-        if (!name || !ingredients || !directions) { // userId check handled above
+        if (!name || !ingredients || !directions) {
             return res.status(400).json({ message: 'Missing required recipe fields: name, ingredients, or directions.' });
         }
 
@@ -321,6 +308,105 @@ app.post('/recipes', upload.fields([
             }
         }
         res.status(500).json({ message: 'Failed to create recipe. Please try again.' });
+    }
+});
+
+// --- GET SINGLE RECIPE ENDPOINT ---
+app.get('/recipes/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const [recipes] = await pool.execute(
+            `SELECT r.*, u.name as author_name
+             FROM recipes r
+             JOIN users u ON r.user_id = u.id
+             WHERE r.id = ?`,
+            [id]
+        );
+
+        if (recipes.length === 0) {
+            return res.status(404).json({ message: 'Recipe not found.' });
+        }
+
+        const recipe = recipes[0];
+
+        res.status(200).json({ recipe });
+
+    } catch (error) {
+        console.error('Error fetching single recipe:', error);
+        res.status(500).json({ message: 'Failed to fetch recipe details. Server error.' });
+    }
+});
+
+// --- NEW: GET ALL RECIPES ENDPOINT with optional search ---
+app.get('/recipes', async (req, res) => {
+    const searchQuery = req.query.search; // Get the search query from URL parameters
+
+    let sql = `SELECT r.id, r.name, r.prep_time, r.cooking_time, r.tags, r.image_url, u.name as author_name
+               FROM recipes r
+               JOIN users u ON r.user_id = u.id`;
+    let queryParams = [];
+
+    if (searchQuery) {
+        // Add WHERE clause for search, searching across name, description, and tags
+        sql += ` WHERE r.name LIKE ? OR r.description LIKE ? OR r.tags LIKE ?`;
+        const searchTerm = `%${searchQuery}%`;
+        queryParams.push(searchTerm, searchTerm, searchTerm);
+    }
+
+    sql += ` ORDER BY r.created_at DESC`; // Order by most recent
+
+    try {
+        const [recipes] = await pool.execute(sql, queryParams);
+        res.status(200).json({ recipes });
+    } catch (error) {
+        console.error('Error fetching all recipes:', error);
+        res.status(500).json({ message: 'Failed to fetch recipes. Server error.' });
+    }
+});
+
+
+// --- DELETE RECIPE ENDPOINT ---
+app.delete('/recipes/:id', async (req, res) => {
+    const { id } = req.params;
+    const { userId } = req.body;
+
+    if (!userId) {
+        return res.status(401).json({ message: 'Unauthorized: User ID is required for deletion.' });
+    }
+
+    try {
+        const [recipe] = await pool.execute('SELECT user_id, image_url FROM recipes WHERE id = ?', [id]);
+
+        if (recipe.length === 0) {
+            return res.status(404).json({ message: 'Recipe not found.' });
+        }
+
+        if (recipe[0].user_id !== parseInt(userId)) {
+            return res.status(403).json({ message: 'Forbidden: You do not have permission to delete this recipe.' });
+        }
+
+        if (recipe[0].image_url) {
+            const imagePath = path.join(__dirname, recipe[0].image_url.replace('/uploaded_images/', 'uploads/'));
+            if (fs.existsSync(imagePath)) {
+                fs.unlink(imagePath, (err) => {
+                    if (err) console.error('Error deleting recipe image file:', err);
+                    else console.log('Recipe image file deleted:', imagePath);
+                });
+            }
+        }
+
+        const [result] = await pool.execute('DELETE FROM recipes WHERE id = ?', [id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Recipe not found or already deleted.' });
+        }
+
+        res.status(200).json({ message: 'Recipe deleted successfully!' });
+
+    } catch (error) {
+        console.error('Error deleting recipe:', error);
+        res.status(500).json({ message: 'Failed to delete recipe. Server error.' });
     }
 });
 

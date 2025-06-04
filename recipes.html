@@ -4,35 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>All Recipes | Yumlogy</title>
-    <link rel="stylesheet" href="css/style for allrecipe.css" /> 
-    <script src="script/js for allrecipes.js" defer></script> </head>
+    <link rel="stylesheet" href="css/style for allrecipe.css" />
+    <script src="script/js for allrecipes.js" defer></script>
     <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
-  </head>
-  <body>
+</head>
+<body>
 
-    
     <header>
-      <div class="logo">Yumlogy</div>
-      <nav>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="recipes.html">Recipes</a></li>
-          <li><a href="upload.html">Upload</a></li>
-          <li><a href="#">About us</a></li>
-        </ul>
-      </nav>
-      <button onclick="myFunction()" class="btn-profile">Dark mode</button>
-      <a class="btn-profile" href="login-password/login.html">My profile</a>
+        <div class="logo">Yumlogy</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+                <li><a href="upload.html">Upload</a></li>
+                <li><a href="#">About us</a></li>
+            </ul>
+        </nav>
+        <button id="darkModeToggle" class="btn-profile">Dark mode</button> <!-- ADDED ID -->
+        <a class="btn-profile" href="login-password/login.html">My profile</a>
     </header>
-  
 
     <main>
         <section class="hero-section hero-recipes">
             <div class="container">
                 <div class="search-bar-wrapper">
-                    <input type="text" class="search-input" placeholder="Search for recipes...">
-                    <button class="search-button">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search for recipes..."> <!-- ADDED ID -->
+                    <button id="searchButton" class="search-button"> <!-- ADDED ID -->
                         <i class='bx bx-search'></i>
                     </button>
                 </div>
@@ -50,6 +48,7 @@
         <section class="categories-section">
             <div class="container">
                 <div class="category-grid">
+                    <!-- Category cards are static links for now, but could be dynamic later -->
                     <a href="breakfasts.html" class="category-card">
                         <h3 class="card-title">Breakfast</h3>
                         <p class="card-description">Start your day right with quick, tasty, and energizing breakfast ideas.</p>
@@ -93,62 +92,9 @@
         <section class="latest-recipes-section">
             <div class="container">
                 <h2 class="section-title">Last published recipes</h2>
-                <div class="recipe-cards-grid">
-                    <div class="recipe-card">
-                        <div class="card-content">
-                            <h3 class="recipe-name">Delicious Chicken Alfredo</h3>
-                            <p class="recipe-description">A creamy and savory Italian classic, perfect for a quick weeknight dinner or a special occasion.</p>
-                            <div class="recipe-tags">
-                                <span class="tag">#Pasta</span>
-                                <span class="tag">#Dinner</span>
-                                <span class="tag">#Italian</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="recipe-card">
-                        <div class="card-content">
-                            <h3 class="recipe-name">Vegetarian Lentil Soup</h3>
-                            <p class="recipe-description">A hearty and healthy soup, packed with vegetables and protein-rich lentils, ideal for a comforting meal.</p>
-                            <div class="recipe-tags">
-                                <span class="tag">#Soup</span>
-                                <span class="tag">#Vegetarian</span>
-                                <span class="tag">#Healthy</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="recipe-card">
-                        <div class="card-content">
-                            <h3 class="recipe-name">Quick Chocolate Chip Cookies</h3>
-                            <p class="recipe-description">Soft, chewy, and loaded with chocolate chips, these cookies are a timeless treat that's easy to make.</p>
-                            <div class="recipe-tags">
-                                <span class="tag">#Dessert</span>
-                                <span class="tag">#Baking</span>
-                                <span class="tag">#Cookies</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="recipe-card">
-                        <div class="card-content">
-                            <h3 class="recipe-name">Fresh Summer Salad</h3>
-                            <p class="recipe-description">A light and refreshing salad with crisp greens, juicy berries, and a tangy vinaigrette, perfect for hot days.</p>
-                            <div class="recipe-tags">
-                                <span class="tag">#Salad</span>
-                                <span class="tag">#Healthy</span>
-                                <span class="tag">#Summer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="recipe-card">
-                        <div class="card-content">
-                            <h3 class="recipe-name">Spicy Shrimp Tacos</h3>
-                            <p class="recipe-description">Flavorful marinated shrimp served in warm tortillas with a zesty slaw and creamy avocado sauce.</p>
-                            <div class="recipe-tags">
-                                <span class="tag">#Seafood</span>
-                                <span class="tag">#Tacos</span>
-                                <span class="tag">#Spicy</span>
-                            </div>
-                        </div>
-                    </div>
+                <div id="allRecipesGrid" class="recipe-cards-grid">
+                    <!-- Recipes will be dynamically loaded here -->
+                    <p>Loading recipes...</p>
                 </div>
             </div>
         </section>
@@ -157,6 +103,7 @@
             <div class="container">
                 <h2 class="section-title">Popular Tags</h2>
                 <div class="tags-list">
+                    <!-- These tags could also be dynamic later -->
                     <a href="#" class="global-tag">#Breakfast</a>
                     <a href="#" class="global-tag">#Dinner</a>
                     <a href="#" class="global-tag">#Vegan</a>
