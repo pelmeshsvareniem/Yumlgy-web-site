@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
  // --- Dynamic "My profile" Link ---
-    const myProfileLink = document.querySelector('header .btn-profile[href="login-password/login.html"]');
+    const myProfileLink = document.querySelector('header .btn-profile[href="../login-password/login.html"]');
     const userId = localStorage.getItem('userId');
 
     if (myProfileLink) {
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
             myProfileLink.href = 'My profile.html';
         } else {
             // If user is not logged in, ensure it points to the login page
-            myProfileLink.href = 'login-password/login.html';
+            myProfileLink.href = '../login-password/login.html';
         }
     }
     // --- END Dynamic "My profile" Link ---
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 recipeResult.style.color = 'red';
                 recipeResult.textContent = 'Error: You must be logged in to upload a recipe.';
                 alert('You must be logged in to upload a recipe. Redirecting to login...');
-                window.location.href = 'login-password/login.html';
+                window.location.href = '../login-password/login.html';
                 return;
             }
 

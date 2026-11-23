@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
  // --- Dynamic "My profile" Link ---
-    const myProfileLink = document.querySelector('header .btn-profile[href="login-password/login.html"]');
+    const myProfileLink = document.querySelector('header .btn-profile[href="../login-password/login.html"]');
     const userId = localStorage.getItem('userId');
 
     if (myProfileLink) {
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             myProfileLink.href = 'My profile.html';
         } else {
             // If user is not logged in, ensure it points to the login page
-            myProfileLink.href = 'login-password/login.html';
+            myProfileLink.href = '../login-password/login.html';
         }
     }
     // --- END Dynamic "My profile" Link ---
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         // Ensure image URL is correctly prefixed
                         const imageUrl = recipe.image_url
     ? `http://localhost:3000${recipe.image_url}`
-    : 'Image/placeholder-recipe.jpg';
+    : '../Image/placeholder-recipe.jpg';
 
 recipeCard.innerHTML = `
     <div class="card-image" style="background-image: url('${imageUrl}');"></div>

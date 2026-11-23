@@ -50,17 +50,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- Dynamic "My profile" Link ---
     // This targets the "My profile" link in the header of this page
-    const myProfileLink = document.querySelector('header .btn-profile[href="login-password/login.html"]');
+    const myProfileLink = document.querySelector('header .btn-profile[href="../login-password/login.html"]');
     // Re-fetch userId here to ensure it's the most up-to-date value after any potential login/logout
     const currentUserId = localStorage.getItem('userId');
 
     if (myProfileLink) {
         if (currentUserId) {
             // If user is logged in, change the link to point to their profile page
-            myProfileLink.href = 'My profile.html'; // Assuming My profile.html is in the parent directory
+            myProfileLink.href = 'My profile.html';
         } else {
             // If user is not logged in, ensure it points to the login page
-            myProfileLink.href = 'login-password/login.html'; // Assuming login.html is in login-password/
+            myProfileLink.href = '../login-password/login.html';
         }
     }
     // --- END Dynamic "My profile" Link ---
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // This check is crucial for the edit profile page itself
     if (!userId) {
         alert('You need to be logged in to edit your profile.');
-        window.location.href = 'login-password/login.html';
+        window.location.href = '../login-password/login.html';
         return;
     }
 
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (user.profileImageUrl) {
                         profileImageDisplay.src = `http://localhost:3000${user.profileImageUrl}`;
                     } else {
-                        profileImageDisplay.src = 'Image/pelmeshek.jpg'; // Default placeholder
+                        profileImageDisplay.src = '../Image/pelmeshek.jpg'; // Default placeholder
                     }
                 }
 

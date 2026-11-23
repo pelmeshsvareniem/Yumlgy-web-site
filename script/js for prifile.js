@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // If, for some reason, userId is still null/undefined (e.g., defaultUserId is also not set)
     if (!userId) {
         alert('User ID not available. Please log in.');
-        window.location.href = 'login-password/login.html';
+        window.location.href = '../login-password/login.html';
         return;
     }
 
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (user.profileImageUrl) {
                     profileAvatarImg.src = `http://localhost:3000${user.profileImageUrl}`;
                 } else {
-                    profileAvatarImg.src = 'Image/pelmeshek.jpg'; // Default placeholder
+                    profileAvatarImg.src = '../Image/pelmeshek.jpg'; // Default placeholder
                 }
             }
 
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         const recipeCard = document.createElement('div');
                         recipeCard.classList.add('recipe-card');
 
-                        const imageUrl = recipe.image_url ? `http://localhost:3000${recipe.image_url}` : 'Image/placeholder-recipe.jpg';
+                        const imageUrl = recipe.image_url ? `http://localhost:3000${recipe.image_url}` : '../Image/placeholder-recipe.jpg';
 
                         recipeCard.innerHTML = `
                             <div class="card-image-placeholder" style="background-image: url('${imageUrl}');"></div>
@@ -132,12 +132,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.error('Failed to fetch profile data:', data.message || 'Unknown error');
             alert('Error loading profile: ' + (data.message || 'Unknown error'));
             // If the defaultUserId doesn't exist, you might still want to redirect to login
-            window.location.href = 'login-password/login.html';
+            window.location.href = '../login-password/login.html';
         }
     } catch (error) {
         console.error('Network error fetching profile data:', error);
         alert('Network error. Could not load profile data.');
-        window.location.href = 'login-password/login.html';
+        window.location.href = '../login-password/login.html';
     }
 
     // --- Event Delegation for Favorite Buttons ---
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             localStorage.removeItem('userProfileImageUrl');
 
             alert('You have been logged out.');
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
         });
     }
 });

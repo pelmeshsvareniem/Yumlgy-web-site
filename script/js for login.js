@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // Redirect to the profile page after a short delay
                         setTimeout(() => {
-                            window.location.href = '../My profile.html'; // Adjust path if needed
+                            window.location.href = '../pages/My%20profile.html';
                         }, 1500);
                     } else {
                         // Display error message from the backend

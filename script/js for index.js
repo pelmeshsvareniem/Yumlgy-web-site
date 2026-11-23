@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (myProfileLink) {
         if (userId) {
             // If user is logged in, change the link to point to their profile page
-            myProfileLink.href = 'My profile.html';
+            myProfileLink.href = 'pages/My%20profile.html';
         } else {
             // If user is not logged in, ensure it points to the login page
             myProfileLink.href = 'login-password/login.html';
