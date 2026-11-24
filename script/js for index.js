@@ -40,16 +40,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- Dynamic "My profile" Link ---
     // This targets the "My profile" link in the header
-    const myProfileLink = document.querySelector('header .btn-profile[href="login-password/login.html"]');
+    const myProfileLink = document.querySelector('header .btn-profile[href$="login-password/login.html"]');
     const userId = localStorage.getItem('userId'); // Get current userId from localStorage
 
     if (myProfileLink) {
+        const isPagesDirectory = window.location.pathname.split('/').slice(-2, -1)[0] === 'pages';
         if (userId) {
             // If user is logged in, change the link to point to their profile page
-            myProfileLink.href = 'pages/My%20profile.html';
+            myProfileLink.href = isPagesDirectory ? 'My%20profile.html' : 'pages/My%20profile.html';
         } else {
             // If user is not logged in, ensure it points to the login page
-            myProfileLink.href = 'login-password/login.html';
+            myProfileLink.href = isPagesDirectory ? '../login-password/login.html' : 'login-password/login.html';
         }
     }
     // --- END Dynamic "My profile" Link ---
