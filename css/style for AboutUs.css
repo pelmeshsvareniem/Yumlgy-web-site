@@ -30,6 +30,8 @@
     --highlight-color-light: #ff6b6b; 
     --favorite-icon-color-light: #ccc;
     --favorite-icon-hover-bg-light: #f0f0f0;
+    --card-bg-light: #fff;
+    --card-shadow-light: rgba(0, 0, 0, 0.08);
 
     --dark-blue-main: #070F2B;
     --dark-blue-secondary: #1B1A55;
@@ -71,6 +73,8 @@
     --highlight-color-light: var(--dark-blue-lighter); 
     --favorite-icon-color-light: var(--mid-blue-gray); 
     --favorite-icon-hover-bg-light: var(--dark-purple);
+    --card-bg-light: var(--dark-blue-secondary);
+    --card-shadow-light: rgba(0, 0, 0, 0.3);
 
     .category-card img{
       filter: invert(1);
@@ -223,6 +227,7 @@ nav ul li a {
 .about-hero p {
     max-width: 590px;
     font-size: 18px;
+    margin-bottom: 24px;
 }
 
 .about-hero-image {
