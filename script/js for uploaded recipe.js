@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!recipeId) {
         alert('Recipe ID not found in URL. Redirecting to home.');
-        window.location.href = 'index.html';
+        window.location.href = '../index.html';
         return;
     }
 
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 // Populate main image
                 if (mainRecipeImageElement) {
-                    mainRecipeImageElement.src = recipe.image_url ? `http://localhost:3000${recipe.image_url}` : 'Image/placeholder-recipe.jpg';
+                    mainRecipeImageElement.src = recipe.image_url ? `http://localhost:3000${recipe.image_url}` : '../Image/placeholder-recipe.jpg';
                     mainRecipeImageElement.alt = recipe.name;
                 }
 
@@ -164,12 +164,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             } else {
                 alert('Recipe not found or an error occurred: ' + (data.message || 'Unknown error.'));
-                window.location.href = 'index.html';
+                window.location.href = '../index.html';
             }
         } catch (error) {
             console.error('Network error fetching recipe details:', error);
             alert('Network error. Could not load recipe details.');
-            window.location.href = 'index.html';
+            window.location.href = '../index.html';
         }
     }
 
